@@ -1,0 +1,21 @@
+{
+  "name": "nodc",
+  "version": "1.0.0",
+  "description": "",
+  "bin": {
+    "nodc": "nodc.js"
+  },
+  "preferGlobal": true,
+  "author": "David",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "commander": "^2.11.0",
+    "eventproxy": "^1.0.0",
+    "h2m": "^0.5.2",
+    "https": "^1.0.0",
+    "lodash": "^4.17.4",
+    "request": "^2.81.0",
+    "shelljs": "^0.7.8"
+  }
+}
