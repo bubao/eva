@@ -18,7 +18,7 @@ program
 	.option('-o ,--out <path>',"🔙 输出位置")
 	.action(function(zhihuId, options){
 		var zhihuId = zhihuId || "leanreact";
-		path =  options.out || __dirname;
+		path =  options.out || process.cwd();//当前执行路径
 		console.log('🐛   知乎专栏爬取 %s 到 %s 文件夹',zhihuId, path);
 		zhihu(zhihuId,path)
 	}).on('--help', function() {
@@ -147,6 +147,8 @@ function zhihu(zhihuId,path) {
 
 					let time = `${jsonObj[i].publishedTime}`;
 					let T = time.replace("T", " ").replace("+08:00", "");
+					let Ti = T.slice(0,9)
+					
 					const postId = jsonObj[i].url;
 					let copyRight = `\n\n知乎原文: [${title}](https://zhuanlan.zhihu.com${postId})`;
 					let header = `title: ${title}\n` + `date: ${T} \n` + 'categories: 知乎 \ndescription:  \n \n---\n\n\n ';
@@ -156,14 +158,14 @@ function zhihu(zhihuId,path) {
 						fs.mkdirSync(`${path}/${zhihuId}md`);
 					}
 					// 如果没有指定目录，创建之
-					fs.writeFileSync(`${path}/${zhihuId}md/${title}.md`, header, 'utf8', (err) => {
+					fs.writeFileSync(`${path}/${zhihuId}md/${Ti};${title}.md`, header, 'utf8', (err) => {
 						if (err) throw err;
-						console.log(`❌ ${title}.md`);
+						console.log(`❌ ${Ti};${title}.md`);
 					});
 					/**该方法以异步的方式将 data 插入到文件里，如果文件不存在会自动创建。data可以是任意字符串或者缓存。 */
-					fs.appendFile(`${path}/${zhihuId}md/${title}.md`, answer + copyRight, 'utf8', (err) => {
+					fs.appendFile(`${path}/${zhihuId}md/${Ti};${title}.md`, answer + copyRight, 'utf8', (err) => {
 						if (err) throw err;
-						console.log(`📲  ${title}.md`);
+						console.log(`🍅  ${Ti};${title}.md`);
 					});
 				});
 			});
