@@ -17,13 +17,27 @@ $ sudo npm i -g
 ```shell
 # 查看帮助
 $ nodc -h
-# 完整子命令
+# 知乎爬虫完整子命令
 $ nodc cr [zhihuzhuanlanId] -o <path> 
 # 默认路径为当前文件夹下
 $ nodc cr [zhihuzhuanlanId]
 # 默认只爬取 learnreact 专栏
 $ nodc cr
+# 天气预报完整子命令
+$ nodc wt [townName] -d
+# 天气基本信息
+$ nodc wt [townName]
+# 默认深圳天气
+$ nodc wt 
 ```
+
+## 待办
+
+- [x] 知乎爬虫
+- [x] 天气预报
+- [ ] 结巴分词全文统计排序关键词
+- [ ] 彩色输出
+- [ ] 翻译
 
 ## 最后说点事
 
