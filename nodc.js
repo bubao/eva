@@ -29,7 +29,7 @@ program
 	.description('🔄 天气助手 ⛎')
 	.option('-d ,--detail',"🔙 输出位置")
 	.action(function(townName, program){
-		var townName = townName || "徐闻";
+		var townName = townName || "深圳";
 		// var d =  program.detail || false;//当前执行路径
 		// console.log('🐛   知乎专栏爬取 %s 到 %s 文件夹',townName, path);
 		weather(townName,program)

@@ -3,7 +3,7 @@ var iconv = require('iconv-lite');
 var http= require("http")
 var Table = require('cli-table2');
 
-// var sName = "徐闻"
+
 // weather(sName)
 module.exports =function weather(sName,program) {
     for (let i = 0; i < citycode.length; ++i) {
