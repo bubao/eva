@@ -2,7 +2,7 @@ var citycode = require("./city.json")
 var iconv = require('iconv-lite');
 var http= require("http")
 var Table = require('cli-table2');
-
+var weatherSign = require("./weatherSign");
 
 // weather(sName)
 module.exports =function weather(sName,program) {
@@ -56,148 +56,22 @@ function townWather(url,program) {
         /**
          * 气象标志
          */
-        var text;
-        switch (1<2) {
-            case da.weather[0].now.text ==="晴":
-                text= "☀"
-                break;
-            case da.weather[0].now.text ==="多云":
-                text= "⛅"
-                break;
-            case da.weather[0].now.text ==="阴天":
-                text= "☁"
-                break;
-            case da.weather[0].now.text ==="阵雨":
-                text= "🌦️"
-                break;
-            case da.weather[0].now.text ==="雷阵雨":
-                text= "⛈️"
-                break;
-            case da.weather[0].now.text ==="小雨":
-                text= "☁"
-                break;
-            case da.weather[0].now.text ==="中雨":
-                text= "☁"
-                break;
-            case da.weather[0].now.text ==="大雨":
-                text= "🌧"
-                break;
-            case da.weather[0].now.text ==="暴雨":
-                text= "🌧"
-                break;
-            case da.weather[0].now.text ==="大暴雨":
-                text= "🌧"
-                break;
-            case da.weather[0].now.text ==="特大暴雨":
-                text= "🌧"
-                break;
-            case da.weather[0].now.text ==="小到中雨":
-                text= "🌥"
-                break;
-            case da.weather[0].now.text ==="雷电":
-                text= "🌩"
-                break;
-            case da.weather[0].now.text ==="多云":
-                text= "⚡"
-                break;
-            case da.weather[0].now.text ==="冰雹":
-                text= "☄️"
-                break;
-            case da.weather[0].now.text ==="霾":
-                text= "😷"
-                break;
-            case da.weather[0].now.text ==="雾":
-                text= "🌫️🌫️"
-                break;
-            case da.weather[0].now.text ==="轻雾":
-                text= "🌫"
-                break;
-            case da.weather[0].now.text ==="浓雾":
-                text= "🌫️🌫️🌫️"
-                break;
-            case da.weather[0].now.text ==="雨夹雪":
-                text= "🌨"
-                break;
-            case da.weather[0].now.text ==="小雪":
-                text= "❄️"
-                break;
-            case da.weather[0].now.text ==="中雪":
-                text= "❄️❄️"
-                break;
-            case da.weather[0].now.text ==="大雪":
-                text= "❄️❄️❄️"
-                break;
-            case da.weather[0].now.text ==="暴雪":
-                text= "❄️❄️❄️❄️"
-                break;
-            case da.weather[0].now.text ==="冻雨":
-                text= "🌨"
-                break;
-            case da.weather[0].now.text ==="霜冻":
-                text= "📦"
-                break;
-            case da.weather[0].now.text ==="4级风":
-                text= "4🇫"
-                break;
-            case da.weather[0].now.text ==="5级风":
-                text= "5🇫"
-                break;
-            case da.weather[0].now.text ==="6级风":
-                text= "6🇫"
-                break;
-            case da.weather[0].now.text ==="7级风":
-                text= "7🇫"
-                break;
-            case da.weather[0].now.text ==="8级风":
-                text= "8🇫"
-                break;
-            case da.weather[0].now.text ==="9级风":
-                text= "9🇫"
-                break;
-            case da.weather[0].now.text ==="10级风":
-                text= "10🇫"
-                break;
-            case da.weather[0].now.text ==="11级风":
-                text= "11🇫"
-                break;
-            case da.weather[0].now.text ==="12级及以上风":
-                text= "12🇫"
-                break;
-            case da.weather[0].now.text ==="台风":
-                text= "🌀"
-                break;
-            case da.weather[0].now.text ==="浮尘":
-                text= "🇸"
-                break;
-            case da.weather[0].now.text ==="扬沙":
-                text= "🇸⬆"
-                break;
-            case da.weather[0].now.text ==="沙尘暴":
-                text= "🇸➡"
-                break;
-            default:
-                text= "🔆"
-                break;
-        }
 
-        console.log(`   📅${future[0].date} ${future[0].day}`)
-        console.log()
-        console.log(`   🐚${da.weather[0].city_name}:${text}`)
-        console.log()
-        console.log(`   🌅:${today.sunrise}    🌄:${today.sunset}`)
-        console.log()
-        console.log(`   pm2.5:${now.air_quality.city.pm25}`)
-        console.log(`   空气质量:${now.air_quality.city.quality}`)
-        console.log(`   空气质量指数:${now.air_quality.city.aqi}`)
-        console.log()
-        console.log(`   🌡:${now.temperature}°C    🍃:${future[0].wind}`)
-        console.log()
-        // console.log(`   ${today.suggestion}`,today.suggestion)//建议
-        // console.log(future)
-        if (program.detail) {
-            console.log(table.toString());
-        }
-        
-        console.log(`   最近更新时间： ${last_update}`)
+      console.log(`
+  📅${future[0].date} ${future[0].day}
+
+  🐚${da.weather[0].city_name}:${weatherSign[da.weather[0].now.text] || "🔆"}
+
+  🌅:${today.sunrise}    🌄:${today.sunset}
+
+  pm2.5:${now.air_quality.city.pm25}
+  空气质量:${now.air_quality.city.quality}
+  空气质量指数:${now.air_quality.city.aqi}
+
+  🌡:${now.temperature}°C    🍃:${future[0].wind}
+  ${ program.detail && table.toString() || ""}
+  最近更新时间： ${last_update}
+      `);
+
     })
 }
