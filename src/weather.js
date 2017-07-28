@@ -4,7 +4,10 @@ var http = require("http")
 var Table = require('cli-table2');
 var weatherSign = require("./weatherSign");
 
-// weather(sName)
+/**
+ * weather(sName)
+ * 测试
+ */
 module.exports = function weather(sName, program) {
 	for (let i = 0; i < citycode.length; ++i) {
 		if (citycode[i].townName === sName) {
@@ -58,13 +61,44 @@ function townWather(url, program) {
 			},
 		});
 		table.push(
-			["⛑\n☃", `${future[0].date.slice(5)} \n${future[0].day}`, `${future[1].date.slice(5)} \n${future[1].day}`, `${future[2].date.slice(5)} \n${future[2].day}`, `${future[3].date.slice(5)} \n${future[3].day}`, `${future[4].date.slice(5)} \n${future[4].day}`, `${future[5].date.slice(5)} \n${future[5].day}`, `${future[6].date.slice(5)} \n${future[6].day}`], ["🌡", `${future[0].low}/${future[0].high}°C`, `${future[1].low}/${future[1].high}°C`, `${future[2].low}/${future[2].high}°C`, `${future[3].low}/${future[3].high}°C`, `${future[4].low}/${future[4].high}°C`, `${future[5].low}/${future[5].high}°C`, `${future[6].low}/${future[6].high}°C`], ["☘", `${future[0].wind.slice(2)}`, `${future[1].wind.slice(2)}`, `${future[2].wind.slice(2)}`, `${future[3].wind.slice(2)}`, `${future[4].wind.slice(2)}`, `${future[5].wind.slice(2)}`, `${future[6].wind.slice(2)}`], ["☂", `${future[0].text}`, `${future[1].text}`, `${future[2].text}`, `${future[3].text}`, `${future[4].text}`, `${future[5].text}`, `${future[6].text}`]
+			["⛑\n☃",
+				`${future[0].date.slice(5)} \n${future[0].day}`,
+				`${future[1].date.slice(5)} \n${future[1].day}`,
+				`${future[2].date.slice(5)} \n${future[2].day}`,
+				`${future[3].date.slice(5)} \n${future[3].day}`,
+				`${future[4].date.slice(5)} \n${future[4].day}`,
+				`${future[5].date.slice(5)} \n${future[5].day}`,
+				`${future[6].date.slice(5)} \n${future[6].day}`
+			], ["🌡",
+				`${future[0].low}/${future[0].high}°C`,
+				`${future[1].low}/${future[1].high}°C`,
+				`${future[2].low}/${future[2].high}°C`,
+				`${future[3].low}/${future[3].high}°C`,
+				`${future[4].low}/${future[4].high}°C`,
+				`${future[5].low}/${future[5].high}°C`,
+				`${future[6].low}/${future[6].high}°C`
+			], ["☘", `${future[0].wind.slice(2)}`,
+				`${future[1].wind.slice(2)}`,
+				`${future[2].wind.slice(2)}`,
+				`${future[3].wind.slice(2)}`,
+				`${future[4].wind.slice(2)}`,
+				`${future[5].wind.slice(2)}`,
+				`${future[6].wind.slice(2)}`
+			], ["☂", `${future[0].text}`,
+				`${future[1].text}`,
+				`${future[2].text}`,
+				`${future[3].text}`,
+				`${future[4].text}`,
+				`${future[5].text}`,
+				`${future[6].text}`
+			]
 		);
-		// table.push(
-		//     ["☁","🔰","⛑","🐚","📅","📆","🌠","🌁","🌁"]
-		// )
+
 		/**
-		 * 气象标志
+		 * 气象标志，因为Linux上的Emoji是我自己安装的，自宽有点问题
+		 * table.push(
+		 * 	["☁", "🔰", "⛑", "🐚", "📅", "📆", "🌠", "🌁", "🌁"]
+		 * )
 		 */
 
 		console.log(`
@@ -75,9 +109,8 @@ function townWather(url, program) {
   空气质量:${now.air_quality.city.quality}
   空气质量指数:${now.air_quality.city.aqi}
   🌡:${now.temperature}°C    🍃:${future[0].wind}
-  ${ program.detail && table.toString() || ""}
-  最近更新时间： ${last_update}
-      `);
+${ program.detail && table.toString() || ""}
+  最近更新时间： ${last_update}`);
 
 	})
 }
