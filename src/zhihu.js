@@ -3,28 +3,46 @@ const request = require('request');
 const cheerio = require('cheerio')
 const _ = require('lodash');
 const h2m =require('h2m')
-const imgsrc = '![](https://pic1.zhimg.com/';
+const imgsrc = '![](https://pic2.zhimg.com/';
 var https = require("https");
+var figlet = require('figlet');//艺术字
 var EventProxy = require('eventproxy');
+const lolcatjs = require('lolcatjs');
+
+lolcatjs.options.seed = Math.round(Math.random() * 1000);
+lolcatjs.options.colors = true;
+
 
 /**
  * 知乎专栏爬虫
  */
 module.exports = function zhihu(zhihuId,path) {
-	 console.log(`-----🐛 ${zhihuId} start -----`);
-	fs.exists(`${path}/${zhihuId}`, function(exists) {
-		if (exists)
-			console.log(`⚓  ${zhihuId} 文件夹已经存在`  );
-		else {
-			fs.mkdir(`${path}/${zhihuId}`, function(err) {
-				if (err)
-					console.error(err);
-				console.log(`🤖 创建 ${zhihuId}文件夹成功`);
-			})
-		}
-	});
+	//  console.log(`-----🐛 ${zhihuId} start -----`);
+	// figlet(zhihuId, function(err, data) {
+	// 	if (err) {
+	// 		console.log('Something went wrong...');
+	// 		console.dir(err);
+	// 		return;
+	// 	}
+	// 	// console.log(data);
+	// 	lolcatjs.fromString(data);
+	// });
+	// fs.exists(`${path}/${zhihuId}`, function(exists) {
+	// 	if (exists)
+	// 		console.log(`⚓  ${zhihuId} 文件夹已经存在`  );
+	// 	else {
+	// 		fs.mkdir(`${path}/${zhihuId}`, function(err) {
+	// 			if (err)
+	// 				console.error(err);
+	// 			console.log(`🤖 创建 ${zhihuId}文件夹成功`);
+	// 		})
+	// 	}
+	// });
+	
+	Fiflet(path,zhihuId);//ascii art create dir
 
 	const url = `https://zhuanlan.zhihu.com/${zhihuId}`;
+	
 	function download(url, callback) {
 		https.get(url, function(res) {
 			var dd = "";
@@ -42,11 +60,10 @@ module.exports = function zhihu(zhihuId,path) {
 	download(url, function(dd) {
 		if (dd) {
 			var $ = cheerio.load(dd);
-			var postsCount = JSON.parse($("textarea#preloadedState").text()).columns[`${zhihuId}`].postsCount
+			var postsCount = JSON.parse($("textarea#preloadedState").text()).columns[`${zhihuId}`].postsCount;
 			loopdown(postsCount)
 		}
 	});
-
 	
 	function loopdown(postsCount) {
 		// body...
@@ -64,14 +81,13 @@ module.exports = function zhihu(zhihuId,path) {
 			request(urlp).pipe(writeStream);
 
 			writeStream.on('finish',function(){
-				console.log(`📩  ${zhihuId}/${i}.json`)
+				// console.log(`📩  ${zhihuId}/${i}.json`)
 				
 				if(writeTimes===times){
 					ep.emit('got_file',times)
 				}
 				++writeTimes;
-			});
-			
+			});	
 		}
 	}
 	ep.all('got_file',()=>change());
@@ -101,15 +117,16 @@ module.exports = function zhihu(zhihuId,path) {
 						answer = answer.replace(src[j], imageList[j]);
 					});
 					let title = jsonObj[i].title;
-					const pattern = new RegExp("[`~!@#$^&'*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）&mdash;—|{}【】‘；：”“'。，、？]");
-					let rs = '';
-					_.times(title.length, (k) => {
-						const rs2 = title.substr(k, 1).replace(/\"/, ''); // 使用正则表达式单独去除双引号
-						rs += rs2.replace(pattern, '');
-					});
+					// console.log(title)
+					// const pattern = new RegExp("[`~!@#$^&'*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）&mdash;—|{}【】‘；：”“'。，、？]");
+					// let rs = '';
+					// _.times(title.length, (k) => {
+					// 	const rs2 = title.substr(k, 1).replace(/\"/, ''); // 使用正则表达式单独去除双引号
+					// 	rs += rs2.replace(pattern, '');
+					// });
 					answer = answer.replace(/\!\[\]\(/g, imgsrc);
-					title = new Buffer(rs);
 
+					// title = new Buffer(rs);
 					answer = new Buffer(answer);
 
 					let time = `${jsonObj[i].publishedTime}`;
@@ -132,10 +149,41 @@ module.exports = function zhihu(zhihuId,path) {
 					/**该方法以异步的方式将 data 插入到文件里，如果文件不存在会自动创建。data可以是任意字符串或者缓存。 */
 					fs.appendFile(`${path}/${zhihuId}md/${Ti};${title}.md`, answer + copyRight, 'utf8', (err) => {
 						if (err) throw err;
-						console.log(`🍅  ${Ti};${title}.md`);
+						console.log(`✔ ${title}.md`);
 					});
 				});
 			});
 		}
 	}
+}
+
+var Fiflet = (path,zhihuId)=>{
+	figlet(zhihuId, {
+		font: 'Standard',
+		horizontalLayout: 'default',
+		verticalLayout: 'fitted'
+	}, function(err, data) {
+		if (err) {
+			console.log('Something went wrong...');
+			console.dir(err);
+			return;
+		}
+		// console.log(data);
+		lolcatjs.fromString(data);
+		CreateDir(path,zhihuId);
+		console.log('🐛   知乎专栏爬取 %s 到 %s 文件夹',zhihuId, path);
+	});
+}
+var CreateDir = (path,zhihuId)=>{
+	fs.exists(`${path}/${zhihuId}`, function(exists) {
+		if (exists)
+			console.log(`⚓  ${zhihuId} 文件夹已经存在`  );
+		else {
+			fs.mkdir(`${path}/${zhihuId}`, function(err) {
+				if (err)
+					console.error(err);
+				console.log(`🤖 创建 ${zhihuId}文件夹成功`);
+			})
+		}
+	});
 }
