@@ -2,7 +2,7 @@ const fs = require('fs');
 const request = require('request');
 const cheerio = require('cheerio')
 const _ = require('lodash');
-const h2m =require('h2m')
+const h2m = require('h2m')
 const imgsrc = '![](https://pic1.zhimg.com/';
 var https = require("https");
 var EventProxy = require('eventproxy');
@@ -10,13 +10,13 @@ var EventProxy = require('eventproxy');
 /**
  * 知乎专栏爬虫
  */
-module.exports = function zhihu(zhihuId,path) {
-	 console.log(`-----🐛 ${zhihuId} start -----`);
-	fs.exists(`${path}/${zhihuId}`, function(exists) {
+module.exports = function zhihu(zhihuId, path) {
+	console.log(`-----🐛 ${zhihuId} start -----`);
+	fs.exists(`${path}/${zhihuId}`, function (exists) {
 		if (exists)
-			console.log(`⚓  ${zhihuId} 文件夹已经存在`  );
+			console.log(`⚓  ${zhihuId} 文件夹已经存在`);
 		else {
-			fs.mkdir(`${path}/${zhihuId}`, function(err) {
+			fs.mkdir(`${path}/${zhihuId}`, function (err) {
 				if (err)
 					console.error(err);
 				console.log(`🤖 创建 ${zhihuId}文件夹成功`);
@@ -25,58 +25,63 @@ module.exports = function zhihu(zhihuId,path) {
 	});
 
 	const url = `https://zhuanlan.zhihu.com/${zhihuId}`;
+
 	function download(url, callback) {
-		https.get(url, function(res) {
+		https.get(url, function (res) {
 			var dd = "";
-			res.on('data', function(chunk) {
+			res.on('data', function (chunk) {
 				dd += chunk;
 			});
-			res.on("end", function() {
+			res.on("end", function () {
 				callback(dd);
 			});
-		}).on("error", function() {
+		}).on("error", function () {
 			callback(null);
 		});
 	}
 	var ep = new EventProxy();
-	download(url, function(dd) {
+	download(url, function (dd) {
 		if (dd) {
 			var $ = cheerio.load(dd);
-			var postsCount = JSON.parse($("textarea#preloadedState").text()).columns[`${zhihuId}`].postsCount
+			// console.log($("textarea#preloadedState").text().replace(/"updated":new Date\("/g, `"updated": "`).replace(/\.000Z"\),/g, `.000Z",`))
+			var postsCount = JSON.parse($("textarea#preloadedState").text().replace(/"updated":new Date\("/g, `"updated": "`).replace(/\.000Z"\),/g, `.000Z",`)).columns[`${zhihuId}`].postsCount
+			// fs.writeFileSync('./json.json', $("textarea#preloadedState").text().replace(/"updated":new Date\("/g, `"updated": "`).replace(/\.000Z"\),/g, `.000Z",`))
 			loopdown(postsCount)
 		}
 	});
 
-	
+
 	function loopdown(postsCount) {
 		// body...
 		var posts = postsCount % 20;
-		var writeTimes=0;
+		var writeTimes = 0;
 		var times = (postsCount - posts) / 20;
 
 		for (let i = 0; i <= times; i++) {
 			var urlp = `https://zhuanlan.zhihu.com/api/columns/${zhihuId}/posts?limit=20&amp;offset=${i*20}`;
-			
+
 			//request.get(urlp, function(err, res, body) {}).pipe(fs.createWriteStream(`${path}/${zhihuId}/${i}.json`))
-				
+
 			// console.log(`📩 ${path}/${zhihuId}/${i}.json`)
-			var writeStream=fs.createWriteStream(`${path}/${zhihuId}/${i}.json`,{autoClose:true});
+			var writeStream = fs.createWriteStream(`${path}/${zhihuId}/${i}.json`, {
+				autoClose: true
+			});
 			request(urlp).pipe(writeStream);
 
-			writeStream.on('finish',function(){
+			writeStream.on('finish', function () {
 				console.log(`📩  ${zhihuId}/${i}.json`)
-				
-				if(writeTimes===times){
-					ep.emit('got_file',times)
+
+				if (writeTimes === times) {
+					ep.emit('got_file', times)
 				}
 				++writeTimes;
 			});
-			
+
 		}
 	}
-	ep.all('got_file',()=>change());
+	ep.all('got_file', () => change());
 
-	function change(){
+	function change() {
 		for (let j = 0; j < 1000000; j++) {
 			if (!fs.existsSync(`${path}/${zhihuId}/${j}.json`)) {
 				break;
@@ -85,7 +90,7 @@ module.exports = function zhihu(zhihuId,path) {
 				if (err) {
 					throw err;
 				}
-				
+
 				let jsonObj = JSON.parse(res);
 				_.times(jsonObj.length, (i) => {
 					let answer = h2m(jsonObj[i].content);
@@ -114,8 +119,8 @@ module.exports = function zhihu(zhihuId,path) {
 
 					let time = `${jsonObj[i].publishedTime}`;
 					let T = time.replace("T", " ").replace("+08:00", "");
-					let Ti = T.slice(0,9)
-					
+					let Ti = T.slice(0, 9)
+
 					const postId = jsonObj[i].url;
 					let copyRight = `\n\n知乎原文: [${title}](https://zhuanlan.zhihu.com${postId})`;
 					let header = `title: ${title}\n` + `date: ${T} \n` + 'categories: 知乎 \ndescription:  \n \n---\n\n\n ';
