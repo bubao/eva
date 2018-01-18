@@ -118,8 +118,8 @@ module.exports = function zhihu(zhihuId, path) {
 					answer = new Buffer(answer);
 
 					let time = `${jsonObj[i].publishedTime}`;
-					let T = time.replace("T", " ").replace("+08:00", "");
-					let Ti = T.slice(0, 9)
+					let T = time.replace("T", ",").replace("+08:00", "");
+					let Ti = T.split(',');
 
 					const postId = jsonObj[i].url;
 					let copyRight = `\n\n知乎原文: [${title}](https://zhuanlan.zhihu.com${postId})`;
