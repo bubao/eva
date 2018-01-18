@@ -59,10 +59,6 @@ module.exports = function zhihu(zhihuId, path) {
 
 		for (let i = 0; i <= times; i++) {
 			var urlp = `https://zhuanlan.zhihu.com/api/columns/${zhihuId}/posts?limit=20&amp;offset=${i*20}`;
-
-			//request.get(urlp, function(err, res, body) {}).pipe(fs.createWriteStream(`${path}/${zhihuId}/${i}.json`))
-
-			// console.log(`📩 ${path}/${zhihuId}/${i}.json`)
 			var writeStream = fs.createWriteStream(`${path}/${zhihuId}/${i}.json`, {
 				autoClose: true
 			});

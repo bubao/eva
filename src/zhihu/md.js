@@ -1,3 +1,10 @@
+const fs = require('fs');
+const request = require('request');
+const cheerio = require('cheerio')
+const _ = require('lodash');
+const h2m = require('h2m')
+const imgsrc = '![](https://pic1.zhimg.com/';
+
 let change = (path, zhihuId) => {
 	for (let j = 0; j < 1000000; j++) {
 		if (!fs.existsSync(`${path}/${zhihuId}/${j}.json`)) {
@@ -40,7 +47,7 @@ let change = (path, zhihuId) => {
 
 				const postId = jsonObj[i].url;
 				let copyRight = `\n\n知乎原文: [${title}](https://zhuanlan.zhihu.com${postId})`;
-				let header = `# ${title}\n` + `date: ${T.replace(",", " ")} \n`;
+				let header = `# ${title}\n` + `date: ${T.replace(",", " ")} \n\n\n`;
 				header = new Buffer(header);
 				copyRight = new Buffer(copyRight);
 				if (!fs.existsSync(`${path}/${zhihuId}md`)) {
