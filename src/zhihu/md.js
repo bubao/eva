@@ -2,10 +2,11 @@ const fs = require('fs');
 const request = require('request');
 const cheerio = require('cheerio')
 const _ = require('lodash');
-const h2m = require('h2m')
+const h2m = require('h2m');
+let ebook = require('./ebook.js');
 const imgsrc = '![](https://pic1.zhimg.com/';
 
-let change = (path, zhihuId) => {
+let change = (path, zhihuId, format) => {
 	for (let j = 0; j < 1000000; j++) {
 		if (!fs.existsSync(`${path}/${zhihuId}/${j}.json`)) {
 			break;
@@ -46,8 +47,8 @@ let change = (path, zhihuId) => {
 				let Ti = T.split(',')[0];
 
 				const postId = jsonObj[i].url;
-				let copyRight = `\n\n知乎原文: [${title}](https://zhuanlan.zhihu.com${postId})`;
-				let header = `# ${title}\n` + `date: ${T.replace(",", " ")} \n\n\n`;
+				let copyRight = `\n\n知乎原文: [${title}](https://zhuanlan.zhihu.com${postId})\n\n\n`;
+				let header = `# ${title}\n\n` + `date: ${T.replace(",", " ")} \n\n\n`;
 				header = new Buffer(header);
 				copyRight = new Buffer(copyRight);
 				if (!fs.existsSync(`${path}/${zhihuId}md`)) {
@@ -58,10 +59,18 @@ let change = (path, zhihuId) => {
 					if (err) throw err;
 					console.log(`❌ ${Ti};${title}.md`);
 				});
-				/**该方法以异步的方式将 data 插入到文件里，如果文件不存在会自动创建。data可以是任意字符串或者缓存。 */
+
 				fs.appendFile(`${path}/${zhihuId}md/${Ti};${title}.md`, answer + copyRight, 'utf8', (err) => {
 					if (err) throw err;
 					console.log(`🍅  ${Ti};${title}.md`);
+					if (i === jsonObj.length - 1 && format === "ebook") {
+						let ebookObj = (fs.readFileSync(`${path}/${zhihuId}/0.json`))[0];
+						ebook(path, zhihuId, {
+							title: zhihuId,
+							author: ebookObj.author.name,
+							content: []
+						});
+					}
 				});
 			});
 		});
