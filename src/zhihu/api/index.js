@@ -1,22 +1,23 @@
-/** 
- * Create by Bubao
- * @author bubao
- * @date 2018-2-13 14:13:30
+/**
+ * Copyright (c) 2014 Meizu bigertech, All rights reserved.
+ * http://www.bigertech.com/
+ * @author liuxing
+ * @date  14-11-11
  * @description
-*/
-
-// let Answer = require('./Answer');
-// let Collection = require('./Collection');
-// let Question = require('./Question');
-// let Topic = require('./Topic');
-// let User = require('./User');
+ *
+ */
 let zhuanlan = require('./Post');
+let User = require('./User');
+let Collection = require('./Collection');
+let Topic = require('./Topic');
+let Answer = require('./Answer');
+let Question = require('./Question');
 
 module.exports = {
-	// Answer,
-	// Collection,
-	Post: zhuanlan,
-	// Question,
-	// Topic,
-	// User,
+  Post: zhuanlan,
+  User,
+  Topic,
+  Collection,
+  Answer,
+  Question
 };

@@ -1,73 +1,133 @@
-const fs = require('fs');
-const request = require('request');
-const cheerio = require('cheerio')
-const _ = require('lodash');
-// const h2m = require('h2m')
-const imgsrc = '![](https://pic1.zhimg.com/';
-const https = require("https");
-const EventProxy = require('eventproxy');
-const ep = new EventProxy();
 /**
- * 知乎专栏爬虫
+ * Copyright (c) 2014 Meizu bigertech, All rights reserved.
+ * http://www.bigertech.com/
+ * @author liuxing
+ * @date  14-11-10
+ * @description
+ *
  */
+'use strict';
+
+const { Promise, request, url, _, QUERY } = require('../config/commonModules');
+
+const API = require('../config/api');
+const User = require('./User');
 
 
-function getPostsCount(url, callback) {
-	https.get(url, function (res) {
-		var dd = "";
-		res.on('data', function (chunk) {
-			dd += chunk;
-		});
-		res.on("end", function () {
-			callback(dd);
-		});
-	}).on("error", function () {
-		callback(null);
-	});
+function getRealUrl(apiUrl, postUrl) {
+	let pathname = url.parse(postUrl).pathname;
+	let paths = pathname.split('\/');
+	if (paths.length < 0) {
+		throw new Error('Url error!');
+	}
+
+	let data = {
+		name: paths[1],
+		postID: paths[2],
+	};
+	return _.template(apiUrl)(data);
 }
 
-function loop(object) {
-	// body...
-	let urlp = object.urlp + object.writeTimes * 20;
-	console.log(urlp)
-	request(urlp, (error, response, body) => {
-		if (error) {
-			throw new Error(error);
+let getLikers = (postUrl, config) => {
+	let url = getRealUrl(API.post.likers, postUrl);
+	let query = config || QUERY.zhuanlan.likers;
+	let data = {
+		url,
+		qs: {
+			limit: query.limit,
+			offset: query.offset
 		}
-
-		_.forEach(JSON.parse(body), (item, index) => {
-			object.allObject[index + object.writeTimes * 20] = item;
-		});
-		object.writeTimes = object.writeTimes + 1;
-		if (object.writeTimes === object.times) {
-			ep.emit('got_file', object.allObject);
-		} else {
-			loop(object);
+	};
+	return request(data).then(function (content) {
+		let users = content.body;
+		return JSON.parse(users);
+	});
+};
+/**
+ * get full userinfo who stared post
+ * @param postUrl post's url
+ * @param config
+ * @returns {*}  User Object  contain detail userinfo , number of question, number of answer etc
+ */
+let likersDetail = (postUrl, config) => {
+	return getLikers(postUrl, config).then(function (users) {
+		if (users.length > 0) {
+			//并发
+			return Promise.map(users, function (user) {
+				//User.getUserByName参数是用户的slug值，不是直接的用户名
+				return User.getUserByName(user.slug).then(function (result) {
+					return result;
+				});
+			}, {
+					concurrency: 30,
+				}).then(function (data) {
+					//按follower数目逆序排列
+					let pure_users = _.sortBy(data, 'follower').reverse();
+					return pure_users;
+				});
 		}
 	});
-}
+};
 
-module.exports = function zhihu(zhihuId) {
-	const homeUrl = `https://zhuanlan.zhihu.com/${zhihuId}`;
+let articleInfo = (postUrl) => {
+	let url = getRealUrl(API.post.info, postUrl);
+	let options = {
+		url,
+		gzip: true,
+	};
 
-	let allObject = {};
-	getPostsCount(homeUrl, (dd) => {
-		if (dd) {
-			let $ = cheerio.load(dd);
-			let postsCount = JSON.parse($("textarea#preloadedState").text().replace(/"updated":new Date\("/g, `"updated": "`).replace(/\.000Z"\),/g, `.000Z",`)).columns[`${zhihuId}`].postsCount;
-			let posts = postsCount % 20;
-			let writeTimes = 0;
-			let times = (postsCount - posts) / 20;
-			let urlp = `https://zhuanlan.zhihu.com/api/columns/${zhihuId}/posts?limit=20&amp;offset=`;
-			loop({ postsCount: postsCount, zhihuId: zhihuId, writeTimes: writeTimes, times: times, urlp: urlp, allObject: allObject });
-		}
+	return request(options).then((content) => {
+		return JSON.parse(content.body);
 	});
+};
 
-	return new Promise((resolve, reject) => {
-		ep.all('got_file', (response) => {
-			resolve(JSON.parse(JSON.stringify(response).replace(/\!\[\]\(/g, imgsrc)));
-		})
-	}).then(res => {
-		return res;
+let articleList = (name, config) => {
+	let query = config || QUERY.zhuanlan.articleList;
+	let data = {
+		url: _.template(API.post.page)({ name }),
+		qs: {
+			limit: query.limit,
+			offset: query.offset
+		}
+	};
+	return request(data).then((content) => {
+		return JSON.parse(content.body);
+	});
+};
+
+let zhuanlanInfo = (zhuanlanName) => {
+	let url = API.post.zhuanlan + zhuanlanName;
+	let options = {
+		url,
+		gzip: true,
+	};
+	return request(options).then((content) => {
+		return JSON.parse(content.body);
+	});
+};
+
+
+let comments = (postUrl, config) => {
+	let url = getRealUrl(API.post.comments, postUrl);
+	let query = config || QUERY.zhuanlan.comments;
+
+	let options = {
+		url,
+		qs: {
+			limit: query.limit,
+			offset: query.offset
+		}
+	};
+	return request(options).then((content) => {
+		return JSON.parse(content.body);
 	})
-}
+};
+
+
+module.exports = {
+	likersDetail,
+	comments,
+	info: articleInfo,
+	page: articleList,
+	zhuanlanInfo
+};

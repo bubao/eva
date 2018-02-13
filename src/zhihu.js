@@ -76,6 +76,4 @@ module.exports = function zhihu(zhihuId, path) {
 		}
 	}
 	ep.all('got_file', () => md(path, zhihuId));
-
-
 }
