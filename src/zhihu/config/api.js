@@ -13,16 +13,18 @@ const zhuanlan = 'https://zhuanlan.zhihu.com';
 const zhimg = 'https://pic1.zhimg.com';
 
 module.exports = {
-	zhihu: zhihu,
-	zhuanlan: zhuanlan,
+	zhihu,
+	zhuanlan,
 	zhimg,
 	topic_url: zhihu + '/topic/',
 	post: {
 		info: zhuanlan + '/api/posts/<%= postID%>',
-		likers: zhuanlan + '/api/posts/<%=postID%>/likers',
-		page: zhuanlan + '/api/columns/<%=name %>/posts',
-		zhuanlan: zhuanlan + '/api/columns/',
-		comments: zhuanlan + '/api/posts/<%=postID%>/comments'
+		likers: zhuanlan + '/api/posts/<%= postID%>/likers',
+		columns: zhuanlan + '/api/columns/<%= columnsID%>',
+		page: zhuanlan + '/api/columns/<%= columnsID %>/posts',
+		// zhuanlan: zhuanlan + '/api/columns/',
+		comments: zhuanlan + '/api/posts/<%= postID%>/comments',
+		followers: zhuanlan + '/api/columns/<%= columnsID%>/followers',
 	},
 	answer: {
 		likers: zhihu + '/node/AnswerFullVoteInfoV2',

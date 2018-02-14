@@ -1,27 +1,27 @@
 {
-  "name": "nodc",
-  "version": "1.0.0",
-  "description": "",
-  "bin": {
-    "nodc": "nodc.js"
-  },
-  "preferGlobal": true,
-  "author": "David",
-  "license": "ISC",
-  "dependencies": {
-    "bluebird": "^3.5.1",
-    "cheerio": "^1.0.0-rc.2",
-    "cli-table2": "^0.2.0",
-    "commander": "^2.11.0",
-    "eventproxy": "^1.0.0",
-    "figlet": "^1.2.0",
-    "h2m": "^0.5.2",
-    "http": "0.0.0",
-    "https": "^1.0.0",
-    "iconv-lite": "^0.4.18",
-    "lodash": "^4.17.4",
-    "lolcatjs": "^2.3.0",
-    "request": "^2.81.0",
-    "shelljs": "^0.7.8"
-  }
+	"name": "nodc",
+	"version": "1.0.0",
+	"description": "",
+	"bin": {
+		"nodc": "nodc.js"
+	},
+	"preferGlobal": true,
+	"author": "Bubao",
+	"license": "ISC",
+	"dependencies": {
+		"bluebird": "^3.5.1",
+		"cheerio": "^1.0.0-rc.2",
+		"cli-table2": "^0.2.0",
+		"commander": "^2.11.0",
+		"eventproxy": "^1.0.0",
+		"figlet": "^1.2.0",
+		"h2m": "^0.5.2",
+		"http": "0.0.0",
+		"https": "^1.0.0",
+		"iconv-lite": "^0.4.18",
+		"lodash": "^4.17.4",
+		"lolcatjs": "^2.3.0",
+		"request": "^2.81.0",
+		"shelljs": "^0.7.8"
+	}
 }

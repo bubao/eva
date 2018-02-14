@@ -1,75 +1,152 @@
-const imgsrc = 'https://pic1.zhimg.com/';
-const { _, request, cheerio, ep } = require('../config/commonModules.js');
+// const imgsrc = 'https://pic1.zhimg.com/';
+const { _, request, cheerio, ep, url } = require('../config/commonModules.js');
+const utils = require('../config/utils.js');
 let API = require('../config/api.js');
 
 /**
- * 知乎专栏爬虫
- * 
- * getPostsCount
- *      url:专栏的url
- *      callback：回调函数
+ * 通用方法
+ * @param {string||number} ID 传入ID
+ * @param {string} API 传入api
+ * @param {string} countName 传入countName
+ * @param {Function} infoMethod 传入方法
  */
-let getPostsCount = (url, callback) => {
-    request(url).then((response) => {
-        console.log(response.body)
-        callback(response.body);
+let universalMethod = (ID, API, countName, infoMethod) => {
+    let url = _.template(API)({ postID: ID, columnsID: ID });
+    let count = infoMethod(ID).then((c) => {
+        return c[countName];
     });
-}
-
-let loop = (object) => {
-    // body...
-    let urlp = object.urlp + object.writeTimes * 20;
-    console.log(urlp)
-    request(urlp, (error, response, body) => {
-        if (error) {
-            throw new Error(error);
-        }
-
-        _.forEach(JSON.parse(body), (item, index) => {
-            object.allObject[index + object.writeTimes * 20] = item;
-        });
-        object.writeTimes = object.writeTimes + 1;
-        if (object.writeTimes === object.times) {
-            ep.emit('got_file', object.allObject);
-        } else {
-            loop(object);
-        }
-    });
-}
-
-module.exports = function zhihuzhuanlan(postID) {
-    let allObject = {};
-    getPostsCount(`https://zhuanlan.zhihu.com/${postID}`, (dd) => {
-        if (dd) {
-            let $ = cheerio.load(dd);
-            let postsCount = JSON
-                .parse($("textarea#preloadedState").text().replace(/"updated":new Date\("/g, `"updated": "`).replace(/\.000Z"\),/g, `.000Z",`))
-                .columns[`${postID}`]
-                .postsCount;
-            let posts = postsCount % 20;
-            let writeTimes = 0;
-            let times = (postsCount - posts) / 20;
-            let urlp = `https://zhuanlan.zhihu.com/api/columns/${postID}/posts?limit=20&amp;offset=`;
-            loop({
-                postsCount: postsCount,
-                postID: postID,
-                writeTimes: writeTimes,
-                times: times,
-                urlp: urlp,
-                allObject: allObject
-            });
-        }
-    });
-
+    // console.log(url)
     return new Promise((resolve, reject) => {
-        ep.all('got_file', (response) => {
-            // let $ = cheerio.load(response);
-            // let postsCount = JSON.parse($("img").forEach(item=>{
-            //     item.atta
-            // }));
-            resolve(response);
+        count.then(res1 => {
+            return utils.loopMethod(_.assign({
+                options: {
+                    urlTemplate: url,
+                }
+            }, utils.rateMethod(res1, 20)))
+            // .then(res2 => {
+            //     console.log(res2)
+            //     resolve(res2)
+            // });
         })
-    }).then(res => {
-        return res;
     })
+
+};
+
+/**
+ * 知乎专栏信息
+ * @param {string} columnsID //专栏ID
+ */
+let zhuanlanInfo = (columnsID) => {
+    let urlTemplate = _.template(API.post.columns)({ columnsID });
+    let object = {};
+    object = {
+        url: urlTemplate,
+        gzip: true,
+    };
+    return utils.requestMethod(object);
 }
+
+/**
+ * 所有关注者信息
+ * @param {string} columnsID 专栏ID 
+ */
+let followers = (columnsID) => {
+    // let url = _.template(API.post.followers)({ columnsID });
+    // let object = {};
+    // let followersCount = zhuanlanInfo(columnsID).then((c) => {
+    //     return c.followersCount;
+    // });
+
+    // return followersCount.then(res => {
+    //     return utils.loopMethod(_.assign({
+    //         options: {
+    //             urlTemplate: url,
+    //             // gzip: true,
+    //         }
+    //     }, utils.rateMethod(res, 20)));
+    // });
+    return universalMethod(columnsID, API.post.followers, 'followersCount', zhuanlanInfo);
+}
+/**
+ * 专栏所有post
+ * @param {string} columnsID 专栏ID
+ */
+let zhuanlanPosts = (columnsID) => {
+    // let url = _.template(API.post.page)({ columnsID });
+    // let object = {};
+    // let postsCount = zhuanlanInfo(columnsID).then((c) => {
+    //     return c.postsCount;
+    // });
+    // return postsCount.then(res => {
+    //     return utils.loopMethod(_.assign({
+    //         options: {
+    //             urlTemplate: url,
+    //             // gzip: true,
+    //         }
+    //     }, utils.rateMethod(res, 20)));
+    // });
+    return universalMethod(columnsID, API.post.page, 'postsCount', zhuanlanInfo);
+};
+
+/**
+ * 知乎专栏信息
+ * @param {number} postID //postID
+ */
+let postInfo = (postID) => {
+    let urlTemplate = _.template(API.post.info)({ postID });
+    let object = {};
+    object = {
+        url: urlTemplate,
+        gzip: true,
+    };
+    return utils.requestMethod(object);
+}
+
+/**
+ * 专栏文章喜欢者的信息
+ * @param {number} postID //postID
+ */
+let postLikers = (postID) => {
+    // let url = _.template(API.post.likers)({ postID });
+    // let object = {};
+    // let likesCount = postInfo(postID).then((c) => {
+    //     return c.likesCount;
+    // });
+    return new Promise((resolve, reject) => {
+        universalMethod(postID, API.post.likers, 'likesCount', postInfo).then(res => {
+            // console.log(123)
+            resolve(res);
+        })
+    })
+    // return likesCount.then(res => {
+    //     return utils.loopMethod(_.assign({
+    //         options: {
+    //             urlTemplate: url,
+    //         }
+    //     }, utils.rateMethod(res, 20)));
+    // });
+}
+
+/**
+ * 专栏文章回复的信息
+ * @param {number} postID //postID
+ * @param {number} count //comments总数
+ */
+let postComments = (postID, count) => {
+    let url = _.template(API.post.comments)({ postID });
+    let object = {};
+    return utils.loopMethod(_.assign({
+        options: {
+            urlTemplate: url,
+        }
+    }, utils.rateMethod(count, 20)));
+}
+
+module.exports = {
+    zhuanlanInfo,
+    zhuanlanPosts,
+    followers,
+    postInfo,
+    postLikers,
+    postComments,
+};
