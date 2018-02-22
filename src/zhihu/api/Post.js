@@ -1,133 +1,113 @@
+// const imgsrc = 'https://pic1.zhimg.com/';
+const { _, request, cheerio, ep, url } = require('../config/commonModules.js');
+const utils = require('../config/utils.js');
+let API = require('../config/api.js');
+
 /**
- * Copyright (c) 2014 Meizu bigertech, All rights reserved.
- * http://www.bigertech.com/
- * @author liuxing
- * @date  14-11-10
- * @description
- *
+ * 通用方法
+ * @param {string||number} ID 传入ID
+ * @param {string} API 传入api
+ * @param {string} countName 传入countName
+ * @param {Function} infoMethod 传入方法
  */
-'use strict';
+let universalMethod = (ID, API, countName, infoMethod) => {
+    let url = _.template(API)({ postID: ID, columnsID: ID });
+    let count = infoMethod(ID).then((c) => {
+        return c[countName];
+    });
+    return new Promise((resolve, reject) => {
+        count.then(res1 => {
+            utils.loopMethod(_.assign({
+                options: {
+                    urlTemplate: url,
+                }
+            }, utils.rateMethod(res1, 20)), function (res2) {
+                resolve(res2);
+            });
+        });
+    });
 
-const { Promise, request, url, _, QUERY } = require('../config/commonModules');
+};
 
-const API = require('../config/api');
-const User = require('./User');
-
-
-function getRealUrl(apiUrl, postUrl) {
-	let pathname = url.parse(postUrl).pathname;
-	let paths = pathname.split('\/');
-	if (paths.length < 0) {
-		throw new Error('Url error!');
-	}
-
-	let data = {
-		name: paths[1],
-		postID: paths[2],
-	};
-	return _.template(apiUrl)(data);
+/**
+ * 知乎专栏信息
+ * @param {string} columnsID //专栏ID
+ */
+let zhuanlanInfo = (columnsID) => {
+    let urlTemplate = _.template(API.post.columns)({ columnsID });
+    let object = {};
+    object = {
+        url: urlTemplate,
+        gzip: true,
+    };
+    return utils.requestMethod(object);
 }
 
-let getLikers = (postUrl, config) => {
-	let url = getRealUrl(API.post.likers, postUrl);
-	let query = config || QUERY.zhuanlan.likers;
-	let data = {
-		url,
-		qs: {
-			limit: query.limit,
-			offset: query.offset
-		}
-	};
-	return request(data).then(function (content) {
-		let users = content.body;
-		return JSON.parse(users);
-	});
-};
 /**
- * get full userinfo who stared post
- * @param postUrl post's url
- * @param config
- * @returns {*}  User Object  contain detail userinfo , number of question, number of answer etc
+ * 所有关注者信息
+ * @param {string} columnsID 专栏ID 
  */
-let likersDetail = (postUrl, config) => {
-	return getLikers(postUrl, config).then(function (users) {
-		if (users.length > 0) {
-			//并发
-			return Promise.map(users, function (user) {
-				//User.getUserByName参数是用户的slug值，不是直接的用户名
-				return User.getUserByName(user.slug).then(function (result) {
-					return result;
-				});
-			}, {
-					concurrency: 30,
-				}).then(function (data) {
-					//按follower数目逆序排列
-					let pure_users = _.sortBy(data, 'follower').reverse();
-					return pure_users;
-				});
-		}
-	});
+let followers = (columnsID) => {
+    return universalMethod(columnsID, API.post.followers, 'followersCount', zhuanlanInfo);
+}
+/**
+ * 专栏所有post
+ * @param {string} columnsID 专栏ID
+ */
+let zhuanlanPosts = (columnsID) => {
+    return universalMethod(columnsID, API.post.page, 'postsCount', zhuanlanInfo);
 };
 
-let articleInfo = (postUrl) => {
-	let url = getRealUrl(API.post.info, postUrl);
-	let options = {
-		url,
-		gzip: true,
-	};
+/**
+ * 知乎专栏信息
+ * @param {number} postID //postID
+ */
+let postInfo = (postID) => {
+    let urlTemplate = _.template(API.post.info)({ postID });
+    let object = {};
+    object = {
+        url: urlTemplate,
+        gzip: true,
+    };
+    return utils.requestMethod(object);
+}
 
-	return request(options).then((content) => {
-		return JSON.parse(content.body);
-	});
-};
+/**
+ * 专栏文章喜欢者的信息
+ * @param {number} postID //postID
+ */
+let postLikers = (postID) => {
+    return new Promise((resolve, reject) => {
+        universalMethod(postID, API.post.likers, 'likesCount', postInfo).then(res => {
+            resolve(res);
+        });
+    });
+}
 
-let articleList = (name, config) => {
-	let query = config || QUERY.zhuanlan.articleList;
-	let data = {
-		url: _.template(API.post.page)({ name }),
-		qs: {
-			limit: query.limit,
-			offset: query.offset
-		}
-	};
-	return request(data).then((content) => {
-		return JSON.parse(content.body);
-	});
-};
-
-let zhuanlanInfo = (zhuanlanName) => {
-	let url = API.post.zhuanlan + zhuanlanName;
-	let options = {
-		url,
-		gzip: true,
-	};
-	return request(options).then((content) => {
-		return JSON.parse(content.body);
-	});
-};
-
-
-let comments = (postUrl, config) => {
-	let url = getRealUrl(API.post.comments, postUrl);
-	let query = config || QUERY.zhuanlan.comments;
-
-	let options = {
-		url,
-		qs: {
-			limit: query.limit,
-			offset: query.offset
-		}
-	};
-	return request(options).then((content) => {
-		return JSON.parse(content.body);
-	})
-};
-
+/**
+ * 专栏文章回复的信息
+ * @param {number} postID //postID
+ * @param {number} count //comments总数
+ */
+let postComments = (postID, count) => {
+    let url = _.template(API.post.comments)({ postID });
+    let object = {};
+    return new Promise((resolve, reject) => {
+        return utils.loopMethod(_.assign({
+            options: {
+                urlTemplate: url,
+            }
+        }, utils.rateMethod(count, 20)), (res => {
+            resolve(res);
+        }));
+    });
+}
 
 module.exports = {
-	likersDetail,
-	comments,
-	info: articleInfo,
-	page: articleList,
-	zhuanlanInfo
+    zhuanlanInfo,
+    zhuanlanPosts,
+    followers,
+    postInfo,
+    postLikers,
+    postComments,
 };

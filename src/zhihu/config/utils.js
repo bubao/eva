@@ -38,26 +38,26 @@ let cycleMethod = (cycle) => {
 	cycle = cycle || defaultCycle;
 	return cycle;
 }
-
-let loopMethod = (config) => {
+/**
+ * 
+ * @param {object} config 配置信息
+ * @param {function} callback 回调函数
+ */
+let loopMethod = (config, callback) => {
 	let { urlTemplate, ...options } = config.options;
-	return new Promise((resolve, reject) => {
-		return requestMethod({
-			url: url.resolve(urlTemplate, `?limit=${config.cycle}&offset=${config.writeTimes * 20}`),
-			options
-		}).then(c => {
-			_.forEach(c, (item, index) => {
-				config.allObject[index + config.writeTimes * 20] = item;
-			});
-
-			if (config.writeTimes === config.times) {
-				// console.log(config.allObject)
-				resolve(config.allObject);
-			} else {
-				config.writeTimes += 1;
-				loopMethod(config);
-			}
+	requestMethod({
+		url: url.resolve(urlTemplate, `?limit=${config.cycle}&offset=${config.writeTimes * 20}`),
+		options
+	}).then(c => {
+		_.forEach(c, (item, index) => {
+			config.allObject[index + config.writeTimes * 20] = item;
 		});
+		if (config.writeTimes === config.times) {
+			callback(config.allObject);
+		} else {
+			config.writeTimes += 1;
+			loopMethod(config, callback);
+		}
 	})
 }
 module.exports = {
