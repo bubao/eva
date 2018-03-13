@@ -10,10 +10,10 @@ let ep = new EventProxy();
 
 /**
  * 知乎专栏抓取器
- * @param {*} zhihuId 知乎专栏的ID
- * @param {*} path 下载路径
+ * @param {string} zhihuId 知乎专栏的ID
+ * @param {string} path 下载路径
  */
-let zhihu = (zhihuId, path) => {
+let zhihu = (zhihuId, path, format) => {
 	console.log(`-----🐛 ${zhihuId} start -----`);
 	fs.exists(`${path}/${zhihuId}`, (exists) => {
 		if (exists) {
@@ -35,10 +35,10 @@ let zhihu = (zhihuId, path) => {
 			let $ = cheerio.load(dd);
 			let postsCount = JSON.parse($("textarea#preloadedState").text().replace(/"updated":new Date\("/g, `"updated": "`).replace(/\.000Z"\),/g, `.000Z",`)).columns[`${zhihuId}`].postsCount;
 			// fs.writeFileSync('./json.json', $("textarea#preloadedState").text().replace(/"updated":new Date\("/g, `"updated": "`).replace(/\.000Z"\),/g, `.000Z",`))
-			loopdown(postsCount);
+			loopdown(postsCount, zhihuId, path);
 		}
 	});
-	ep.all('got_file', () => md(path, zhihuId));
+	ep.all('got_file', () => md(path, zhihuId, format));
 };
 /**
  * 第一层下载器
@@ -62,8 +62,10 @@ let download = (url, callback) => {
 /**
  * 第二层循环下载器
  * @param {number} postsCount 文章数量
+ * @param {string} zhihuId 知乎专栏的ID
+ * @param {string} path 下载路径
  */
-let loopdown = (postsCount) => {
+let loopdown = (postsCount, zhihuId, path) => {
 	let posts = postsCount % 20;
 	let writeTimes = 0;
 	let times = (postsCount - posts) / 20;

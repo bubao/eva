@@ -11,35 +11,19 @@ program
 	.alias('cr')
 	.description('🔄 知乎专栏爬虫 ⛎')
 	.option('-o ,--out <path>', "🔙 输出位置")
+	.option('-f ,--format <ebook>', "🔙 输出位置")
 	.action((zhihuId, options) => {
 		zhihuId = zhihuId || "leanreact";
 		let path = options.out || process.cwd(); //当前执行路径
+		let format = options.format || 'md';
 		console.log('🐛   知乎专栏爬取 %s 到 %s 文件夹', zhihuId, path);
-		zhihu(zhihuId, path);
+		zhihu(zhihuId, path, format);
 	}).on('--help', () => {
 		console.log(`
   举个例子:
 
     $ nodc crawler leanreact
     $ nodc cr leanreact -o ~/
-		`);
-	});
-
-program
-	.command('build [zhihuId]')
-	.alias('bd')
-	.description('🔄 知乎专栏爬虫 ⛎')
-	.option('-o ,--out <path>', "🔙 输出位置")
-	.action((zhihuId, options) => {
-		zhihuId = zhihuId || "leanreact";
-		let path = options.out || process.cwd(); //当前执行路径
-		md(path, zhihuId);
-	}).on('--help', () => {
-		console.log(`
-  举个例子:
-
-    $ nodc crawler leanreact
-	$ nodc cr leanreact -o ~/
 		`);
 	});
 
