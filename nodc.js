@@ -1,27 +1,28 @@
 #!/usr/bin/env node
 
-var program = require('commander');
-require('shelljs/global');
-var zhihu = require("./src/zhihu.js");
-var md = require("./src/zhihu/md.js");
-var weather = require("./src/weather.js")
+let program = require('commander');
+// require('shelljs/global');
+let zhihu = require("./src/command/zhihu/zhihu.js");
+let md = require("./src/command/build/md.js");
+let weather = require("./src/command/weather/weather.js")
 
 program
 	.command('crawler [zhihuId]')
 	.alias('cr')
 	.description('🔄 知乎专栏爬虫 ⛎')
 	.option('-o ,--out <path>', "🔙 输出位置")
-	.action(function (zhihuId, options) {
-		var zhihuId = zhihuId || "leanreact";
-		var path = options.out || process.cwd(); //当前执行路径
+	.action((zhihuId, options) => {
+		zhihuId = zhihuId || "leanreact";
+		let path = options.out || process.cwd(); //当前执行路径
 		console.log('🐛   知乎专栏爬取 %s 到 %s 文件夹', zhihuId, path);
-		zhihu(zhihuId, path)
-	}).on('--help', function () {
-		console.log('  举个例子:');
-		console.log();
-		console.log('    $ nodc crawler leanreact');
-		console.log('    $ nodc cr leanreact -o ~/');
-		console.log();
+		zhihu(zhihuId, path);
+	}).on('--help', () => {
+		console.log(`
+  举个例子:
+
+    $ nodc crawler leanreact
+    $ nodc cr leanreact -o ~/
+		`);
 	});
 
 program
@@ -29,43 +30,38 @@ program
 	.alias('bd')
 	.description('🔄 知乎专栏爬虫 ⛎')
 	.option('-o ,--out <path>', "🔙 输出位置")
-	.action(function (zhihuId, options) {
-		var zhihuId = zhihuId || "leanreact";
-		var path = options.out || process.cwd(); //当前执行路径
-		// console.log('🐛   知乎专栏爬取 %s 到 %s 文件夹', zhihuId, path);
+	.action((zhihuId, options) => {
+		zhihuId = zhihuId || "leanreact";
+		let path = options.out || process.cwd(); //当前执行路径
 		md(path, zhihuId);
-	}).on('--help', function () {
-		console.log('  举个例子:');
-		console.log();
-		console.log('    $ nodc crawler leanreact');
-		console.log('    $ nodc cr leanreact -o ~/');
-		console.log();
+	}).on('--help', () => {
+		console.log(`
+  举个例子:
+
+    $ nodc crawler leanreact
+	$ nodc cr leanreact -o ~/
+		`);
 	});
 
 program
 	.command('weather [townName]')
 	.alias('wt')
 	.description('🔄 天气助手 ⛎')
-	.option('-d ,--detail', "🔙 输出位置")
-	.action(function (townName, program) {
-		var townName = townName || "深圳";
-		// var d =  program.detail || false;//当前执行路径
-		// console.log('🐛   知乎专栏爬取 %s 到 %s 文件夹',townName, path);
+	.option('-d ,--detail', "🔙 详情")
+	.action((townName, program) => {
+		townName = townName || "深圳";
 		weather(townName, program)
-	}).on('--help', function () {
-		console.log('  举个例子:');
-		console.log();
-		console.log('    $ nodc crawler leanreact');
-		console.log('    $ nodc cr leanreact -o ~/');
-		console.log();
+	}).on('--help', () => {
+		console.log(`
+  举个例子:
+
+    $ nodc wt 广州
+    $ nodc weather
+		`);
 	});
 
-program
-	.parse(process.argv);
-
+program.parse(process.argv);
 
 // program
 // 	.option('hexo [name]', '🔙 hexo快速生成模板')
 // 	.option('jieba <file>', '⛎ 文件结巴分词统计词频')
-
-// console.log('  - %s cheese💘', program.cheese);command.

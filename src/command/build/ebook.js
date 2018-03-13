@@ -1,12 +1,15 @@
-let {
-	exec
-} = require('child_process');
+let { exec } = require('child_process');
 let fs = require('fs');
 let _ = require('lodash');
 let localImage = require('./localImage.js')
 
-module.exports = ebook = (p, name, ebookJson) => {
-
+/**
+ * 
+ * @param {string} p 下载路径
+ * @param {string} name 下载路径的文件夹名
+ * @param {object} ebookJson ebookJson数据
+ */
+let ebook = (p, name, ebookJson) => {
 	exec(`cat ${p}/${name}md/* >> ${p}/${name}Ebook/${name}.md`, (err) => {
 		if (err) {
 			throw err;
@@ -22,3 +25,5 @@ module.exports = ebook = (p, name, ebookJson) => {
 		});
 	});
 }
+
+module.exports = ebook;

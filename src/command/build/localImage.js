@@ -2,7 +2,13 @@ let fs = require('fs');
 let request = require("request");
 let _ = require("lodash");
 let path = require('path');
-
+/**
+ * 
+ * @param {string} p 下载路径
+ * @param {string} name 下载路径的文件夹名
+ * @param {*} arr 文件中的img url list
+ * @param {func} cb callback函数
+ */
 let loop = (p, name, arr, cb) => {
 	if (arr.length) {
 		request(arr[0]).pipe(fs.createWriteStream(`${p}/${name}/imgs/${path.basename(arr[0])}`)).on('close', () => {
@@ -15,11 +21,17 @@ let loop = (p, name, arr, cb) => {
 		}
 	}
 }
-
-// loop(JSON.parse(fs.readFileSync("./1.json")))
-// fs.writeFileSync("./1.json", JSON.stringify(all).replace(/\!\[\]\(/g, "").replace(/\)/g, ""))
-module.exports = localImage = (p, name, mdp, cb) => {
-	let md = fs.readFileSync(mdp, 'utf8');
+/**
+ * 
+ * @param {string} p 下载路径
+ * @param {string} name 下载路径的文件夹名
+ * @param {string} markdownPath markdown文件的路径
+ * @param {func} cb callback函数
+ */
+let localImage = (p, name, markdownPath, cb) => {
+	let md = fs.readFileSync(markdownPath, 'utf8');
 	let all = md.match(/\!\[\]\(https.*?\)/g);
 	loop(p, name, JSON.parse(JSON.stringify(all).replace(/\!\[\]\(/g, "").replace(/\)/g, "")), cb)
 }
+
+module.exports = localImage;

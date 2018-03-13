@@ -2,10 +2,8 @@ const fs = require('fs');
 const request = require('request');
 const cheerio = require('cheerio')
 const _ = require('lodash');
-const h2m = require('h2m')
-const imgsrc = '![](https://pic1.zhimg.com/';
 var https = require("https");
-let md = require('./zhihu/md.js')
+let md = require('../build/md.js')
 var EventProxy = require('eventproxy');
 
 /**
@@ -58,7 +56,7 @@ module.exports = function zhihu(zhihuId, path) {
 		var times = (postsCount - posts) / 20;
 
 		for (let i = 0; i <= times; i++) {
-			var urlp = `https://zhuanlan.zhihu.com/api/columns/${zhihuId}/posts?limit=20&amp;offset=${i*20}`;
+			var urlp = `https://zhuanlan.zhihu.com/api/columns/${zhihuId}/posts?limit=20&amp;offset=${i * 20}`;
 			var writeStream = fs.createWriteStream(`${path}/${zhihuId}/${i}.json`, {
 				autoClose: true
 			});
