@@ -1,5 +1,4 @@
 const fs = require('fs');
-// const req = require('../../modules/request');
 const request = require('request');
 const _ = require('lodash');
 let path = require('path');
