@@ -2,8 +2,8 @@
 
 let program = require('commander');
 // require('shelljs/global');
-let zhihu = require("./src/command/zhihu/zhihu.js");
-let md = require("./src/command/build/md.js");
+let zhihu = require("./src/command/zhihu/zhihuzhuanlan.js");
+let markdown = require("./src/command/build/markdown.js");
 let weather = require("./src/command/weather/weather.js")
 
 program

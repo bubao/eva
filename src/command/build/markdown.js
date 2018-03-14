@@ -7,12 +7,12 @@ let ebook = require('./ebook.js');
 const imgsrc = '![](https://pic1.zhimg.com/';
 
 /**
- * change(path, zhihuId[, format])
+ * markdown(path, zhihuId[, format])
  * @param {string} path 下载地址
  * @param {string} zhihuId 知乎专栏ID
  * @param {string} format 指定为ebook，或者留空
  */
-let change = (path, zhihuId, format) => {
+let markdown = (path, zhihuId, format) => {
 	for (let j = 0; j < 1000000; j++) {
 		if (!fs.existsSync(`${path}/${zhihuId}/${j}.json`)) {
 			break;
@@ -83,4 +83,4 @@ let change = (path, zhihuId, format) => {
 	}
 };
 
-module.exports = change;
+module.exports = markdown;
