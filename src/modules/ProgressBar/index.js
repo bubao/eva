@@ -1,5 +1,5 @@
-const { slog, clicolor } = require('./commonModules');
-const { time } = require('../../tools/utils');
+const { slog, clicolor } = require('../../tools/commonModules');
+const { time, byteSize } = require('../../tools/utils');
 
 /**
  * ProgressBar 命令行进度条
