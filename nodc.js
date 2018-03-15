@@ -52,17 +52,15 @@ program
 	.option('-o ,--out <path>', "🔙 输出位置")
 	.option('-d ,--description <description>', "🔙 输出位置")
 	.option('-l ,--length <length>', "🔙 进度条长度")
-	.option('-n ,--name <name>', "🔙 输出位置")
-	.action((url, options) => {
-		url = url || "leanreact";
-		options.out = options.out || process.cwd(); //当前执行路径
-		options.length = parseInt(options.length) || 50;
-		if (options.name) {
-			console.log('🐛   下载 %s 到 %s ', options.name, path);
-		} else {
-			console.log('🐛   下载 %s 到 %s ', url, path);
+	.option('-n ,--name <name>', "🔙 文件名")
+	.action((url, program) => {
+		let options = {
+			url: url || "leanreact",
+			out: program.out || process.cwd(),
+			length: parseInt(program.length) || 50,
+			name: typeof program.name == 'string' ? program.name : undefined,
 		}
-		download(url, options);
+		download(options);
 	}).on('--help', () => {
 		console.log(`
   举个例子:

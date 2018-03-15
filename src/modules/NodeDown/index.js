@@ -1,5 +1,7 @@
-let { ProgressBar } = require('../../tools/utils');
+let ProgressBar = require('../ProgressBar');
 const { path, _, request, fs } = require('../../tools/commonModules');
+const { time } = require('../../tools/utils');
+
 class NodeDown {
 	constructor(props) {
 		this.description = props.description;
@@ -8,34 +10,6 @@ class NodeDown {
 		this.description = this.pb.description;
 	}
 
-	time(d) {
-		d = parseInt(d);
-		let s, m, h = 0;
-		let t = '321';
-		if (d < 60) {
-			s = d % 60;
-			t = s + '秒';
-		} else if (d < 60 * 60) {
-			s = d % 60;
-			m = (d - s) / 60;
-			t = this._pad(m) + '分' + this._pad(s) + '秒';
-		} else {
-			s = d % 60;
-			m = (d - s) / 60;
-			m = m >= 60 ? 0 : m;
-			h = (d - s - m * 60) / 60 / 60;
-			t = this._pad(h) + ':' + this._pad(m) + ':' + this._pad(s);
-		}
-		return t;
-	}
-
-	_pad(n, c = 2) {
-		n = String(n)
-		while (n.length < c) {
-			n = '0' + n
-		}
-		return n
-	}
 	/**
 	 * 
 	 * @param {object} opts 配置
@@ -66,9 +40,9 @@ class NodeDown {
 		}).pipe(fs.createWriteStream(path.join(localPath, name))).on('close', () => {
 			end = new Date().valueOf() / 1000;
 			callback = callback || Function();
-			let back = { start: start, end: end, elapsed: this.time(end - start) }
+			let back = { start: start, end: end, elapsed: time(end - start) }
 			if (opts.end !== undefined) {
-				console.log('\n', this.time(end - start));
+				console.log('\n', time(end - start));
 			}
 			callback(back);
 		});

@@ -14,6 +14,7 @@ const clicolor = require('cli-color');
 
 module.exports = {
 	_,
+	fs,
 	req,
 	url,
 	URL,
