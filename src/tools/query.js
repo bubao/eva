@@ -18,6 +18,16 @@ let query = {
 			offset: 0
 		}
 	},
+	bilibili: {
+		videos: {
+			cid: 6689771,
+			otype: 'json',
+			player: 1,
+			quality: 2,
+			ts: new Date().valueOf() / 1000,
+			sign: 'dde4c12bdb85dfeefbfdb1b215383488'
+		}
+	}
 };
 
 module.exports = query;

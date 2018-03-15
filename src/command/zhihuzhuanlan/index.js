@@ -11,7 +11,7 @@ const { mkdir, getTrueURL } = require('../../tools/utils');
 function zhihuzhuanlan(zhihuzhuanlanId, localPath, format) {
 	this.format = format;
 	console.log(`-----🐛 ${zhihuzhuanlanId} start -----`);
-	mkdir(zhihuzhuanlanId, localPath);
+	mkdir(path.resolve(localPath, zhihuzhuanlanId));
 	const url = `https://zhuanlan.zhihu.com/${zhihuzhuanlanId}`;
 	request.get(url, (err, response, body) => {
 		if (err) {

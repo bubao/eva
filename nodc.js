@@ -3,9 +3,10 @@
 let program = require('commander');
 // require('shelljs/global');
 let zhihu = require("./src/command/zhihuzhuanlan");
-let markdown = require("./src/command/build");
+let markdown = require("./src/command/build/markdown");
 let weather = require("./src/command/weather");
 let download = require('./src/command/download');
+let youGet = require('./src/command/youGet');
 
 program
 	.command('crawler [zhihuId]')
@@ -53,12 +54,14 @@ program
 	.option('-d ,--description <description>', "🔙 输出位置")
 	.option('-l ,--length <length>', "🔙 进度条长度")
 	.option('-n ,--name <name>', "🔙 文件名")
+	.option('-h ,--hiden <hiden>', "🔙 完成后隐藏进度条信息")
 	.action((url, program) => {
 		let options = {
 			url: url || "leanreact",
 			out: program.out || process.cwd(),
 			length: parseInt(program.length) || 50,
 			name: typeof program.name == 'string' ? program.name : undefined,
+			hiden: program.hiden
 		}
 		download(options);
 	}).on('--help', () => {
@@ -67,6 +70,32 @@ program
 
     $ nodc download https://www.baidu.com
     $ nodc d https://www.baidu.com -o ~/
+		`);
+	});
+
+program
+	.command('you [url]')
+	.alias('y')
+	.description('🔄 you-get ⛎')
+	.option('-o ,--out <path>', "🔙 输出位置")
+	.option('-d ,--description <description>', "🔙 输出位置")
+	.option('-l ,--length <length>', "🔙 进度条长度")
+	.option('-n ,--name <name>', "🔙 文件名")
+	.action((url, program) => {
+		let options = {
+			url: url || "leanreact",
+			out: program.out || process.cwd(),
+			length: parseInt(program.length) || 50,
+			name: typeof program.name == 'string' ? program.name : undefined,
+		}
+		// download(options);
+		youGet(options);
+	}).on('--help', () => {
+		console.log(`
+  举个例子:
+
+    $ nodc you https://www.baidu.com
+    $ nodc y https://www.baidu.com -o ~/
 		`);
 	});
 

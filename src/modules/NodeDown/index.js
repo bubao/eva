@@ -18,9 +18,9 @@ class NodeDown {
 	 */
 	download(opts, callback) {
 		let read = 0;
-		let { name, url, localPath } = opts;
+		let { name, url, out, hiden } = opts;
 		let start = new Date().valueOf() / 1000, end = 0;
-		localPath = path.resolve(localPath || './');
+		out = path.resolve(out || './');
 		name = name || path.basename(url);
 
 		this.pb.description = `${name}\n${this.description}`;
@@ -33,17 +33,26 @@ class NodeDown {
 			}
 		}).on('data', (data) => {
 			read += data.length;
-			this.pb.render({ completed: read, total: this.response, time: { start: start }, status: { down: '正在下载...', end: '完成\n' } });
+			this.pb.render({
+				completed: read,
+				hiden,
+				total: this.response,
+				time: { start },
+				status: {
+					down: '正在下载...',
+					end: '完成\n'
+				}
+			});
 		}).on('error', (error) => {
 			callback(error);
 			throw error;
-		}).pipe(fs.createWriteStream(path.join(localPath, name))).on('close', () => {
+		}).pipe(fs.createWriteStream(path.join(out, name))).on('close', () => {
 			end = new Date().valueOf() / 1000;
 			callback = callback || Function();
 			let back = { start: start, end: end, elapsed: time(end - start) }
-			if (opts.end !== undefined) {
-				console.log('\n', time(end - start));
-			}
+			// if (end !== undefined) {
+			// 	console.log('\n', time(end - start));
+			// }
 			callback(back);
 		});
 	}

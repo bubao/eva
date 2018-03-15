@@ -2,11 +2,9 @@ const { fs, _, URL, URLSearchParams, path, slog, clicolor } = require('./commonM
 
 /**
  * mkdir
- * @param {string} name dir名
- * @param {string} localPath dir路径
+ * @param {string} filePath dir路径
  */
-function mkdir(name, localPath) {
-	let filePath = path.resolve(localPath, name);
+function mkdir(filePath) {
 	fs.exists(filePath, (exists) => {
 		if (exists) {
 			console.log(`⚓  ${name} 文件夹已经存在`);
@@ -37,13 +35,17 @@ let getURLParams = (params) => {
 	}
 }
 
+let parseURL = (url) => {
+	return new URL(url);
+}
+
 /**
  * 获取真实url
  * @param {string} url url
  * @param {object} params url参数object
  */
 let getTrueURL = (url, params) => {
-	url = new URL(url);
+	url = parseURL(url);
 	url.search = new URLSearchParams(getURLParams(params));
 	return url.toString();
 }
@@ -74,13 +76,13 @@ function byteSize(limit) {
 }
 
 /**
- * 
+ * 时间转化
  * @param {number} d date
  */
 function time(d) {
 	d = parseInt(d);
 	let s, m, h = 0;
-	let t = '321';
+	let t = '';
 	if (d < 60) {
 		s = d % 60;
 		t = s + '秒';
@@ -99,33 +101,38 @@ function time(d) {
 }
 
 /**
- * 
- * @param {number} n 
- * @param {number} c 
+ * 数字保留c位
+ * @param {number} n 数字
+ * @param {number} c 保留位,默认为两位
  */
 function _pad(n, c = 2) {
 	n = String(n)
 	while (n.length < c) {
-		n = '0' + n
+		n = '0' + n;
 	}
-	return n
+	return n;
 }
 
 
-
-function fileName(name) {
-	let matches = name.match(/\.([^.]+)$/);
-	let ext;
-	if (matches) {
-		ext = matches[1];
+/**
+ * 修改后缀名
+ * @param {string} name 需要修改后缀的文件名
+ * @param {string} ext 有后缀名的文件名
+ */
+function fileName(name, ext) {
+	let matches = ext.match(/\.([^.]+)$/);
+	if (matches !== null) {
+		ext = '.' + matches[matches.length - 1];
+	} else {
+		ext = '';
 	}
-	name = name.split('.').pop() + (ext ? ('.' + ext) : '');
-	return name
+	return name.split('.').pop() + ext;
 }
 module.exports = {
 	mkdir,
 	getURLParams,
 	getTrueURL,
+	parseURL,
 	byteSize,
 	fileName,
 	time,
