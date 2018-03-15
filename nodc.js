@@ -4,7 +4,8 @@ let program = require('commander');
 // require('shelljs/global');
 let zhihu = require("./src/command/zhihu/zhihuzhuanlan.js");
 let markdown = require("./src/command/build/markdown.js");
-let weather = require("./src/command/weather/weather.js")
+let weather = require("./src/command/weather/weather.js");
+let download = require('./src/command/download');
 
 program
 	.command('crawler [zhihuId]')
@@ -41,6 +42,33 @@ program
 
     $ nodc wt 广州
     $ nodc weather
+		`);
+	});
+
+program
+	.command('download [url]')
+	.alias('d')
+	.description('🔄 下载器 ⛎')
+	.option('-o ,--out <path>', "🔙 输出位置")
+	.option('-d ,--description <description>', "🔙 输出位置")
+	.option('-l ,--length <length>', "🔙 进度条长度")
+	.option('-n ,--name <name>', "🔙 输出位置")
+	.action((url, options) => {
+		url = url || "leanreact";
+		options.out = options.out || process.cwd(); //当前执行路径
+		options.length = parseInt(options.length) || 50;
+		if (options.name) {
+			console.log('🐛   下载 %s 到 %s ', options.name, path);
+		} else {
+			console.log('🐛   下载 %s 到 %s ', url, path);
+		}
+		download(url, options);
+	}).on('--help', () => {
+		console.log(`
+  举个例子:
+
+    $ nodc download https://www.baidu.com
+    $ nodc d https://www.baidu.com -o ~/
 		`);
 	});
 
