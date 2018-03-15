@@ -2,9 +2,9 @@
 
 let program = require('commander');
 // require('shelljs/global');
-let zhihu = require("./src/command/zhihu/zhihuzhuanlan.js");
-let markdown = require("./src/command/build/markdown.js");
-let weather = require("./src/command/weather/weather.js");
+let zhihu = require("./src/command/zhihuzhuanlan");
+let markdown = require("./src/command/build");
+let weather = require("./src/command/weather");
 let download = require('./src/command/download');
 
 program
