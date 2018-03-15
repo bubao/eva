@@ -1,10 +1,6 @@
-const fs = require('fs');
-const request = require('request');
-const _ = require('lodash');
-let path = require('path');
-let { JSDOM } = require('jsdom');
 let markdown = require('../build/markdown');
-const { URL, URLSearchParams } = require('url');
+const { path, _, request, fs, JSDOM } = require('../../tools/commonModules');
+const { mkdir, getTrueURL } = require('../../tools/utils');
 
 /**
  *  知乎专栏抓取器
@@ -12,7 +8,7 @@ const { URL, URLSearchParams } = require('url');
  * @param {string} localPath 下载路径
  * @param {string} format 格式，可省略
  */
-let zhihuzhuanlan = (zhihuzhuanlanId, localPath, format) => {
+function zhihuzhuanlan(zhihuzhuanlanId, localPath, format) {
 	this.format = format;
 	console.log(`-----🐛 ${zhihuzhuanlanId} start -----`);
 	mkdir(zhihuzhuanlanId, localPath);
@@ -32,26 +28,6 @@ let zhihuzhuanlan = (zhihuzhuanlanId, localPath, format) => {
 	});
 };
 
-/**
- * mkdir
- * @param {string} name dir名
- * @param {string} localPath dir路径
- */
-function mkdir(name, localPath) {
-	let filePath = path.resolve(localPath, name);
-	fs.exists(filePath, (exists) => {
-		if (exists) {
-			console.log(`⚓  ${name} 文件夹已经存在`);
-		} else {
-			fs.mkdir(filePath, (err) => {
-				if (err) {
-					console.error(err);
-				}
-				console.log(`🤖 创建 ${name}文件夹成功`);
-			});
-		}
-	});
-}
 
 /**
  * 第二层循环下载器
@@ -59,7 +35,7 @@ function mkdir(name, localPath) {
  * @param {string} zhihuzhuanlanId 知乎专栏的ID
  * @param {string} localPath 下载路径
  */
-let loopdown = (postsCount, zhihuzhuanlanId, localPath) => {
+function loopdown(postsCount, zhihuzhuanlanId, localPath) {
 	let posts = postsCount % 20;
 	let writeTimes = 0;
 	let times = (postsCount - posts) / 20;
@@ -80,31 +56,5 @@ let loopdown = (postsCount, zhihuzhuanlanId, localPath) => {
 		});
 	}
 };
-/**
- * 获取url的参数
- * @param {number} offset 
- * @param {number} limit 
- */
-let getURLParams = (params) => {
-	let { offset, limit, ...other } = params
-	limit = _.clamp(limit, 1, 20);
-	offset = offset * limit !== NaN ? offset * limit : undefined;
-	return {
-		limit: limit,
-		'amp;offset': offset,
-		...other
-	}
-}
-
-/**
- * 获取真实url
- * @param {string} url url
- * @param {object} params url参数object
- */
-let getTrueURL = (url, params) => {
-	url = new URL(url);
-	url.search = new URLSearchParams(getURLParams(params));
-	return url.toString();
-}
 
 module.exports = zhihuzhuanlan;

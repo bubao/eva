@@ -23,6 +23,7 @@
 		"lodash": "^4.17.4",
 		"lolcatjs": "^2.3.0",
 		"request": "^2.81.0",
-		"shelljs": "^0.7.8"
+		"shelljs": "^0.7.8",
+		"single-line-log": "^1.1.2"
 	}
 }
