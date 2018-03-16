@@ -6,19 +6,19 @@ const { time, byteSize } = require('../../tools/utils');
  * @param {string} description 命令行开头的文字信息
  * @param {number} bar_length 进度条的长度(单位：字符)，默认设为 25
  */
-function ProgressBar(description, bar_length) {
-	// 两个基本参数(属性)
-	this.description = description || 'Progress';    // 命令行开头的文字信息
-	this.length = bar_length || 25;           // 进度条的长度(单位：字符)，默认设为 25
-	this.description = clicolor.blue.bold(this.description);
-	// 刷新进度条图案、文字的方法
+class ProgressBar {
+	constructor(props) {
+		this.description = props.description || 'Progress';    // 命令行开头的文字信息
+		this.length = props.bar_length || 25;           // 进度条的长度(单位：字符)，默认设为 25
+		this.description = clicolor.blue.bold(this.description);
+	}
 
 	/**
 	 * @param {object} opts 
 	 * completed 已完成
 	 * total 全长
 	 */
-	this.render = function (opts) {
+	render(opts) {
 		let percent = (opts.completed / opts.total).toFixed(4);  // 计算进度(子任务的 完成数 除以 总数)
 		let cell_num = Math.floor(percent * this.length);       // 计算需要多少个 █ 符号来拼凑图案
 
@@ -49,4 +49,4 @@ function ProgressBar(description, bar_length) {
 	};
 }
 
-module.exports = ProgressBar
+module.exports = ProgressBar;

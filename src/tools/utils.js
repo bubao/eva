@@ -1,4 +1,4 @@
-const { fs, _, URL, URLSearchParams, path, slog, clicolor } = require('./commonModules');
+const { fs, _, URL, URLSearchParams, path, slog, clicolor, request } = require('./commonModules');
 
 /**
  * mkdir
@@ -128,6 +128,12 @@ function fileName(name, ext) {
 	}
 	return name.split('.').pop() + ext;
 }
+
+function getHTML(url, callback) {
+	request(url, (error, response, body) => {
+		callback({ error, response, body });
+	})
+}
 module.exports = {
 	mkdir,
 	getURLParams,
@@ -137,4 +143,5 @@ module.exports = {
 	fileName,
 	time,
 	_pad,
+	getHTML,
 }
