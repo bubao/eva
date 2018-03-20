@@ -51,7 +51,7 @@ program
 	.alias('d')
 	.description('🔄 下载器 ⛎')
 	.option('-o ,--out <path>', "🔙 输出位置")
-	.option('-d ,--description <description>', "🔙 输出位置")
+	.option('-d ,--description <description>', "🔙 头部信息")
 	.option('-l ,--length <length>', "🔙 进度条长度")
 	.option('-n ,--name <name>', "🔙 文件名")
 	.option('-h ,--hiden <hiden>', "🔙 完成后隐藏进度条信息")

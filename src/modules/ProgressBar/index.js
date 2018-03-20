@@ -14,9 +14,10 @@ class ProgressBar {
 	}
 
 	/**
+	 * @description 渲染进度条
+	 * @author bubao
 	 * @param {object} opts 
-	 * completed 已完成
-	 * total 全长
+	 * @memberof ProgressBar
 	 */
 	render(opts) {
 		let percent = (opts.completed / opts.total).toFixed(4);  // 计算进度(子任务的 完成数 除以 总数)
@@ -37,7 +38,7 @@ class ProgressBar {
 		cell = clicolor.green.bgBlack.bold(cell);
 		opts.completed = clicolor.yellow.bold(byteSize(opts.completed));
 		opts.total = clicolor.blue.bold(byteSize(opts.total));
-		this.status = (100 * percent).toFixed(2) == 100.00 ? opts.status.end : opts.status.down;
+		this.status = (100 * percent).toFixed(2) == 100.00 ? opts.status.end || '正在下载' : opts.status.down || '已完成';
 		// 拼接最终文本
 		let cmdText = this.description + ': ' + (100 * percent).toFixed(2) + '% ' + cell + empty + ' ' + opts.completed + '/' + opts.total + ' ' + time(new Date().valueOf() / 1000 - parseInt(opts.time.start)) + ' ' + this.status;
 
