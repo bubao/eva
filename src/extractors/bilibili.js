@@ -2,6 +2,7 @@
 
 let { getTrueURL } = require('../tools/utils');
 const { path, _, request, fs } = require('../tools/commonModules');
+var gunzip = require('gunzip-file');
 let { bilibili } = require('../config/api');
 let options = bilibili;
 /**
@@ -38,24 +39,25 @@ function Bilibili(uri) {
 	if (uri.indexOf("bangumi") > -1) {
 		options.Bangumi = true;
 	}
-	request(uri, {
+	request({
 		method: 'GET',
+		uri,
+		gzip: true,
 		headers: {
 			"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
 			"Accept-Charset": "UTF-8,*;q=0.5",
-			"Accept-Encoding": "gzip,deflate,sdch",
+
 			"Accept-Language": "en-US,en;q=0.8",
 			"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.146 Safari/537.36",
 		}
 	}, (error, response, body) => {
-		console.log(error)
-		fs.writeFileSync('./tes.json', JSON.stringify(body))
+
 		if (!config.Playlist) {
 			options.HTML = body;
 			let { data, err } = getMultiPageData(body);
 			if (err == undefined && !options.Bangumi) {
-				let pageString = `\?p=(\d+)`.exec(url);
-				console.log(pageString)
+				let pageString = /\?p=(\d+)/.exec(uri);
+
 				let p = 0;
 				if (pageString) {
 					p = 2;
@@ -63,10 +65,12 @@ function Bilibili(uri) {
 					p = 1;
 				}
 
+				fs.writeFileSync('./example.json', JSON.stringify(data))
 			}
 		}
 		if (options.Bangumi) {
-			let dataString = `window.__INITIAL_STATE__=(.+?);`.exec(body);
+			let dataString = /window.__INITIAL_STATE__=(.+?);/.exec(body);
+			console.log(dataString)
 		}
 	});
 
