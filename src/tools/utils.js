@@ -95,10 +95,13 @@ function time(d) {
 		m = (d - s) / 60;
 		t = _pad(m) + '分' + _pad(s) + '秒';
 	} else {
-		s = d % 60;
-		m = (d - s) / 60;
-		m = m >= 60 ? 0 : m;
-		h = (d - s - m * 60) / 60 / 60;
+		h = parseInt(d / 60 / 60);
+		m = parseInt((d - h * 60 * 60) / 60);
+		s = (d - h * 60 * 60 - m * 60);
+		// s = d % 60;
+		// m = (d - s) / 60;
+		// m = m >= 60 ? 0 : m;
+		// h = (d - s - m * 60) / 60 / 60;
 		t = _pad(h) + ':' + _pad(m) + ':' + _pad(s);
 	}
 	return t;
@@ -124,20 +127,20 @@ function _pad(n, c = 2) {
  * @param {string} ext 有后缀名的文件名
  */
 function fileName(name, ext) {
+	name = path.basename(name);
+	if (!ext) {
+		ext = _.cloneDeep(name);
+	}
 	let matches = ext.match(/\.([^.]+)$/);
 	if (matches !== null) {
 		ext = '.' + matches[matches.length - 1];
 	} else {
 		ext = '';
 	}
-	return name.split('.').pop() + ext;
+	return name.split('.').shift() + ext;
 }
 
-function getHTML(url, callback) {
-	request(url, (error, response, body) => {
-		callback({ error, response, body });
-	})
-}
+
 module.exports = {
 	mkdir,
 	getURLParams,
@@ -147,6 +150,5 @@ module.exports = {
 	fileName,
 	time,
 	_pad,
-	getHTML,
 	MD5,
 }
