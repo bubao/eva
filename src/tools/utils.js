@@ -1,4 +1,4 @@
-const { fs, _, URL, URLSearchParams, path, slog, clicolor, request } = require('./commonModules');
+const { fs, _, URL, URLSearchParams, path, slog, clicolor, request, crypto } = require('./commonModules');
 
 /**
  * mkdir
@@ -37,6 +37,10 @@ let getURLParams = (params) => {
 
 let parseURL = (url) => {
 	return new URL(url);
+}
+
+let MD5 = (str) => {
+	return crypto.createHash('md5').update(str, 'utf8').digest("hex");
 }
 
 /**
@@ -144,4 +148,5 @@ module.exports = {
 	time,
 	_pad,
 	getHTML,
+	MD5,
 }

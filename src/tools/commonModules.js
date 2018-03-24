@@ -3,6 +3,7 @@ const url = require('url');
 const _ = require('lodash');
 const path = require('path');
 const QUERY = require('./query');
+const crypto = require('crypto');
 const { JSDOM } = require('jsdom');
 const cheerio = require('cheerio');
 const request = require('request');
@@ -23,6 +24,7 @@ module.exports = {
 	QUERY,
 	cheerio,
 	Promise,
+	crypto,
 	request,
 	URLSearchParams,
 	slog,
