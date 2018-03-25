@@ -2,7 +2,6 @@
 
 let { parseURL, fileName, getTrueURL, MD5, byteSize, time } = require('../tools/utils');
 const { path, _, fs, JSDOM, cheerio } = require('../tools/commonModules');
-var gunzip = require('gunzip-file');
 let { bilibili } = require('../config/api');
 let ProgressBar = require('../modules/ProgressBar');
 let pb = new ProgressBar({ 'description': 'bilibili', bar_length: 50 });
