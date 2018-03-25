@@ -1,15 +1,11 @@
-const { path, _, request, fs, JSDOM } = require('../../tools/commonModules');
-const { getTrueURL, fileName, parseURL } = require('../../tools/utils');
-let NodeDown = require('../../modules/NodeDown');
+const Bilibili = require('../../extractors/bilibili')
+const path = require('path');
 
 function youGet(params) {
-	let { url, name, description, length } = params;
-
-	params.name = fileName(path.basename(name || parseURL(url).pathname), parseURL(url).pathname);
-	new NodeDown({
-		bar_length: length,
-		description
-	}).download(params);
+	let { url,out} = params;
+	if (url.indexOf('bilibili.com') > 0) {
+		Bilibili(url, path.resolve(out || './'));
+	}
 }
 
 module.exports = youGet;

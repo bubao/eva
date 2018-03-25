@@ -78,9 +78,9 @@ program
 	.alias('y')
 	.description('🔄 you-get ⛎')
 	.option('-o ,--out <path>', "🔙 输出位置")
-	.option('-d ,--description <description>', "🔙 输出位置")
-	.option('-l ,--length <length>', "🔙 进度条长度")
-	.option('-n ,--name <name>', "🔙 文件名")
+	// .option('-d ,--description <description>', "🔙 输出位置")
+	// .option('-l ,--length <length>', "🔙 进度条长度")
+	// .option('-n ,--name <name>', "🔙 文件名")
 	.action((url, program) => {
 		let options = {
 			url: url || "leanreact",

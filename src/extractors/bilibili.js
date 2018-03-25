@@ -12,6 +12,7 @@ let options = bilibili;
 let config = {
 	Playlist: false,
 }
+
 function getMultiPageData(html) {
 
 	let multiPageDataString = /window.__INITIAL_STATE__=(.+?);\(function/g.exec(html);
@@ -20,10 +21,15 @@ function getMultiPageData(html) {
 	}
 	return { data: multiPageDataString[0], err: null };
 }
+
 let progressBar = (res, pb) => {
 	pb.render(res);
 }
-
+/**
+ * bilibili视频下载器
+ * @param {string} uri bilibili网页uri 
+ * @param {string} dirname 下载位置
+ */
 async function Bilibili(uri, dirname) {
 	pb.description = "BILIBILI";
 	let { appKey, secKey } = options;
@@ -36,8 +42,7 @@ async function Bilibili(uri, dirname) {
 		gzip: true,
 		hiden: true,
 		headers: options.headers,
-	}, (res) => progressBar(res, pb));
-
+	}, (res) => { progressBar(res, pb) });
 	if (!config.Playlist) {
 		let $ = cheerio.load(body);
 		let { data, err } = getMultiPageData(body);
@@ -47,7 +52,6 @@ async function Bilibili(uri, dirname) {
 
 			let p = 0;
 			if (pageString) {
-
 				p = parseInt(pageString[0]);
 			} else {
 				p = 1;
@@ -58,12 +62,10 @@ async function Bilibili(uri, dirname) {
 			options.cid = page.cid;
 			options.subtitle = page.part;
 			options.title = _.trim($('#viewbox_report>h1').text()) + options.subtitle;
-
-			fs.writeFileSync('./example.json', data);
+			// fs.writeFileSync('./example.json', data);
 		}
-		console.log(uri)
-		// bilibiliDownload(uri, options);
-		return
+		await bilibiliDownload(uri, options);
+		return;
 	}
 
 	if (options.Bangumi) {
@@ -78,19 +80,38 @@ let bilibiliDownload = async (uri, options) => {
 	let { aid, cid, html } = options;
 	let api = await genAPI(aid, cid, options.Bangumi);
 
-	let res = await Get({ uri: api, read: 0, headers: options.headers }, (res) => { progressBar(res, pb) });
+	let res = await Get({
+		uri: api,
+		hiden: true,
+		read: 0,
+		headers: options.headers
+	}, (res) => {
+		progressBar(res, pb)
+	});
 	let apiData = JSON.parse(res.body);
+
 	apiData.name = [];
 	options.size = trueValue(apiData.durl, 'size');
+
 	let T = `Title :${options.title}
 format:${apiData.format}
 Size  :${byteSize(options.size)}
-Time  :${time(trueValue(apiData.durl, 'length') / 1000)}`
-	console.log(T);
+Time  :${time(trueValue(apiData.durl, 'length') / 1000)}`;
+	console.log(T);//打印文件信息。
 	options.read = 0;
-	downVideos(pb, apiData, options)
+	options.time = {
+		start: parseInt(new Date().valueOf() / 1000)
+	};
+	await downVideos(pb, apiData, options);
 }
 
+/**
+ * 用于叠加数组的值
+ * 
+ * @param {string} arr 数组 
+ * @param {string} v 属性名
+ * @returns number
+ */
 function trueValue(arr, v) {
 	if (v == undefined) {
 		throw Error('属性错误');
@@ -110,12 +131,13 @@ async function downVideos(pb, apiData, options) {
 	let c = await Get({
 		uri: item.url,
 		size: options.size,
+		time: { start: options.time.start },
 		read: options.read,
 		hiden: false,
 		// headers: options.headers,
 		pipe: { out: name },
 	}, (res) => {
-		progressBar(res, pb)
+		progressBar(res, pb);
 	})
 	if (apiData.durl.length) {
 		options.read = c.read;
@@ -127,12 +149,11 @@ async function downVideos(pb, apiData, options) {
 }
 
 function cut(arr, title, dirname) {
-	console.log(arr, title, dirname)
 	let name = arr.splice(0, 1);
 	let data = fs.readFileSync(name);
 	fs.appendFile(title, data, function (err) {
 		if (err) {
-			console.error(err)
+			console.error(err);
 		}
 		if (arr.length) {
 			cut(arr, title, dirname);
