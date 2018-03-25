@@ -9,22 +9,21 @@ class reqp {
 	async Get(options, callback) {
 		let { pipe, size, ...opts } = options;
 		let start = new Date().valueOf() / 1000;
-		let read = options.read || 0;
+		options.read = options.read || 0;
 		let response = 0;
 		return await new Promise(async (resolve) => {
 			let res = request(opts, (error, response, body) => {
-				resolve({ error, response, body })
+				resolve({ error, response, body, read: options.read })
 			}).on('response', (resp) => {
 				if (resp.headers['content-length'] || size) {
 					response = parseInt(resp.headers['content-length'] || size);
 				}
 
 			}).on('data', (data) => {
-				read += data.length;
-				console.log(read)
+				options.read += data.length;
 				callback({
-					completed: read,
-					total: response || read + 1,
+					completed: options.read,
+					total: options.read != undefined && options.size != undefined || response == undefined ? options.size : response,
 					time: { start },
 					status: {
 						down: '正在下载...',

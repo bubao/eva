@@ -62,7 +62,8 @@ async function Bilibili(uri, dirname) {
 
 			fs.writeFileSync('./example.json', data);
 		}
-		bilibiliDownload(uri, options);
+		console.log(uri)
+		// bilibiliDownload(uri, options);
 		return
 	}
 
@@ -74,12 +75,11 @@ async function Bilibili(uri, dirname) {
 
 let bilibiliDownload = async (uri, options) => {
 	pb.description = 'API';
-	options.read = 0;
 
 	let { aid, cid, html } = options;
 	let api = await genAPI(aid, cid, options.Bangumi);
 
-	let res = await Get({ uri: api }, (res) => { progressBar(res, pb) });
+	let res = await Get({ uri: api, read: 0, headers: options.headers }, (res) => { progressBar(res, pb) });
 	let apiData = JSON.parse(res.body);
 	apiData.name = [];
 	options.size = trueValue(apiData.durl, 'size');
@@ -88,6 +88,7 @@ format:${apiData.format}
 Size  :${byteSize(options.size)}
 Time  :${time(trueValue(apiData.durl, 'length') / 1000)}`
 	console.log(T);
+	options.read = 0;
 	downVideos(pb, apiData, options)
 }
 
@@ -105,21 +106,21 @@ function trueValue(arr, v) {
 async function downVideos(pb, apiData, options) {
 	let item = apiData.durl.splice(0, 1)[0]
 	pb.description = '进度';
-	console.log(apiData)
 	let name = path.join(options.dirname || './', fileName(item.url.replace(/\?.*/, "")));
 	apiData.name.push(name);
 	let c = await Get({
 		uri: item.url,
-		read: options.read,
 		size: options.size,
+		read: options.read,
 		hiden: false,
+		// headers: options.headers,
 		pipe: { out: name },
 	}, (res) => {
 		progressBar(res, pb)
 	})
-	console.log(c)
 	if (apiData.durl.length) {
-		await downVideos(pb, apiData, options);
+		options.read = c.read;
+		downVideos(pb, apiData, options);
 	} else {
 		// 	apiData.name = _.compact(apiData.name)
 		// 	// cut(apiData.name, path.join(options.dirname || './', fileName(options.title, apiData.name[0])), options.dirname || './');
