@@ -35,6 +35,8 @@ $ nodc wt [townName]
 $ nodc wt 
 ```
 
+更多使用方法请执行`$ nodc -h`看帮助。
+
 ## 已完成
 
 - [x] 知乎专栏爬虫
