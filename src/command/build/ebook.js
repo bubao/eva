@@ -10,13 +10,13 @@ let localImage = require('./localImage.js')
  * @param {object} ebookJson ebookJson数据
  */
 let ebook = (p, name, ebookJson) => {
-	exec(`cat ${p}/${name}md/* >> ${p}/${name}Ebook/${name}.md`, (err) => {
+	exec(`cat ${p}/${name}/* >> ${p}/${name}Ebook/${name}.md`, (err) => {
 		if (err) {
 			throw err;
 		}
 		localImage(p, name, `${p}/${name}Ebook/${name}.md`, () => {
-			let mdfile = fs.readdirSync(`${p}/${name}md`);
-			_.forEach(fs.readdirSync(`${p}/${name}md`), (item, index) => {
+			let mdfile = fs.readdirSync(`${p}/${name}`);
+			_.forEach(fs.readdirSync(`${p}/${name}`), (item, index) => {
 				ebookJson.content[index] = {
 					title: mdfile[index].replace(/\.md/, '').split(';')[1],
 					data: mdfile[index]

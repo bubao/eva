@@ -14,9 +14,7 @@ async function Post(postID, localPath, format) {
 	mkdir(path.resolve(localPath, postID), postID);
 	const url = `https://zhuanlan.zhihu.com/${postID}`;
 	let responent = await API.zhuanlanPosts(postID);
-
-	fs.writeFileSync('./sss.json', JSON.stringify(responent))
-
+	markdown(localPath, postID, responent, format);
 };
 
 module.exports = Post;
