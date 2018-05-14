@@ -1,89 +1,63 @@
-const fs = require('fs');
-const request = require('request');
-const cheerio = require('cheerio');
-const _ = require('lodash');
-let https = require("https");
-let EventProxy = require('eventproxy');
-
-let md = require('../build/md.js');
-let ep = new EventProxy();
+const { request, cheerio, fs } = require('../../tools/commonModules');
+const markdown = require('../build/markdown');
 
 /**
- * 知乎专栏抓取器
- * @param {string} zhihuId 知乎专栏的ID
- * @param {string} path 下载路径
+ * @description 知乎专栏
+ * @author bubao
+ * @param {string} postID 知乎专栏ID
+ * @param {string} path 下载地址
+ * @returns 
  */
-let zhihu = (zhihuId, path, format) => {
-	console.log(`-----🐛 ${zhihuId} start -----`);
-	fs.exists(`${path}/${zhihuId}`, (exists) => {
-		if (exists) {
-			console.log(`⚓  ${zhihuId} 文件夹已经存在`);
-		} else {
-			fs.mkdir(`${path}/${zhihuId}`, (err) => {
-				if (err) {
-					console.error(err);
-				}
-				console.log(`🤖 创建 ${zhihuId}文件夹成功`);
-			});
-		}
-	});
+async function Post(postID, path) {
+	console.log(`-----🐛 ${postID} start -----`);
 
-	const url = `https://zhuanlan.zhihu.com/${zhihuId}`;
-
-	download(url, (dd) => {
-		if (dd) {
-			let $ = cheerio.load(dd);
-			let postsCount = JSON.parse($("textarea#preloadedState").text().replace(/"updated":new Date\("/g, `"updated": "`).replace(/\.000Z"\),/g, `.000Z",`)).columns[`${zhihuId}`].postsCount;
-			// fs.writeFileSync('./json.json', $("textarea#preloadedState").text().replace(/"updated":new Date\("/g, `"updated": "`).replace(/\.000Z"\),/g, `.000Z",`))
-			loopdown(postsCount, zhihuId, path);
-		}
-	});
-	ep.all('got_file', () => md(path, zhihuId, format));
-};
-/**
- * 第一层下载器
- * @param {string} url 抓取的网页
- * @param {func} callback callback(data);
- */
-let download = (url, callback) => {
-	https.get(url, (res) => {
-		let dd = "";
-		res.on('data', (chunk) => {
-			dd += chunk;
+	if (fs.existsSync(`${path}/${postID}`)) {
+		console.log(`⚓  ${postID} 文件夹已经存在`);
+	} else {
+		fs.mkdir(`${path}/${postID}`, function (err) {
+			if (err)
+				console.error(err);
+			console.log(`🤖 创建 ${postID}文件夹成功`);
 		});
-		res.on("end", () => {
-			callback(dd);
-		});
-	}).on("error", () => {
-		callback(null);
-	});
-};
+	}
 
-/**
- * 第二层循环下载器
- * @param {number} postsCount 文章数量
- * @param {string} zhihuId 知乎专栏的ID
- * @param {string} path 下载路径
- */
-let loopdown = (postsCount, zhihuId, path) => {
+	const url = `https://zhuanlan.zhihu.com/${postID}`;
+
+	let responent = await request({ uri: url });
+	if (responent.error) {
+		return;
+	}
+	let data = responent.body;
+	let $ = cheerio.load(data);
+	let postsCount = JSON.parse($("textarea#preloadedState").text().replace(/"updated":new Date\("/g, `"updated": "`).replace(/\.000Z"\),/g, `.000Z",`)).columns[`${postID}`].postsCount
+	// fs.writeFileSync('./json.json', $("textarea#preloadedState").text().replace(/"updated":new Date\("/g, `"updated": "`).replace(/\.000Z"\),/g, `.000Z",`))
+
+	loopdown(postsCount, postID, path);
+}
+
+function loopdown(postsCount, postID, path) {
+	// body...
 	let posts = postsCount % 20;
 	let writeTimes = 0;
 	let times = (postsCount - posts) / 20;
 
 	for (let i = 0; i <= times; i++) {
-		let urlp = `https://zhuanlan.zhihu.com/api/columns/${zhihuId}/posts?limit=20&amp;offset=${i * 20}`;
-		let writeStream = fs.createWriteStream(`${path}/${zhihuId}/${i}.json`, {
+		let urlp = `https://zhuanlan.zhihu.com/api/columns/${postID}/posts?limit=20&amp;offset=${i * 20}`;
+		let writeStream = fs.createWriteStream(`${path}/${postID}/${i}.json`, {
 			autoClose: true
 		});
 		request(urlp).pipe(writeStream);
-		writeStream.on('finish', () => {
-			console.log(`📩  ${zhihuId}/${i}.json`);
+
+		writeStream.on('finish', function () {
+			console.log(`📩  ${postID}/${i}.json`)
+
 			if (writeTimes === times) {
-				ep.emit('got_file', times);
+				markdown(path, postID);
 			}
 			++writeTimes;
 		});
-	}
-};
 
-module.exports = zhihu;
+	}
+}
+
+module.exports = Post;

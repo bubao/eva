@@ -31,7 +31,9 @@ module.exports = {
 		voters: zhihu + '/answer/<%= answerId %>/voters_profile',
 	},
 	user: {
-		info: zhihu + '/node/MemberProfileCardV2',
+		// info: zhihu + '/node/MemberProfileCardV2',
+		info: zhihu + '/people/<%= qID %>/pins',
+		zhuanlansFocus: zhihu + '/api/v4/members/<%= qID %>/following-columns',
 	},
 	collection: {
 		// full url: http://www.zhihu.com/collection/25547043?page=1

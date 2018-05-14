@@ -1,7 +1,6 @@
-let iconv = require('iconv-lite');
-let http = require("http");
+let { request } = require("../../tools/commonModules");
 let Table = require('cli-table2');
-let _ = require('lodash');
+let findIndex = require('lodash/findIndex');
 let citycode = require("./sources/city.json");
 let weatherSign = require("./sources/weatherSign");
 
@@ -10,8 +9,8 @@ let weatherSign = require("./sources/weatherSign");
  * @param {*} sName 城市名
  * @param {*} program 是否带属性
  */
-let weather = (sName, program) => {
-	let index = _.findIndex(citycode, (o) => {
+const weather = (sName, program) => {
+	let index = findIndex(citycode, (o) => {
 		return o.townName === sName;
 	});
 	let url = `http://tj.nineton.cn/Heart/index/all?city=${citycode[index].townID}&language=zh-chs&unit=c&aqi=city&alarm=1&key=78928e706123c1a8f1766f062bc8676b`;
@@ -23,15 +22,19 @@ let weather = (sName, program) => {
  * @param {string} url weather 的访问网址
  * @param {object} program 是否带属性
  */
-let townWather = (url, program) => {
-	getdata(url, (data) => {
-		let da = JSON.parse(data);
-		let today = da.weather[0].today;
-		let now = da.weather[0].now;
-		let future = da.weather[0].future;
-		let last_update = da.weather[0].last_update.toLocaleString().replace(/T/, ' ⏲ ').replace("+08:00", "").replace(/^/, "🔠");
+const townWather = async (url, program) => {
+	let responent = await request({ uri: url });
+	if (responent.error) {
+		return;
+	}
+	let data = responent.body;
+	let da = JSON.parse(data);
+	let today = da.weather[0].today;
+	let now = da.weather[0].now;
+	let future = da.weather[0].future;
+	let last_update = da.weather[0].last_update.toLocaleString().replace(/T/, ' ⏲ ').replace("+08:00", "").replace(/^/, "🔠");
 
-		console.log(`
+	console.log(`
   📅${future[0].date} ${future[0].day}
   🐚${da.weather[0].city_name}:${weatherSign[da.weather[0].now.text] || "🔆"}
   🌅:${today.sunrise}    🌄:${today.sunset}
@@ -41,30 +44,6 @@ let townWather = (url, program) => {
   🌡:${now.temperature}°C    🍃:${future[0].wind}
 ${ program.detail && detailTable(future) || ""}
   最近更新时间： ${last_update}`);
-	});
-};
-
-/**
- * 获取数据
- * @param {string} url weather 的访问网址
- * @param {func} callback callback(data)
- */
-let getdata = (url, callback) => {
-	http.get(url, (res) => {
-		let arrBuf = [];
-		let bufLength = 0;
-		res.on("data", (chunk) => {
-			arrBuf.push(chunk);
-			bufLength += chunk.length;
-		}).on("end", () => {
-			// arrBuf是个存byte数据块的数组，byte数据块可以转为字符串，数组可不行
-			// bufferhelper也就是替你计算了bufLength而已 
-			let chunkAll = Buffer.concat(arrBuf, bufLength);
-			let strJson = iconv.decode(chunkAll, 'utf8'); // 汉字不乱码
-			let str = unescape(strJson.replace(/\\/g, "%").replace(/%\/%/g, "/%"));
-			callback(str);
-		});
-	});
 };
 
 /**
@@ -72,7 +51,7 @@ let getdata = (url, callback) => {
  * @param {object} future 爬取到的数据
  * @returns {string} 表格
  */
-let detailTable = (future) => {
+const detailTable = (future) => {
 	let table = new Table({
 		chars: {
 			'top': '═',
