@@ -3,14 +3,17 @@
 * @param {*} options 
 */
 
-const { _, request, cheerio, ep, url } = require('../config/commonModules.js');
+const { _, request, cheerio, url } = require('../config/commonModules.js');
+const fs = require('fs');
 
 let requestMethod = (options) => {
-	return request(options).then((c) => {
+	return req(options).then((c) => {
 		return JSON.parse(c.body);
 	});
 };
-
+async function req(options) {
+	return await request(options);
+}
 /**
 * 
 * @param {nubmer} count 总数
@@ -45,10 +48,11 @@ let cycleMethod = (cycle) => {
  */
 let loopMethod = (config, callback) => {
 	let { urlTemplate, ...options } = config.options;
-	requestMethod({
+	let opts = {
 		url: url.resolve(urlTemplate, `?limit=${config.cycle}&offset=${config.writeTimes * 20}`),
-		options
-	}).then(c => {
+		...options
+	}
+	requestMethod(opts).then(c => {
 		_.forEach(c, (item, index) => {
 			config.allObject[index + config.writeTimes * 20] = item;
 		});
@@ -60,9 +64,19 @@ let loopMethod = (config, callback) => {
 		}
 	})
 }
+
+function haveENV() {
+	return fs.existsSync('./config/env.json');
+}
+
+function getConfig() {
+	return haveENV() ? _.assign(require('./index.js'), require('./env.json')) : require('./index.js');
+}
 module.exports = {
 	loopMethod,
 	cycleMethod,
 	rateMethod,
-	requestMethod
+	requestMethod,
+	req,
+	getConfig
 }

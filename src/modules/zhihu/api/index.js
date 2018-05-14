@@ -6,18 +6,18 @@
  * @description
  *
  */
-let zhuanlan = require('./Post');
-let User = require('./User');
-let Collection = require('./Collection');
-let Topic = require('./Topic');
-let Answer = require('./Answer');
-let Question = require('./Question');
+const Post = require('./Post');
+const User = require('./User');
+const Collection = require('./Collection');
+const Topic = require('./Topic');
+const Answer = require('./Answer');
+const Question = require('./Question');
 
 module.exports = {
-  Post: zhuanlan,
-  User,
-  Topic,
-  Collection,
-  Answer,
-  Question
+	Post,
+	User,
+	Topic,
+	Collection,
+	Answer,
+	Question
 };

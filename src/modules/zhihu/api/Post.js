@@ -1,5 +1,12 @@
+/**
+ * 
+ * @author bubao
+ * @date  2018-5-13
+ * @description
+ *
+ */
 // const imgsrc = 'https://pic1.zhimg.com/';
-const { _, request, cheerio, ep, url } = require('../config/commonModules.js');
+const { _, request, cheerio, url } = require('../config/commonModules.js');
 const utils = require('../config/utils.js');
 let API = require('../config/api.js');
 
@@ -11,21 +18,21 @@ let API = require('../config/api.js');
  * @param {Function} infoMethod 传入方法
  */
 let universalMethod = (ID, API, countName, infoMethod) => {
-    let url = _.template(API)({ postID: ID, columnsID: ID });
-    let count = infoMethod(ID).then((c) => {
-        return c[countName];
-    });
-    return new Promise((resolve, reject) => {
-        count.then(res1 => {
-            utils.loopMethod(_.assign({
-                options: {
-                    urlTemplate: url,
-                }
-            }, utils.rateMethod(res1, 20)), function (res2) {
-                resolve(res2);
-            });
-        });
-    });
+	let url = _.template(API)({ postID: ID, columnsID: ID });
+	let count = infoMethod(ID).then((c) => {
+		return c[countName];
+	});
+	return new Promise((resolve, reject) => {
+		count.then(res1 => {
+			utils.loopMethod(_.assign({
+				options: {
+					urlTemplate: url,
+				}
+			}, utils.rateMethod(res1, 20)), function (res2) {
+				resolve(res2);
+			});
+		});
+	});
 
 };
 
@@ -33,14 +40,14 @@ let universalMethod = (ID, API, countName, infoMethod) => {
  * 知乎专栏信息
  * @param {string} columnsID //专栏ID
  */
-let zhuanlanInfo = (columnsID) => {
-    let urlTemplate = _.template(API.post.columns)({ columnsID });
-    let object = {};
-    object = {
-        url: urlTemplate,
-        gzip: true,
-    };
-    return utils.requestMethod(object);
+let zhuanlanInfo = async (columnsID) => {
+	let urlTemplate = _.template(API.post.columns)({ columnsID });
+	let object = {};
+	object = {
+		url: urlTemplate,
+		gzip: true,
+	};
+	return JSON.parse((await request(object)).body);
 }
 
 /**
@@ -48,28 +55,28 @@ let zhuanlanInfo = (columnsID) => {
  * @param {string} columnsID 专栏ID 
  */
 let followers = (columnsID) => {
-    return universalMethod(columnsID, API.post.followers, 'followersCount', zhuanlanInfo);
+	return universalMethod(columnsID, API.post.followers, 'followersCount', zhuanlanInfo);
 }
 /**
  * 专栏所有post
  * @param {string} columnsID 专栏ID
  */
 let zhuanlanPosts = (columnsID) => {
-    return universalMethod(columnsID, API.post.page, 'postsCount', zhuanlanInfo);
+	return universalMethod(columnsID, API.post.page, 'postsCount', zhuanlanInfo);
 };
 
 /**
  * 知乎专栏信息
  * @param {number} postID //postID
  */
-let postInfo = (postID) => {
-    let urlTemplate = _.template(API.post.info)({ postID });
-    let object = {};
-    object = {
-        url: urlTemplate,
-        gzip: true,
-    };
-    return utils.requestMethod(object);
+let postInfo = async (postID) => {
+	let urlTemplate = _.template(API.post.info)({ postID });
+	let object = {};
+	object = {
+		url: urlTemplate,
+		gzip: true,
+	};
+	return JSON.parse((await request(object)).body);
 }
 
 /**
@@ -77,11 +84,11 @@ let postInfo = (postID) => {
  * @param {number} postID //postID
  */
 let postLikers = (postID) => {
-    return new Promise((resolve, reject) => {
-        universalMethod(postID, API.post.likers, 'likesCount', postInfo).then(res => {
-            resolve(res);
-        });
-    });
+	return new Promise((resolve, reject) => {
+		universalMethod(postID, API.post.likers, 'likesCount', postInfo).then(res => {
+			resolve(res);
+		});
+	});
 }
 
 /**
@@ -90,24 +97,24 @@ let postLikers = (postID) => {
  * @param {number} count //comments总数
  */
 let postComments = (postID, count) => {
-    let url = _.template(API.post.comments)({ postID });
-    let object = {};
-    return new Promise((resolve, reject) => {
-        return utils.loopMethod(_.assign({
-            options: {
-                urlTemplate: url,
-            }
-        }, utils.rateMethod(count, 20)), (res => {
-            resolve(res);
-        }));
-    });
+	let url = _.template(API.post.comments)({ postID });
+	let object = {};
+	return new Promise((resolve, reject) => {
+		return utils.loopMethod(_.assign({
+			options: {
+				urlTemplate: url,
+			}
+		}, utils.rateMethod(count, 20)), (res => {
+			resolve(res);
+		}));
+	});
 }
 
 module.exports = {
-    zhuanlanInfo,
-    zhuanlanPosts,
-    followers,
-    postInfo,
-    postLikers,
-    postComments,
+	zhuanlanInfo,
+	zhuanlanPosts,
+	followers,
+	postInfo,
+	postLikers,
+	postComments,
 };
