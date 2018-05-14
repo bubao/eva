@@ -1,5 +1,5 @@
 let ProgressBar = require('../ProgressBar');
-const { path, _, request, fs } = require('../../tools/commonModules');
+const { path, _, request, fs,parseURL } = require('../../tools/commonModules');
 const { time } = require('../../tools/utils');
 
 class NodeDown {
@@ -21,7 +21,7 @@ class NodeDown {
 		let { name, url, out, hiden } = opts;
 		let start = new Date().valueOf() / 1000, end = 0;
 		out = path.resolve(out || './');
-		name = name || path.basename(url);
+		name = name || path.basename(parseURL(url).basename);
 
 		this.pb.description = `${name}\n${this.description}`;
 

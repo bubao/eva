@@ -1,4 +1,4 @@
-let { request, fs } = require('../tools/commonModules');
+let { _,request, fs } = require('../tools/commonModules');
 
 class reqp {
 	/**
@@ -33,17 +33,18 @@ class reqp {
 				read += data.length;
 
 				total = ((size != undefined || response == undefined) && size >= read) ? size : response || read + 1;
-
-				callback({
-					completed: read,
-					total,
-					hiden,
-					time: { start },
-					status: {
-						down: '正在下载...',
-						end: '完成\n'
-					}
-				});
+				if (_.isFunction(callback)) {
+					callback({
+						completed: read,
+						total,
+						hiden,
+						time: { start },
+						status: {
+							down: '正在下载...',
+							end: '完成\n'
+						}
+					});
+				}
 			});
 			//如果 pipe参数存在，则下载到指定路径
 			if (pipe) {

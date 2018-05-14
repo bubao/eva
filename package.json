@@ -23,6 +23,7 @@
 		"jsdom": "^11.6.2",
 		"lodash": "^4.17.4",
 		"lolcatjs": "^2.3.0",
+		"m3u8stream": "^0.2.2",
 		"nodemailer": "^4.6.3",
 		"nodemailer-markdown": "^1.0.2",
 		"request": "^2.81.0",

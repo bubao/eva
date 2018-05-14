@@ -35,6 +35,10 @@ let getURLParams = (params) => {
 	}
 }
 
+let defaultName = (url)=> {
+	return path.basename(parseURL(url).pathname);
+}
+
 let parseURL = (url) => {
 	return new URL(url);
 }
@@ -150,5 +154,7 @@ module.exports = {
 	fileName,
 	time,
 	_pad,
+	defaultName,
+	parseURL,
 	MD5,
 }
