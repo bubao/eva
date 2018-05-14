@@ -1,6 +1,6 @@
 let { request } = require("../../tools/commonModules");
 let Table = require('cli-table2');
-let findIndex = require('lodash/findIndex')
+let findIndex = require('lodash/findIndex');
 let citycode = require("./sources/city.json");
 let weatherSign = require("./sources/weatherSign");
 
@@ -23,7 +23,11 @@ const weather = (sName, program) => {
  * @param {object} program 是否带属性
  */
 const townWather = async (url, program) => {
-	let data = (await request({ uri: url })).body;
+	let responent = await request({ uri: url });
+	if (responent.error) {
+		return;
+	}
+	let data = responent.body;
 	let da = JSON.parse(data);
 	let today = da.weather[0].today;
 	let now = da.weather[0].now;
@@ -40,7 +44,6 @@ const townWather = async (url, program) => {
   🌡:${now.temperature}°C    🍃:${future[0].wind}
 ${ program.detail && detailTable(future) || ""}
   最近更新时间： ${last_update}`);
-
 };
 
 /**

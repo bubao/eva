@@ -4,19 +4,16 @@ const { fs, _, URL, URLSearchParams, path, slog, clicolor, request, crypto } = r
  * mkdir
  * @param {string} filePath dir路径
  */
-function mkdir(filePath) {
-	fs.exists(filePath, (exists) => {
-		if (exists) {
-			console.log(`⚓  ${name} 文件夹已经存在`);
-		} else {
-			fs.mkdir(filePath, (err) => {
-				if (err) {
-					console.error(err);
-				}
-				console.log(`🤖 创建 ${name}文件夹成功`);
-			});
-		}
-	});
+function mkdir(filePath, name) {
+	if (fs.existsSync(`${filePath}`)) {
+		console.log(`⚓  ${name} 文件夹已经存在`);
+	} else {
+		fs.mkdir(`${filePath}`, function (err) {
+			if (err)
+				console.error(err);
+			console.log(`🤖 创建 ${name}文件夹成功`);
+		});
+	}
 }
 
 /**

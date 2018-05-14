@@ -1,6 +1,6 @@
 const url = require('url');
 const cheerio = require('cheerio');
-const request = require('../module/request.js');
+const request = require('../../../tools/request.js');
 const _ = require('lodash');
 const QUERY = require('./query');
 
