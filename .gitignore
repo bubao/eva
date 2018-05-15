@@ -4,3 +4,5 @@ nopush
 .dist
 .vscode
 no.md
+*env.json
+package-lock.json

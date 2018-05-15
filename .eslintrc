@@ -1,0 +1,53 @@
+{
+	"extends": [
+		"airbnb",
+		"prettier"
+	],
+	"env": {
+		"browser": true,
+		"commonjs": true,
+		"es6": true
+	},
+	"plugins": [
+		"prettier"
+	],
+	"settings": {
+		"import/resolver": {
+			"webpack": {
+				"config": "_develop/webpack.config.js"
+			}
+		}
+	},
+	"rules": {
+		"arrow-body-style": [
+			"off"
+		],
+		"class-methods-use-this": [
+			"off"
+		],
+		"import/extensions": [
+			"off"
+		],
+		"import/no-extraneous-dependencies": [
+			"error",
+			{
+				"devDependencies": [
+					"_develop/*.js",
+					"test/**/*.js"
+				]
+			}
+		],
+		"no-param-reassign": [
+			"off"
+		],
+		"no-use-before-define": [
+			"error",
+			{
+				"functions": false
+			}
+		],
+		"import/named": [
+			"error"
+		]
+	}
+}

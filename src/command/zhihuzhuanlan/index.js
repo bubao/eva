@@ -1,5 +1,5 @@
-let markdown = require('../build/markdown');
-let API = require('../../modules/zhihu/api/Post')
+const markdown = require('../build/markdown');
+const API = require('../../modules/zhihu/api/Post');
 const { path, _, request, fs, cheerio } = require('../../tools/commonModules');
 const { mkdir } = require('../../tools/utils');
 /**
@@ -9,12 +9,10 @@ const { mkdir } = require('../../tools/utils');
  * @param {string} format 格式，可省略
  */
 async function Post(postID, localPath, format) {
-	this.format = format;
 	console.log(`-----🐛 ${postID} start -----`);
 	mkdir(path.resolve(localPath, postID), postID);
 	const url = `https://zhuanlan.zhihu.com/${postID}`;
-	let responent = await API.zhuanlanPosts(postID);
-	markdown(localPath, postID, responent, format);
+	markdown(localPath, postID, await API.zhuanlanPosts(postID), format);
 };
 
 module.exports = Post;

@@ -1,5 +1,5 @@
 const request = require('request');
-const _ = require('lodash');
+const isFunction = require('lodash/isFunction');
 const fs = require('fs');
 /**
  * @description async版 request 模块
@@ -19,26 +19,26 @@ const fs = require('fs');
   * @date 2018-5-12 20:38:12
  */
 async function Get(options, callback) {
-	let { pipe, hiden, time, size, readable, ...opts } = options;
-	let start = time != undefined ? time.start : new Date().valueOf() / 1000;
+	const { pipe, hiden, time, size, readable, ...opts } = options;
+	const start = time !== undefined ? time.start : new Date().valueOf() / 1000;
 	let read = options.read || 0;
 	let response = 0;
 	let total = 0;
-	return await new Promise((resolve) => {
-		let buffer = Buffer(0);
-		let res = request(opts, (error, response, body) => {
-			resolve({ error, response, body, read, bufferBody: buffer.toString("utf8") });
+	const value = await new Promise((resolve) => {
+		let buffer = Buffer.alloc(0);
+		const res = request(opts, (error, resp, body) => {
+			resolve({ error, resp, body, read, bufferBody: buffer.toString("utf8") });
 		}).on('response', (resp) => {
 			if (resp.headers['content-length'] || size) {
-				response = parseInt(resp.headers['content-length'] || size || 0);
+				response = parseInt(resp.headers['content-length'] || size || 0, 10);
 			}
 		}).on('data', (data) => {
 			read += data.length;
 			if (readable) {
 				buffer = Buffer.concat([buffer, data]);
 			}
-			total = ((size != undefined || response == undefined) && size >= read) ? size : response || read + 1;
-			if (_.isFunction(callback)) {
+			total = ((size !== undefined || response === undefined) && size >= read) ? size : response || read + 1;
+			if (isFunction(callback)) {
 				callback({
 					completed: read,
 					total,
@@ -51,11 +51,12 @@ async function Get(options, callback) {
 				});
 			}
 		});
-		//如果 pipe参数存在，则下载到指定路径
+		// 如果 pipe参数存在，则下载到指定路径
 		if (pipe) {
 			res.pipe(fs.createWriteStream(pipe.out || './'));
 		}
 	});
+	return value;
 }
 
 module.exports = Get;
