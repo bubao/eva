@@ -3,14 +3,9 @@
  * @description 
  * @date: 2018-03-14
  * @Last Modified by: bubao
- * @Last Modified time: 2018-05-15 19:10:06
+ * @Last Modified time: 2018-05-15 19:13:17
  */
-/*
- * @Author: bubao 
- * @Date: 2018-05-15 17:48:18 
- * @Last Modified by:   bubao 
- * @Last Modified time: 2018-05-15 17:48:18 
- */
+
 const { mkdir } = require('../../tools/utils');
 const { console, path } = require('../../tools/commonModules');
 const API = require('../../modules/zhihu/api/Post');
