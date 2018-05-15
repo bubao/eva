@@ -1,8 +1,14 @@
+/*
+ * @Author: bubao 
+ * @Date: 2018-05-15 17:47:55 
+ * @Last Modified by:   bubao 
+ * @Last Modified time: 2018-05-15 17:47:55 
+ */
 const Bilibili = require('../../extractors/bilibili')
 const path = require('path');
 
 function youGet(params) {
-	let { url,out} = params;
+	const { url, out } = params;
 	if (url.indexOf('bilibili.com') > 0) {
 		Bilibili(url, path.resolve(out || './'));
 	}

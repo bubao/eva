@@ -1,3 +1,9 @@
+/*
+ * @Author: bubao 
+ * @Date: 2018-05-15 17:47:32 
+ * @Last Modified by:   bubao 
+ * @Last Modified time: 2018-05-15 17:47:32 
+ */
 const { path } = require('../../tools/commonModules');
 const { fileName, defaultName } = require('../../tools/utils');
 const NodeDown = require('../../modules/NodeDown');

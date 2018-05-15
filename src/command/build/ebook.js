@@ -1,3 +1,9 @@
+/*
+ * @Author: bubao 
+ * @Date: 2018-05-15 17:46:52 
+ * @Last Modified by:   bubao 
+ * @Last Modified time: 2018-05-15 17:46:52 
+ */
 const { exec } = require('child_process');
 const fs = require('fs');
 const forEach = require('lodash/forEach');

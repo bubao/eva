@@ -1,3 +1,9 @@
+/*
+ * @Author: bubao 
+ * @Date: 2018-05-15 17:47:04 
+ * @Last Modified by:   bubao 
+ * @Last Modified time: 2018-05-15 17:47:04 
+ */
 const fs = require('fs');
 const h2m = require('h2m');
 const times = require('lodash/times');

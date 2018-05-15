@@ -1,3 +1,10 @@
+/*
+ * @Author: bubao 
+ * @Date: 2018-05-15 17:43:36 
+ * @Last Modified by: bubao
+ * @Last Modified time: 2018-05-15 17:46:24
+ */
+
 const fs = require('fs');
 const console = require('better-console');
 const url = require('url');
@@ -11,7 +18,6 @@ const slog = require('single-line-log').stdout;
 const clicolor = require('cli-color');
 
 module.exports = {
-	// _,
 	fs,
 	url,
 	console,

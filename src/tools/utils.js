@@ -1,3 +1,10 @@
+/*
+ * @Author: bubao 
+ * @Date: 2018-05-15 17:43:12 
+ * @Last Modified by: bubao
+ * @Last Modified time: 2018-05-15 17:46:36
+ */
+
 const clamp = require('lodash/clamp');
 const isNaN = require('lodash/isNaN');
 const cloneDeep = require('lodash/cloneDeep');

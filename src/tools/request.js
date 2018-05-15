@@ -1,3 +1,10 @@
+/*
+ * @Author: bubao 
+ * @Date: 2018-05-15 17:43:25 
+ * @Last Modified by: bubao
+ * @Last Modified time: 2018-05-15 17:46:31
+ */
+
 const request = require('request');
 const isFunction = require('lodash/isFunction');
 const fs = require('fs');

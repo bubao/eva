@@ -1,6 +1,10 @@
-/**
- * Created by suncg on 2016/12/26.
+/*
+ * @Author: suncg 
+ * @Date: 2018-05-15 2016/12/26 
+ * @Last Modified by: bubao
+ * @Last Modified time: 2018-05-15 17:45:48
  */
+
 // 全部接口的默认query集中管理，便于后期维护
 let query = {};
 query = {

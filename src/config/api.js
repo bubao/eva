@@ -1,4 +1,11 @@
-let api = {
+/*
+ * @Author: bubao 
+ * @Date: 2018-05-15 17:48:36 
+ * @Last Modified by:   bubao 
+ * @Last Modified time: 2018-05-15 17:48:36 
+ */
+let api = {};
+api = {
 	bilibili: {
 		BILIBILI_API: "https://interface.bilibili.com/v2/playurl?",
 		BILIBILI_BANGUMI_API: "https://bangumi.bilibili.com/player/web_api/v2/playurl?",

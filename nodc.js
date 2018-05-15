@@ -1,4 +1,11 @@
 #!/usr/bin/env node
+/*
+ * @Author: bubao 
+ * @Date: 2018-05-15 17:33:52 
+ * @Last Modified by: bubao
+ * @Last Modified time: 2018-05-15 17:42:48
+ */
+
 
 const program = require('commander');
 // require('shelljs/global');

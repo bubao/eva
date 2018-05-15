@@ -1,3 +1,9 @@
+/*
+ * @Author: bubao 
+ * @Date: 2018-05-15 17:46:57 
+ * @Last Modified by:   bubao 
+ * @Last Modified time: 2018-05-15 17:46:57 
+ */
 const fs = require('fs');
 const request = require("request");
 const slice = require("lodash/slice");
