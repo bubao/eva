@@ -8,9 +8,6 @@
 	"preferGlobal": true,
 	"author": "Bubao",
 	"license": "MIT",
-	"scripts": {
-		"lint": "eslint *.js"
-	},
 	"dependencies": {
 		"cheerio": "^1.0.0-rc.2",
 		"cli-color": "^1.2.0",

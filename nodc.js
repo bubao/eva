@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 
-let program = require('commander');
+const program = require('commander');
 // require('shelljs/global');
-let zhihu = require("./src/command/zhihuzhuanlan");
-let markdown = require("./src/command/build/markdown");
-let weather = require("./src/command/weather");
-let download = require('./src/command/download');
-let youGet = require('./src/command/youGet');
+const zhihu = require("./src/command/zhihuzhuanlan");
+const weather = require("./src/command/weather");
+const download = require('./src/command/download');
+const youGet = require('./src/command/youGet');
 
 program
 	.command('crawler [zhihuId]')
@@ -16,8 +15,8 @@ program
 	.option('-f ,--format <ebook>', "🔙 输出位置")
 	.action((zhihuId, options) => {
 		zhihuId = zhihuId || "leanreact";
-		let path = options.out || process.cwd(); //当前执行路径
-		let format = options.format || 'md';
+		const path = options.out || process.cwd(); // 当前执行路径
+		const format = options.format || 'md';
 		console.log('🐛   知乎专栏爬取 %s 到 %s 文件夹', zhihuId, path);
 		zhihu(zhihuId, path, format);
 	}).on('--help', () => {
@@ -34,9 +33,9 @@ program
 	.alias('wt')
 	.description('🔄 天气助手 ⛎')
 	.option('-d ,--detail', "🔙 详情")
-	.action((townName, program) => {
+	.action((townName, options) => {
 		townName = townName || "深圳";
-		weather(townName, program)
+		weather(townName, options);
 	}).on('--help', () => {
 		console.log(`
   举个例子:
@@ -55,15 +54,15 @@ program
 	.option('-l ,--length <length>', "🔙 进度条长度")
 	.option('-n ,--name <name>', "🔙 文件名")
 	.option('-h ,--hiden <hiden>', "🔙 完成后隐藏进度条信息")
-	.action((url, program) => {
-		let options = {
+	.action((url) => {
+		const opts = {
 			url: url || "leanreact",
 			out: program.out || process.cwd(),
-			length: parseInt(program.length) || 50,
-			name: typeof program.name == 'string' ? program.name : undefined,
+			length: parseInt(program.length, 10) || 50,
+			name: typeof program.name === 'string' ? program.name : undefined,
 			hiden: program.hiden
 		}
-		download(options);
+		download(opts);
 	}).on('--help', () => {
 		console.log(`
   举个例子:
@@ -81,15 +80,15 @@ program
 	// .option('-d ,--description <description>', "🔙 输出位置")
 	// .option('-l ,--length <length>', "🔙 进度条长度")
 	// .option('-n ,--name <name>', "🔙 文件名")
-	.action((url, program) => {
-		let options = {
+	.action((url, options) => {
+		const opts = {
 			url: url || "leanreact",
-			out: program.out || process.cwd(),
-			length: parseInt(program.length) || 50,
-			name: typeof program.name == 'string' ? program.name : undefined,
+			out: options.out || process.cwd(),
+			length: parseInt(options.length, 10) || 50,
+			name: typeof options.name === 'string' ? options.name : undefined,
 		}
 		// download(options);
-		youGet(options);
+		youGet(opts);
 	}).on('--help', () => {
 		console.log(`
   举个例子:

@@ -20,27 +20,27 @@ class ProgressBar {
 	 * @memberof ProgressBar
 	 */
 	render(opts) {
-		let percent = (opts.completed / opts.total).toFixed(4);  // 计算进度(子任务的 完成数 除以 总数)
-		let cell_num = Math.floor(percent * this.length);       // 计算需要多少个 █ 符号来拼凑图案
+		const percent = (opts.completed / opts.total).toFixed(4);  // 计算进度(子任务的 完成数 除以 总数)
+		const cellNum = Math.floor(percent * this.length);       // 计算需要多少个 █ 符号来拼凑图案
 
 		// 拼接黑色条
 		let cell = '';
-		for (let i = 0; i < cell_num; i++) {
+		for (let i = 0; i < cellNum; i += 1) {
 			cell += '█';
 		}
 
 		// 拼接灰色条
 		let empty = '';
-		for (let i = 0; i < this.length - cell_num; i++) {
+		for (let i = 0; i < this.length - cellNum; i += 1) {
 			empty += '░';
 		}
 
 		cell = clicolor.green.bgBlack.bold(cell);
 		opts.completed = clicolor.yellow.bold(byteSize(opts.completed));
 		opts.total = clicolor.blue.bold(byteSize(opts.total));
-		this.status = (100 * percent).toFixed(2) == 100.00 ? opts.status.end || '正在下载' : opts.status.down || '已完成';
+		this.status = (100 * percent).toFixed(2) === 100.00 ? opts.status.end || '正在下载' : opts.status.down || '已完成';
 		// 拼接最终文本
-		let cmdText = this.description + ': ' + (100 * percent).toFixed(2) + '% ' + cell + empty + ' ' + opts.completed + '/' + opts.total + ' ' + time(new Date().valueOf() / 1000 - parseInt(opts.time.start)) + ' ' + this.status;
+		const cmdText = `${this.description}:  ${(100 * percent).toFixed(2)}% ${cell} + ${empty} ${opts.completed}/${opts.total}  ${time(new Date().valueOf() / 1000 - parseInt(opts.time.start, 10))} ${this.status}`;
 
 		if ((100 * percent).toFixed(2) !== '100.00' || !opts.hiden) {
 			slog(cmdText);
