@@ -1,6 +1,5 @@
-# README
+# nodc
 
-## nodc
 
 nodc 是一个 node 脚本工具集，现在已经有把[知乎专栏爬虫](https://github.com/bubao/GetZhiHuZhuanLan)和中央天气预报加到里面，以后还会加入一些 node 小工具进去。同时欢迎各位喜欢这个项目，想 diy 自己的工具集的朋友参与进来。
 
