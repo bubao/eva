@@ -28,9 +28,14 @@ const markdown = (path, zhihuId, res, format) => {
 		times(src.length, (imageNum) => {
 			content = content.replace(src[imageNum], imageList[imageNum]);
 		});
+		const pattern = new RegExp("[`~!@#$^&'*()=|{}':;',\\[\\]<>/?~！@#￥……&*（）&mdash;—|{}【】‘；：”“'。，、？]");
+		let rs = '';
 		let { title } = jsonObj[i];
-		title = title.replace(/"/, '');
-
+		times(title.length, (k) => {
+			const rs2 = title.substr(k, 1).replace(/"/, ''); // 使用正则表达式单独去除双引号
+			rs += rs2.replace(pattern, '');
+		});
+		title = Buffer.from(rs);
 		content = content.replace(/!\[\]\(/g, imgsrc);
 
 		const time = `${jsonObj[i].publishedTime}`;
