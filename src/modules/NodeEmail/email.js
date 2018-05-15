@@ -1,3 +1,10 @@
+/**
+ * @author bubao 
+ * @description email
+ * @date: 2018-03-26
+ * @Last Modified by: bubao
+ * @Last Modified time: 2018-05-15 18:48:31
+ */
 const nodemailer = require('nodemailer');
 const { console } = require('../../tools/commonModules');
 const { markdown } = require('nodemailer-markdown');

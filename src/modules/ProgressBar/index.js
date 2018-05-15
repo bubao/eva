@@ -1,3 +1,10 @@
+/**
+ * @author bubao 
+ * @description ProgressBar 命令行进度条
+ * @date: 2018-03-15
+ * @Last Modified by: bubao
+ * @Last Modified time: 2018-05-15 18:46:06
+ */
 const { slog, clicolor } = require('../../tools/commonModules');
 const { time, byteSize } = require('../../tools/utils');
 

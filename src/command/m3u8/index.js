@@ -1,9 +1,11 @@
-/*
- * @Author: bubao 
- * @Date: 2018-05-15 17:47:39 
- * @Last Modified by:   bubao 
- * @Last Modified time: 2018-05-15 17:47:39 
+/**
+ * @author bubao 
+ * @description 
+ * @date: 2018-03-14
+ * @Last Modified by: bubao
+ * @Last Modified time: 2018-05-15 19:07:29
  */
+
 const { fileName, defaultName } = require('../../tools/utils');
 const { _, fs } = require('../../tools/commonModules');
 // let ProgressBar = require('../../modules/ProgressBar');

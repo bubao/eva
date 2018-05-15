@@ -1,3 +1,11 @@
+/**
+ * @author bubao 
+ * @description 
+ * @date: 2018-03-25
+ * @Last Modified by: bubao
+ * @Last Modified time: 2018-05-15 19:02:07
+ */
+
 function bilibili_stream_type(urls) {
 	let url = urls[0];
 	console.log(url)

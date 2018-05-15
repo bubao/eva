@@ -1,8 +1,9 @@
-/*
- * @Author: bubao 
- * @Date: 2018-05-15 17:43:36 
+/**
+ * @author bubao 
+ * @description 
+ * @date: 2018-03-15
  * @Last Modified by: bubao
- * @Last Modified time: 2018-05-15 17:46:24
+ * @Last Modified time: 2018-05-15 18:44:20
  */
 
 const fs = require('fs');

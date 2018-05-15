@@ -1,8 +1,9 @@
-/*
- * @Author: bubao 
- * @Date: 2018-05-15 17:43:25 
+/**
+ * @author bubao 
+ * @description 封装request
+ * @date: 2018-3-22
  * @Last Modified by: bubao
- * @Last Modified time: 2018-05-15 17:46:31
+ * @Last Modified time: 2018-05-15 18:42:13
  */
 
 const request = require('request');

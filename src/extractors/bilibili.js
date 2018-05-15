@@ -1,3 +1,10 @@
+/**
+ * @author bubao 
+ * @description 
+ * @date: 2018-03-15 19:02:28 6
+ * @Last Modified by: bubao
+ * @Last Modified time: 2018-05-15 19:03:34
+ */
 // https://interface.bilibili.com/playurl?cid=6689771&otype=&player=1&quality=2&ts=1521131667&sign=dde4c12bdb85dfeefbfdb1b215383488
 
 let { parseURL, fileName, getTrueURL, MD5, byteSize, time } = require('../tools/utils');

@@ -1,9 +1,11 @@
 #!/usr/bin/env node
-/*
- * @Author: bubao 
- * @Date: 2018-05-15 17:33:52 
+
+/**
+ * @author bubao 
+ * @description node脚本命令行工具
+ * @date: 2018-05-15 18:37:01 
  * @Last Modified by: bubao
- * @Last Modified time: 2018-05-15 17:42:48
+ * @Last Modified time: 2018-05-15 18:37:48
  */
 
 

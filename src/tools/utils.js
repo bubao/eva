@@ -1,8 +1,9 @@
-/*
- * @Author: bubao 
- * @Date: 2018-05-15 17:43:12 
+/**
+ * @author bubao 
+ * @description utils
+ * @date: 2018-3-15
  * @Last Modified by: bubao
- * @Last Modified time: 2018-05-15 17:46:36
+ * @Last Modified time: 2018-05-15 18:45:39
  */
 
 const clamp = require('lodash/clamp');

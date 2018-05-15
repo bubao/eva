@@ -1,3 +1,10 @@
+/**
+ * @author bubao 
+ * @description 
+ * @date: 2018-03-16
+ * @Last Modified by: bubao 
+ * @Last Modified time: 2018-05-15 19:00:53 
+ */
 const { path, _, request, fs } = require('../tools/commonModules');
 const { getHTML } = require('../tools/utils');
 /**

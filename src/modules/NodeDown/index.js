@@ -1,3 +1,10 @@
+/**
+ * @author bubao 
+ * @description 
+ * @date: 2018-03-15
+ * @Last Modified by: bubao
+ * @Last Modified time: 2018-05-15 19:03:20
+ */
 const ProgressBar = require('../ProgressBar');
 const isFunction = require('lodash/isFunction');
 const { path, request, fs, parseURL } = require('../../tools/commonModules');
