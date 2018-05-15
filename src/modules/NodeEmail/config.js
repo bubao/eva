@@ -1,3 +1,3 @@
-let env = require('./env.json');
+const env = require('./env.json');
 
 module.exports = env;

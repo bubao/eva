@@ -1,5 +1,6 @@
-let { Post } = require('../api');
-let fs = require('fs');
+const { Post } = require('../api');
+const fs = require('fs');
+const { console } = require('../../../tools/commonModules');
 
 Post.postComments(33056963, 20).then((res) => {
 	fs.writeFile('./postComments.json', JSON.stringify(res), () => { console.log("postComments"); });

@@ -4,9 +4,9 @@ const { _, fs } = require('../../tools/commonModules');
 // const pb = new ProgressBar({ 'description': 'm3u8', bar_length: 50 });
 const { Get } = require('../../tools/request');
 const m3u8stream = require('m3u8stream');
+const { console } = require('../../tools/commonModules');
 
 const match = /^((ht|f)tps?):\/\/[\w\-]+(\.[\w\-]+)+([\w\-\.,@?^=%&:\/~\+#]*[\w\-\@?^=%&\/~\+#])?$/g;
-
 
 const stream = (url, name) => {
 	name = name || fileName(defaultName(url), 'mp4');

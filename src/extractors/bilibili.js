@@ -1,7 +1,7 @@
 // https://interface.bilibili.com/playurl?cid=6689771&otype=&player=1&quality=2&ts=1521131667&sign=dde4c12bdb85dfeefbfdb1b215383488
 
 let { parseURL, fileName, getTrueURL, MD5, byteSize, time } = require('../tools/utils');
-const { path, _, fs, cheerio } = require('../tools/commonModules');
+const { path, _, fs, cheerio, console } = require('../tools/commonModules');
 let { bilibili } = require('../config/api');
 let ProgressBar = require('../modules/ProgressBar');
 let pb = new ProgressBar({ 'description': 'bilibili', bar_length: 50 });

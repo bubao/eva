@@ -2,6 +2,7 @@ const fs = require('fs');
 const request = require("request");
 const slice = require("lodash/slice");
 const path = require('path');
+const { console } = require('../../tools/commonModules');
 
 /**
  * 

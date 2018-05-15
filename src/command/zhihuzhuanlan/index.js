@@ -1,5 +1,5 @@
 const { mkdir } = require('../../tools/utils');
-const { path } = require('../../tools/commonModules');
+const { console, path } = require('../../tools/commonModules');
 const API = require('../../modules/zhihu/api/Post');
 const markdown = require('../build/markdown');
 

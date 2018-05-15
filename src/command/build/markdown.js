@@ -2,6 +2,7 @@ const fs = require('fs');
 const h2m = require('h2m');
 const times = require('lodash/times');
 const compact = require('lodash/compact');
+const { console } = require('../../tools/commonModules')
 const ebook = require('./ebook.js');
 
 const imgsrc = '![](https://pic1.zhimg.com/';
@@ -15,39 +16,31 @@ const imgsrc = '![](https://pic1.zhimg.com/';
 const markdown = (path, zhihuId, res, format) => {
 	const jsonObj = res;
 	times(Object.getOwnPropertyNames(jsonObj).length, (i) => {
-		let answer = h2m(jsonObj[i].content);
+		let content = h2m(jsonObj[i].content);
 		const reg = /<noscript>.*?<\/noscript>/g;
 		const reg2 = /src="(.*?)"/;
-		let src = answer.match(reg);
+		let src = content.match(reg);
 		const imageList = [];
 		src = compact(src); // 使用lodash ，即便是src为null也能够转为空的数组
 		times(src.length, (imageNum) => {
 			imageList.push(`![](${src[imageNum].match(reg2)[1]})`);
 		});
 		times(src.length, (imageNum) => {
-			answer = answer.replace(src[imageNum], imageList[imageNum]);
+			content = content.replace(src[imageNum], imageList[imageNum]);
 		});
 		let { title } = jsonObj[i];
-		const pattern = new RegExp("[`~!@#$^&'*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）&mdash;—|{}【】‘；：”“'。，、？]");
-		let rs = '';
-		times(title.length, (k) => {
-			const rs2 = title.substr(k, 1).replace(/"/, ''); // 使用正则表达式单独去除双引号
-			rs += rs2.replace(pattern, '');
-		});
-		answer = answer.replace(/!\[\]\(/g, imgsrc);
-		title = Buffer.from(rs);
+		title = title.replace(/"/, '');
 
-		answer = Buffer.from(answer);
+		content = content.replace(/!\[\]\(/g, imgsrc);
 
 		const time = `${jsonObj[i].publishedTime}`;
 		const T = time.replace("T", ",").replace("+08:00", "");
 		const Ti = T.split(',')[0];
 
 		const postId = jsonObj[i].url;
-		let copyRight = `\n\n知乎原文: [${title}](https://zhuanlan.zhihu.com${postId})\n\n\n`;
-		let header = `# ${title}\n\ndate: ${T.replace(",", " ")} \n\n\n`;
-		header = Buffer.from(header);
-		copyRight = Buffer.from(copyRight);
+		const copyRight = `\n\n知乎原文: [${title}](https://zhuanlan.zhihu.com${postId})\n\n\n`;
+		const header = `# ${title}\n\ndate: ${T.replace(",", " ")} \n\n\n`;
+
 		if (!fs.existsSync(`${path}/${zhihuId}`)) {
 			fs.mkdirSync(`${path}/${zhihuId}`);
 		}
@@ -57,7 +50,7 @@ const markdown = (path, zhihuId, res, format) => {
 			console.log(`❌ ${Ti};${title}.md`);
 		});
 
-		fs.appendFile(`${path}/${zhihuId}/${Ti};${title}.md`, answer + copyRight, 'utf8', (err) => {
+		fs.appendFile(`${path}/${zhihuId}/${Ti};${title}.md`, content + copyRight, 'utf8', (err) => {
 			if (err) throw err;
 			console.log(`🍅  ${Ti};${title}.md`);
 			if (i === jsonObj.length - 1 && format === "ebook") {

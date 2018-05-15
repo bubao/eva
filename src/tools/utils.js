@@ -1,7 +1,7 @@
 const clamp = require('lodash/clamp');
 const isNaN = require('lodash/isNaN');
 const cloneDeep = require('lodash/cloneDeep');
-
+const { console } = require('./commonModules');
 const { fs, URL, URLSearchParams, path, crypto } = require('./commonModules');
 
 /**

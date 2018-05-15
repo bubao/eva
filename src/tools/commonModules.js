@@ -1,6 +1,6 @@
 const fs = require('fs');
+const console = require('better-console');
 const url = require('url');
-const _ = require('lodash');
 const path = require('path');
 const QUERY = require('./query');
 const crypto = require('crypto');
@@ -11,9 +11,10 @@ const slog = require('single-line-log').stdout;
 const clicolor = require('cli-color');
 
 module.exports = {
-	_,
+	// _,
 	fs,
 	url,
+	console,
 	URL,
 	path,
 	QUERY,

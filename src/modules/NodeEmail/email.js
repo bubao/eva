@@ -1,15 +1,14 @@
-'use strict';
-
-let nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer');
+const { console } = require('../../tools/commonModules');
+const { markdown } = require('nodemailer-markdown');
 
 async function email(createTransport, mailOptions) {
-	let transporter = nodemailer.createTransport(createTransport);
+	const transporter = nodemailer.createTransport(createTransport);
 	if (mailOptions.markdown.length) {
-		let markdown = require('nodemailer-markdown').markdown;
 		transporter.use('compile', markdown());
 	}
 
-	return await new Promise((resolve, reject) => {
+	const value = await new Promise((resolve, reject) => {
 		console.log(mailOptions)
 		transporter.sendMail(mailOptions, (error, info) => {
 			if (error) {
@@ -18,5 +17,6 @@ async function email(createTransport, mailOptions) {
 			resolve(info);
 		});
 	});
+	return value;
 }
 module.exports = email;

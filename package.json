@@ -9,6 +9,7 @@
 	"author": "Bubao",
 	"license": "MIT",
 	"dependencies": {
+		"better-console": "^1.0.1",
 		"cheerio": "^1.0.0-rc.2",
 		"cli-color": "^1.2.0",
 		"cli-table2": "^0.2.0",
@@ -16,6 +17,7 @@
 		"figlet": "^1.2.0",
 		"h2m": "^0.6.0",
 		"lodash": "^4.17.10",
+		"log-update": "^2.3.0",
 		"m3u8stream": "^0.2.2",
 		"nodemailer": "^4.6.4",
 		"nodemailer-markdown": "^1.0.2",

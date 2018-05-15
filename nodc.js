@@ -6,6 +6,7 @@ const zhihu = require("./src/command/zhihuzhuanlan");
 const weather = require("./src/command/weather");
 const download = require('./src/command/download');
 const youGet = require('./src/command/youGet');
+const { console } = require('./src/tools/commonModules')
 
 program
 	.command('crawler [zhihuId]')

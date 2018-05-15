@@ -1,7 +1,7 @@
 const { exec } = require('child_process');
 const fs = require('fs');
-const _ = require('lodash');
-const localImage = require('./localImage.js')
+const forEach = require('lodash/forEach');
+const localImage = require('./localImage.js');
 
 /**
  * 
@@ -16,7 +16,7 @@ const ebook = (p, name, ebookJson) => {
 		}
 		localImage(p, name, `${p}/${name}Ebook/${name}.md`, () => {
 			const mdfile = fs.readdirSync(`${p}/${name}`);
-			_.forEach(fs.readdirSync(`${p}/${name}`), (item, index) => {
+			forEach(fs.readdirSync(`${p}/${name}`), (item, index) => {
 				ebookJson.content[index] = {
 					title: mdfile[index].replace(/\.md/, '').split(';')[1],
 					data: mdfile[index]
