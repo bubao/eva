@@ -9,12 +9,7 @@
 	"author": "Bubao",
 	"license": "MIT",
 	"scripts": {
-		"lint": "eslint *.js",
-		"format": "prettier-eslint --write *.js"
-	},
-	"prettier": {
-		"singleQuote": true,
-		"trailingComma": "all"
+		"lint": "eslint *.js"
 	},
 	"dependencies": {
 		"cheerio": "^1.0.0-rc.2",
@@ -31,7 +26,25 @@
 		"shelljs": "^0.8.2",
 		"single-line-log": "^1.1.2"
 	},
+	"prettier": {
+		"semi": true,
+		"singleQuote": true,
+		"trailingComma": "all",
+		"bracketSpacing": true,
+		"jsxBracketSameLine": false,
+		"arrowParens": "avoid",
+		"requirePragma": false,
+		"proseWrap": "preserve"
+	},
 	"devDependencies": {
-		"prettier-eslint": "^8.8.1"
+		"eslint": "^4.17.0",
+		"eslint-config-airbnb": "^16.1.0",
+		"eslint-config-prettier": "^2.9.0",
+		"eslint-import-resolver-webpack": "~0.8.4",
+		"eslint-plugin-import": "^2.9.0",
+		"eslint-plugin-jsx-a11y": "^6.0.3",
+		"eslint-plugin-prettier": "^2.6.0",
+		"eslint-plugin-react": "^7.6.1",
+		"prettier": "^1.10.2"
 	}
 }
