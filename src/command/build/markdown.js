@@ -35,9 +35,9 @@ const markdown = (path, zhihuId, res, format) => {
 			rs += rs2.replace(pattern, '');
 		});
 		answer = answer.replace(/!\[\]\(/g, imgsrc);
-		title = Buffer.alloc(rs);
+		title = Buffer.from(rs);
 
-		answer = Buffer.alloc(answer);
+		answer = Buffer.from(answer);
 
 		const time = `${jsonObj[i].publishedTime}`;
 		const T = time.replace("T", ",").replace("+08:00", "");
@@ -46,8 +46,8 @@ const markdown = (path, zhihuId, res, format) => {
 		const postId = jsonObj[i].url;
 		let copyRight = `\n\n知乎原文: [${title}](https://zhuanlan.zhihu.com${postId})\n\n\n`;
 		let header = `# ${title}\n\ndate: ${T.replace(",", " ")} \n\n\n`;
-		header = Buffer.alloc(header);
-		copyRight = Buffer.alloc(copyRight);
+		header = Buffer.from(header);
+		copyRight = Buffer.from(copyRight);
 		if (!fs.existsSync(`${path}/${zhihuId}`)) {
 			fs.mkdirSync(`${path}/${zhihuId}`);
 		}
