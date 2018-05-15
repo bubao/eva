@@ -1,7 +1,8 @@
-const markdown = require('../build/markdown');
-const API = require('../../modules/zhihu/api/Post');
-const { path, _, request, fs, cheerio } = require('../../tools/commonModules');
 const { mkdir } = require('../../tools/utils');
+const { path } = require('../../tools/commonModules');
+const API = require('../../modules/zhihu/api/Post');
+const markdown = require('../build/markdown');
+
 /**
  *  知乎专栏抓取器
  * @param {string} postID 知乎专栏的ID
@@ -11,7 +12,6 @@ const { mkdir } = require('../../tools/utils');
 async function Post(postID, localPath, format) {
 	console.log(`-----🐛 ${postID} start -----`);
 	mkdir(path.resolve(localPath, postID), postID);
-	const url = `https://zhuanlan.zhihu.com/${postID}`;
 	markdown(localPath, postID, await API.zhuanlanPosts(postID), format);
 };
 

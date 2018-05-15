@@ -1,24 +1,24 @@
-let { parseURL, fileName, getTrueURL, MD5, byteSize, time, defaultName } = require('../../tools/utils');
-const { path, _, fs, cheerio } = require('../../tools/commonModules');
-let ProgressBar = require('../../modules/ProgressBar');
-let pb = new ProgressBar({ 'description': 'm3u8', bar_length: 50 });
-let { Get } = require('../../tools/request');
+const { fileName, defaultName } = require('../../tools/utils');
+const { _, fs } = require('../../tools/commonModules');
+// let ProgressBar = require('../../modules/ProgressBar');
+// const pb = new ProgressBar({ 'description': 'm3u8', bar_length: 50 });
+const { Get } = require('../../tools/request');
+const m3u8stream = require('m3u8stream');
 
-var match = /^((ht|f)tps?):\/\/[\w\-]+(\.[\w\-]+)+([\w\-\.,@?^=%&:\/~\+#]*[\w\-\@?^=%&\/~\+#])?$/g;
+const match = /^((ht|f)tps?):\/\/[\w\-]+(\.[\w\-]+)+([\w\-\.,@?^=%&:\/~\+#]*[\w\-\@?^=%&\/~\+#])?$/g;
 
-module.exports = async (uri, name) => {
-	let cons = await Get({ uri });
-	console.log(cons)
-	Mu3(cons, name);
+
+const stream = (url, name) => {
+	name = name || fileName(defaultName(url), 'mp4');
+	m3u8stream(url)
+		.pipe(fs.createWriteStream(name));
 }
 
-let Mu3 = (url, name) => {
-	urls = match.exec(url);
+const Mu3 = (url, name) => {
+	const urls = match.exec(url);
 	name = name || defaultName(url);
-	console.log('urls', urls)
-	console.log('name', name)
 	if (urls.length) {
-		_.foreach(urls, (item, index) => {
+		_.foreach(urls, (item) => {
 			if (item.indexOf('.m3u8') > 0) {
 				stream(item, name);
 			} else {
@@ -30,8 +30,8 @@ let Mu3 = (url, name) => {
 	}
 
 }
-let stream = (url, name) => {
-	name = name || fileName(defaultName(url), 'mp4');
-	m3u8stream(url)
-		.pipe(fs.createWriteStream(name));
+
+module.exports = async (uri, name) => {
+	const cons = await Get({ uri });
+	Mu3(cons, name);
 }

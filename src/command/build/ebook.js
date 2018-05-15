@@ -1,7 +1,7 @@
-let { exec } = require('child_process');
-let fs = require('fs');
-let _ = require('lodash');
-let localImage = require('./localImage.js')
+const { exec } = require('child_process');
+const fs = require('fs');
+const _ = require('lodash');
+const localImage = require('./localImage.js')
 
 /**
  * 
@@ -9,13 +9,13 @@ let localImage = require('./localImage.js')
  * @param {string} name 下载路径的文件夹名
  * @param {object} ebookJson ebookJson数据
  */
-let ebook = (p, name, ebookJson) => {
+const ebook = (p, name, ebookJson) => {
 	exec(`cat ${p}/${name}/* >> ${p}/${name}Ebook/${name}.md`, (err) => {
 		if (err) {
 			throw err;
 		}
 		localImage(p, name, `${p}/${name}Ebook/${name}.md`, () => {
-			let mdfile = fs.readdirSync(`${p}/${name}`);
+			const mdfile = fs.readdirSync(`${p}/${name}`);
 			_.forEach(fs.readdirSync(`${p}/${name}`), (item, index) => {
 				ebookJson.content[index] = {
 					title: mdfile[index].replace(/\.md/, '').split(';')[1],

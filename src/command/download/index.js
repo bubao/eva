@@ -1,9 +1,10 @@
-const { path, _, request, fs } = require('../../tools/commonModules');
-const { getTrueURL, fileName, defaultName } = require('../../tools/utils');
-let NodeDown = require('../../modules/NodeDown');
+const { path } = require('../../tools/commonModules');
+const { fileName, defaultName } = require('../../tools/utils');
+const NodeDown = require('../../modules/NodeDown');
 
 function download(params) {
-	let { url, name, description, length, out, hiden } = params;
+	let { name } = params;
+	const { url, description, length, out, hiden } = params;
 	name = fileName(path.basename(name || url), defaultName(url));
 	new NodeDown({
 		bar_length: length,

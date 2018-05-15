@@ -1,9 +1,9 @@
 /**
  * Created by suncg on 2016/12/26.
  */
-//全部接口的默认query集中管理，便于后期维护
-
-let query = {
+// 全部接口的默认query集中管理，便于后期维护
+let query = {};
+query = {
 	zhuanlan: {
 		comments: {
 			limit: 10,

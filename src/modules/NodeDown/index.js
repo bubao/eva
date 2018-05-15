@@ -1,5 +1,6 @@
-let ProgressBar = require('../ProgressBar');
-const { path, _, request, fs,parseURL } = require('../../tools/commonModules');
+const ProgressBar = require('../ProgressBar');
+const isFunction = require('lodash/isFunction');
+const { path, request, fs, parseURL } = require('../../tools/commonModules');
 const { time } = require('../../tools/utils');
 
 class NodeDown {
@@ -18,8 +19,10 @@ class NodeDown {
 	 */
 	download(opts, callback) {
 		let read = 0;
-		let { name, url, out, hiden } = opts;
-		let start = new Date().valueOf() / 1000, end = 0;
+		let { name, out } = opts;
+		const { url, hiden } = opts;
+		const start = new Date().valueOf() / 1000;
+		let end = 0;
 		out = path.resolve(out || './');
 		name = name || path.basename(parseURL(url).basename);
 
@@ -27,7 +30,7 @@ class NodeDown {
 
 		request.get(url).on('response', (response) => {
 			if (response.headers['content-length']) {
-				this.response = parseInt(response.headers['content-length']);
+				this.response = parseInt(response.headers['content-length'], 10);
 			} else {
 				throw new Error('It is nothing to download!!!')
 			}
@@ -44,16 +47,16 @@ class NodeDown {
 				}
 			});
 		}).on('error', (error) => {
-			callback(error);
+			if (isFunction(callback)) {
+				callback(error);
+			}
 			throw error;
 		}).pipe(fs.createWriteStream(path.join(out, name))).on('close', () => {
 			end = new Date().valueOf() / 1000;
-			callback = callback || Function();
-			let back = { start: start, end: end, elapsed: time(end - start) }
-			// if (end !== undefined) {
-			// 	console.log('\n', time(end - start));
-			// }
-			callback(back);
+			if (isFunction(callback)) {
+				const back = { start, end, elapsed: time(end - start) }
+				callback(back);
+			}
 		});
 	}
 }
