@@ -3,7 +3,7 @@
  * @description 
  * @date: 2018-01-23
  * @Last Modified by: bubao
- * @Last Modified time: 2018-05-16 18:04:41
+ * @Last Modified time: 2018-05-16 18:12:23
  */
 
 const fs = require('fs');
@@ -82,13 +82,13 @@ const replaceTime = (time) => {
 
 /**
  * 知乎专栏HTML2MD
- * markdown(path, zhihuId, res[, format])
+ * markdown(path, postId, res[, format])
  * @param {string} path 下载地址
- * @param {string} zhihuId 知乎专栏ID
+ * @param {string} postId 知乎专栏ID
  * @param {string} zhihuJson 知乎专栏的内容
  * @param {string} format 指定为ebook，或者留空，还未完善
  */
-const markdown = (path, zhihuId, zhihuJson, format) => {
+const markdown = (path, postId, zhihuJson, format) => {
 	times(Object.getOwnPropertyNames(zhihuJson).length, (i) => {
 		zhihuJson[i].content = replaceContent(zhihuJson[i].content);
 		let content = Turndown.turndown(zhihuJson[i].content);
@@ -100,26 +100,26 @@ const markdown = (path, zhihuId, zhihuJson, format) => {
 		const T = replaceTime(time);
 		const Ti = T.split(',')[0];
 
-		const postId = zhihuJson[i].url;
-		const copyRight = `\n\n知乎原文: [${title}](https://zhuanlan.zhihu.com${postId})\n\n\n`;
+		const postUrl = zhihuJson[i].url;
+		const copyRight = `\n\n知乎原文: [${title}](https://zhuanlan.zhihu.com${postUrl})\n\n\n`;
 		const header = `# ${title}\n\ndate: ${T.replace(",", " ")} \n\n\n`;
 
-		if (!fs.existsSync(`${path}/${zhihuId}`)) {
-			fs.mkdirSync(`${path}/${zhihuId}`);
+		if (!fs.existsSync(`${path}/${postId}`)) {
+			fs.mkdirSync(`${path}/${postId}`);
 		}
 		// 如果没有指定目录，创建之
-		fs.writeFileSync(`${path}/${zhihuId}/${Ti};${title}.md`, header, 'utf8', (err) => {
+		fs.writeFileSync(`${path}/${postId}/${Ti};${title}.md`, header, 'utf8', (err) => {
 			if (err) throw err;
 			console.log(`❌ ${Ti};${title}.md`);
 		});
 
-		fs.appendFile(`${path}/${zhihuId}/${Ti};${title}.md`, content + copyRight, 'utf8', (err) => {
+		fs.appendFile(`${path}/${postId}/${Ti};${title}.md`, content + copyRight, 'utf8', (err) => {
 			if (err) throw err;
 			console.log(`🍅  ${Ti};${title}.md`);
 			if (i === zhihuJson.length - 1 && format === "ebook") {
-				const ebookObj = (fs.readFileSync(`${path}/${zhihuId}/0.json`))[0];
-				ebook(path, zhihuId, {
-					title: zhihuId,
+				const ebookObj = (fs.readFileSync(`${path}/${postId}/0.json`))[0];
+				ebook(path, postId, {
+					title: postId,
 					author: ebookObj.author.name,
 					content: []
 				});
