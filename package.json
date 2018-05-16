@@ -15,7 +15,6 @@
 		"cli-table2": "^0.2.0",
 		"commander": "^2.15.1",
 		"figlet": "^1.2.0",
-		"h2m": "^0.6.0",
 		"lodash": "^4.17.10",
 		"log-update": "^2.3.0",
 		"m3u8stream": "^0.2.2",
@@ -23,7 +22,8 @@
 		"nodemailer-markdown": "^1.0.2",
 		"request": "^2.85.0",
 		"shelljs": "^0.8.2",
-		"single-line-log": "^1.1.2"
+		"single-line-log": "^1.1.2",
+		"turndown": "^4.0.2"
 	},
 	"prettier": {
 		"semi": true,
