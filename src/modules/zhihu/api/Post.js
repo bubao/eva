@@ -6,7 +6,9 @@
  *
  */
 // const imgsrc = 'https://pic1.zhimg.com/';
-const { _, request } = require('../config/commonModules.js');
+const { request } = require('../config/commonModules.js');
+const template = require('lodash/template');
+const assign = require('lodash/assign');
 const utils = require('../config/utils.js');
 const API = require('../config/api.js');
 
@@ -18,13 +20,13 @@ const API = require('../config/api.js');
  * @param {Function} infoMethod 传入方法
  */
 const universalMethod = (ID, api, countName, infoMethod) => {
-	const url = _.template(api)({ postID: ID, columnsID: ID });
+	const url = template(api)({ postID: ID, columnsID: ID });
 	const count = infoMethod(ID).then((c) => {
 		return c[countName];
 	});
 	return new Promise((resolve) => {
 		count.then(res1 => {
-			utils.loopMethod(_.assign({
+			utils.loopMethod(assign({
 				options: {
 					urlTemplate: url,
 				}
@@ -41,7 +43,7 @@ const universalMethod = (ID, api, countName, infoMethod) => {
  * @param {string} columnsID //专栏ID
  */
 const zhuanlanInfo = async (columnsID) => {
-	const urlTemplate = _.template(API.post.columns)({ columnsID });
+	const urlTemplate = template(API.post.columns)({ columnsID });
 	let object = {};
 	object = {
 		url: urlTemplate,
@@ -70,7 +72,7 @@ const zhuanlanPosts = (columnsID) => {
  * @param {number} postID //postID
  */
 const postInfo = async (postID) => {
-	const urlTemplate = _.template(API.post.info)({ postID });
+	const urlTemplate = template(API.post.info)({ postID });
 	let object = {};
 	object = {
 		url: urlTemplate,
@@ -97,15 +99,17 @@ const postLikers = (postID) => {
  * @param {number} count //comments总数
  */
 const postComments = (postID, count) => {
-	const url = _.template(API.post.comments)({ postID });
+	const url =
+		template(API.post.comments)({ postID });
 	return new Promise((resolve) => {
-		return utils.loopMethod(_.assign({
-			options: {
-				urlTemplate: url,
-			}
-		}, utils.rateMethod(count, 20)), (res => {
-			resolve(res);
-		}));
+		return utils.loopMethod(
+			assign({
+				options: {
+					urlTemplate: url,
+				}
+			}, utils.rateMethod(count, 20)), (res => {
+				resolve(res);
+			}));
 	});
 }
 
