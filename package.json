@@ -18,6 +18,7 @@
         "lodash": "^4.17.10",
         "log-update": "^2.3.0",
         "m3u8stream": "^0.2.2",
+        "mkdirp": "^0.5.1",
         "nodemailer": "^4.6.4",
         "nodemailer-markdown": "^1.0.2",
         "ora": "^2.1.0",

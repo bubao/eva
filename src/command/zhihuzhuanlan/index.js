@@ -1,14 +1,14 @@
 /**
- * @author bubao 
- * @description 
+ * @author bubao
+ * @description
  * @date: 2018-03-14
  * @Last Modified by: bubao
- * @Last Modified time: 2018-05-16 18:55:28
+ * @Last Modified time: 2018-06-11 11:59:39
  */
 
 const { mkdir } = require('../../tools/utils');
 const { console, path } = require('../../tools/commonModules');
-const API = require('../../modules/zhihu/api/Post');
+const API = require('../../modules/zhihu/src/api/Post');
 const markdown = require('../build/markdown');
 
 /**
@@ -18,9 +18,9 @@ const markdown = require('../build/markdown');
  * @param {string} format 格式，可省略
  */
 async function Post(postID, localPath, format) {
-	console.log(`-----🐛 ${postID} start -----`);
-	mkdir(path.resolve(localPath, postID), postID);
-	markdown(localPath, postID, await API.zhuanlanPosts(postID), format);
+    console.log(`-----🐛 ${postID} start -----`);
+    mkdir(path.resolve(localPath, postID), postID);
+    markdown(localPath, postID, await API.posts(postID), format);
 };
 
 module.exports = Post;
