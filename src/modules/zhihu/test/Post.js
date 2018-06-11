@@ -1,27 +1,20 @@
-const { Post } = require('../api');
+/**
+ * @author bubao
+ * @description
+ * @date: 2018-05-21 18:29:38
+ * @Last Modified by: bubao
+ * @Last Modified time: 2018-06-11 11:51:02
+ */
+const Post = require('../src/api/Post');
+// const config = require('./env.json');
 const fs = require('fs');
-const { console } = require('../../../tools/commonModules');
 
-Post.postComments(33056963, 20).then((res) => {
-	fs.writeFile('./postComments.json', JSON.stringify(res), () => { console.log("postComments"); });
+const { console } = require('../src/config/commonModules');
+
+// Post.info('oh-hard').then((res) => {
+// 	fs.writeFile('./nopush/zhuanlanInfo.json', JSON.stringify(res), () => { console.log("zhuanlanInfo"); });
+// })
+
+Post.posts('oh-hard').then((res) => {
+	fs.writeFile('./nopush/zhuanlanPosts.json', JSON.stringify(res), () => { console.log("zhuanlanPosts"); });
 })
-
-Post.postInfo(33056963).then(res => {
-	fs.writeFile('./postInfo.json', JSON.stringify(res), () => { console.log("postInfo"); });
-});
-
-Post.postLikers(33056963).then(res => {
-	fs.writeFile('./postLikers.json', JSON.stringify(res), () => { console.log("postLikers"); });
-});
-
-Post.zhuanlanInfo('smzdm').then(res => {
-	fs.writeFile('./zhuanlanInfo.json', JSON.stringify(res), () => { console.log("zhuanlanInfo"); });
-});
-
-Post.followers('smzdm').then(res => {
-	fs.writeFile('./followers.json', JSON.stringify(res), () => { console.log("followers"); });
-});
-
-Post.zhuanlanPosts('smzdm').then(res => {
-	fs.writeFile('./zhuanlanPosts.json', JSON.stringify(res), () => { console.log("zhuanlanPosts"); });
-});

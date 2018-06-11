@@ -1,20 +1,28 @@
 {
-	"name": "zhihu",
-	"version": "1.0.0",
-	"description": "",
+	"name": "zhihu-api",
+	"version": "0.0.1",
+	"description": "zhihu api",
 	"main": "index.js",
-	"directories": {
-		"test": "test"
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/bubao/zhihu-api.git"
 	},
+	"keywords": [
+		"zhihu",
+		"api"
+	],
+	"author": "bubao",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/bubao/zhihu-api/issues"
+	},
+	"homepage": "https://github.com/bubao/zhihu-api#readme",
 	"dependencies": {
+		"better-console": "^1.0.1",
 		"cheerio": "^1.0.0-rc.2",
-		"lodash": "^4.17.5",
-		"request": "^2.83.0"
-	},
-	"devDependencies": {},
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"author": "",
-	"license": "ISC"
+		"lodash": "^4.17.10",
+		"ora": "^2.1.0",
+		"request": "^2.86.0",
+		"turndown": "^4.0.2"
+	}
 }
