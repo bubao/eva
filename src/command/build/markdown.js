@@ -1,9 +1,9 @@
 /**
- * @author bubao 
- * @description 
+ * @author bubao
+ * @description
  * @date: 2018-01-23
  * @Last Modified by: bubao
- * @Last Modified time: 2018-05-16 18:12:23
+ * @Last Modified time: 2018-06-13 16:28:40
  */
 
 const fs = require('fs');
@@ -17,17 +17,17 @@ const imgsrc = '![](https://pic1.zhimg.com/';
 const Turndown = new TurndownService();
 
 Turndown.addRule('indentedCodeBlock', {
-	filter(node, options) {
-		return (
-			options.codeBlockStyle === 'indented' &&
-			node.nodeName === 'PRE' &&
-			node.firstChild &&
-			node.firstChild.nodeName === 'CODE'
-		);
-	},
-	replacement(content, node) {
-		return `'\n\`\`\`${node.firstChild.getAttribute('class')}\n${content}\n\`\`\`\n`;
-	}
+    filter(node, options) {
+        return (
+            options.codeBlockStyle === 'indented' &&
+            node.nodeName === 'PRE' &&
+            node.firstChild &&
+            node.firstChild.nodeName === 'CODE'
+        );
+    },
+    replacement(content, node) {
+        return `'\n\`\`\`${node.firstChild.getAttribute('class')}\n${content}\n\`\`\`\n`;
+    }
 });
 
 /**
@@ -35,7 +35,7 @@ Turndown.addRule('indentedCodeBlock', {
  * @param {string} content 知乎专栏的Markdown内容
  */
 const replaceContent = (content) => {
-	return content.replace(/<br>/g, '\n').replace(/<code lang="/g, '<pre><code class="language-').replace(/\n<\/code>/g, '\n</code></pre>');
+    return content.replace(/<br>/g, '\n').replace(/<code lang="/g, '<pre><code class="language-').replace(/\n<\/code>/g, '\n</code></pre>');
 }
 
 /**
@@ -43,18 +43,18 @@ const replaceContent = (content) => {
  * @param {string} content 知乎专栏的Markdown内容
  */
 const replaceImage = (content) => {
-	const reg = /<noscript>.*?<\/noscript>/g;
-	const reg2 = /src="(.*?)"/;
-	let src = content.match(reg);
-	const imageList = [];
-	src = compact(src); // 使用lodash ，即便是src为null也能够转为空的数组
-	times(src.length, (imageNum) => {
-		imageList.push(`![](${src[imageNum].match(reg2)[1]})`);
-	});
-	times(src.length, (imageNum) => {
-		content = content.replace(src[imageNum], imageList[imageNum]);
-	});
-	return content.replace(/!\[\]\(/g, imgsrc);
+    const reg = /<noscript>.*?<\/noscript>/g;
+    const reg2 = /src="(.*?)"/;
+    let src = content.match(reg);
+    const imageList = [];
+    src = compact(src); // 使用lodash ，即便是src为null也能够转为空的数组
+    times(src.length, (imageNum) => {
+        imageList.push(`\n\n![](${src[imageNum].match(reg2)[1]})\n\n`);
+    });
+    times(src.length, (imageNum) => {
+        content = content.replace(src[imageNum], imageList[imageNum]);
+    });
+    return content.replace(/!\[\]\(/g, imgsrc);
 }
 
 /**
@@ -62,14 +62,14 @@ const replaceImage = (content) => {
  * @param {string} title 标题
  */
 const replaceTitle = (title) => {
-	const pattern = new RegExp("[`~!@#$^&'*()=|{}':;',\\[\\]<>/?~！@#￥……&*（）&mdash;—|{}【】‘；：”“'。，、？]");
-	let rs = '';
+    const pattern = new RegExp("[`~!@#$^&'*()=|{}':;',\\[\\]<>/?~！@#￥……&*（）&mdash;—|{}【】‘；：”“'。，、？]");
+    let rs = '';
 
-	times(title.length, (k) => {
-		const rs2 = title.substr(k, 1).replace(/"/, ''); // 使用正则表达式单独去除双引号
-		rs += rs2.replace(pattern, '');
-	});
-	return Buffer.from(rs);
+    times(title.length, (k) => {
+        const rs2 = title.substr(k, 1).replace(/"/, ''); // 使用正则表达式单独去除双引号
+        rs += rs2.replace(pattern, '');
+    });
+    return Buffer.from(rs);
 }
 
 /**
@@ -77,7 +77,7 @@ const replaceTitle = (title) => {
  * @param {string} time 时间
  */
 const replaceTime = (time) => {
-	return time.replace("T", ",").replace("+08:00", "");
+    return time.replace("T", ",").replace("+08:00", "");
 }
 
 /**
@@ -89,43 +89,43 @@ const replaceTime = (time) => {
  * @param {string} format 指定为ebook，或者留空，还未完善
  */
 const markdown = (path, postId, zhihuJson, format) => {
-	times(Object.getOwnPropertyNames(zhihuJson).length, (i) => {
-		zhihuJson[i].content = replaceContent(zhihuJson[i].content);
-		let content = Turndown.turndown(zhihuJson[i].content);
-		content = replaceImage(content);
-		let { title } = zhihuJson[i];
-		title = replaceTitle(title);
+    times(Object.getOwnPropertyNames(zhihuJson).length, (i) => {
+        zhihuJson[i].content = replaceContent(zhihuJson[i].content);
+        let content = Turndown.turndown(zhihuJson[i].content);
+        content = replaceImage(content);
+        let { title } = zhihuJson[i];
+        title = replaceTitle(title);
 
-		const time = `${zhihuJson[i].publishedTime}`;
-		const T = replaceTime(time);
-		const Ti = T.split(',')[0];
+        const time = `${zhihuJson[i].publishedTime}`;
+        const T = replaceTime(time);
+        const Ti = T.split(',')[0];
 
-		const postUrl = zhihuJson[i].url;
-		const copyRight = `\n\n知乎原文: [${title}](https://zhuanlan.zhihu.com${postUrl})\n\n\n`;
-		const header = `# ${title}\n\ndate: ${T.replace(",", " ")} \n\n\n`;
+        const postUrl = zhihuJson[i].url;
+        const copyRight = `\n\n知乎原文: [${title}](https://zhuanlan.zhihu.com${postUrl})\n\n\n`;
+        const header = `# ${title}\n\ndate: ${T.replace(",", " ")} \n\n\n`;
 
-		if (!fs.existsSync(`${path}/${postId}`)) {
-			fs.mkdirSync(`${path}/${postId}`);
-		}
-		// 如果没有指定目录，创建之
-		fs.writeFileSync(`${path}/${postId}/${Ti};${title}.md`, header, 'utf8', (err) => {
-			if (err) throw err;
-			console.log(`❌ ${Ti};${title}.md`);
-		});
+        if (!fs.existsSync(`${path}/${postId}`)) {
+            fs.mkdirSync(`${path}/${postId}`);
+        }
+        // 如果没有指定目录，创建之
+        fs.writeFileSync(`${path}/${postId}/${Ti};${title}.md`, header, 'utf8', (err) => {
+            if (err) throw err;
+            console.log(`❌ ${Ti};${title}.md`);
+        });
 
-		fs.appendFile(`${path}/${postId}/${Ti};${title}.md`, content + copyRight, 'utf8', (err) => {
-			if (err) throw err;
-			console.log(`🍅  ${Ti};${title}.md`);
-			if (i === zhihuJson.length - 1 && format === "ebook") {
-				const ebookObj = (fs.readFileSync(`${path}/${postId}/0.json`))[0];
-				ebook(path, postId, {
-					title: postId,
-					author: ebookObj.author.name,
-					content: []
-				});
-			}
-		});
-	});
+        fs.appendFile(`${path}/${postId}/${Ti};${title}.md`, content + copyRight, 'utf8', (err) => {
+            if (err) throw err;
+            console.log(`🍅  ${Ti};${title}.md`);
+            if (i === zhihuJson.length - 1 && format === "ebook") {
+                const ebookObj = (fs.readFileSync(`${path}/${postId}/0.json`))[0];
+                ebook(path, postId, {
+                    title: postId,
+                    author: ebookObj.author.name,
+                    content: []
+                });
+            }
+        });
+    });
 };
 
 module.exports = markdown;
