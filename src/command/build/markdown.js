@@ -3,7 +3,7 @@
  * @description
  * @date: 2018-01-23
  * @Last Modified by: bubao
- * @Last Modified time: 2018-10-13 12:23:32
+ * @Last Modified time: 2018-10-13 12:45:41
  */
 
 const fs = require('fs');
@@ -96,7 +96,7 @@ const markdown = (path, postId, zhihuJson, format) => {
         content = replaceImage(content);
         let { title } = zhihuJson[i];
         // title = replaceTitle(title);
-        const filename = filenamify(titlt);
+        const filename = filenamify(title);
         const time = `${zhihuJson[i].publishedTime}`;
         const T = replaceTime(time);
         const Ti = T.split(',')[0];
