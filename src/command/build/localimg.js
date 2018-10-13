@@ -1,9 +1,9 @@
 /**
  * @author bubao
- * @description
+ * @description 将markdown的图片下载到本地
  * @date: 2018-01-23
  * @Last Modified by: bubao
- * @Last Modified time: 2018-06-11 14:53:04
+ * @Last Modified time: 2018-10-13 12:55:03
  */
 const fs = require('fs');
 const request = require("request");

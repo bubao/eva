@@ -1,9 +1,9 @@
 /**
  * @author bubao
- * @description
+ * @description 将markdown的图片下载到本地
  * @date: 2018-01-23
  * @Last Modified by: bubao
- * @Last Modified time: 2018-06-11 14:37:26
+ * @Last Modified time: 2018-10-13 12:54:19
  */
 const fs = require('fs');
 const request = require("request");
@@ -17,7 +17,7 @@ const { console } = require('../../tools/commonModules');
  * @param {string} p 下载路径
  * @param {string} name 下载路径的文件夹名
  * @param {*} arr 文件中的img url list
- * @param {func} cb callback函数
+ * @param {function} cb callback函数
  */
 const loop = (p, name, arr, cb) => {
     if (arr.length) {
