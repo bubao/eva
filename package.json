@@ -15,6 +15,7 @@
         "cli-table2": "^0.2.0",
         "commander": "^2.15.1",
         "figlet": "^1.2.0",
+        "filenamify": "^2.1.0",
         "lodash": "^4.17.10",
         "log-update": "^2.3.0",
         "m3u8stream": "^0.2.2",

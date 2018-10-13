@@ -3,7 +3,7 @@
  * @description
  * @date: 2018-01-23
  * @Last Modified by: bubao
- * @Last Modified time: 2018-06-13 16:28:40
+ * @Last Modified time: 2018-10-13 12:23:32
  */
 
 const fs = require('fs');
@@ -12,6 +12,7 @@ const times = require('lodash/times');
 const compact = require('lodash/compact');
 const TurndownService = require('turndown');
 const { console } = require('../../tools/commonModules');
+const filenamify = require("filenamify");
 
 const imgsrc = '![](https://pic1.zhimg.com/';
 const Turndown = new TurndownService();
@@ -94,8 +95,8 @@ const markdown = (path, postId, zhihuJson, format) => {
         let content = Turndown.turndown(zhihuJson[i].content);
         content = replaceImage(content);
         let { title } = zhihuJson[i];
-        title = replaceTitle(title);
-
+        // title = replaceTitle(title);
+        const filename = filenamify(titlt);
         const time = `${zhihuJson[i].publishedTime}`;
         const T = replaceTime(time);
         const Ti = T.split(',')[0];
@@ -108,14 +109,14 @@ const markdown = (path, postId, zhihuJson, format) => {
             fs.mkdirSync(`${path}/${postId}`);
         }
         // 如果没有指定目录，创建之
-        fs.writeFileSync(`${path}/${postId}/${Ti};${title}.md`, header, 'utf8', (err) => {
+        fs.writeFileSync(`${path}/${postId}/${Ti};${filename}.md`, header, 'utf8', (err) => {
             if (err) throw err;
-            console.log(`❌ ${Ti};${title}.md`);
+            console.log(`❌ ${Ti};${filename}.md`);
         });
 
-        fs.appendFile(`${path}/${postId}/${Ti};${title}.md`, content + copyRight, 'utf8', (err) => {
+        fs.appendFile(`${path}/${postId}/${Ti};${filename}.md`, content + copyRight, 'utf8', (err) => {
             if (err) throw err;
-            console.log(`🍅  ${Ti};${title}.md`);
+            console.log(`🍅  ${Ti};${filename}.md`);
             if (i === zhihuJson.length - 1 && format === "ebook") {
                 const ebookObj = (fs.readFileSync(`${path}/${postId}/0.json`))[0];
                 ebook(path, postId, {
