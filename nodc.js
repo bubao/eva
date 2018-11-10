@@ -1,21 +1,17 @@
 #!/usr/bin/env node
 
 /**
- * @author bubao 
+ * @author bubao
  * @description node脚本命令行工具
- * @date: 2017-7-16 
+ * @date: 2017-7-16
  * @Last Modified by: bubao
- * @Last Modified time: 2018-05-16 11:27:09
+ * @Last Modified time: 2018-11-11 01:56:06
  */
 
-
 const program = require('commander');
-// require('shelljs/global');
 const zhihu = require("./src/command/zhihuzhuanlan");
-const weather = require("./src/command/weather");
 const download = require('./src/command/download');
-const youGet = require('./src/command/youGet');
-const { console } = require('./src/tools/commonModules')
+const { console } = require('./src/tools/commonModules');
 
 program
 	.command('crawler [zhihuId]')
@@ -35,23 +31,6 @@ program
 
     $ nodc crawler leanreact
     $ nodc cr leanreact -o ~/
-		`);
-	});
-
-program
-	.command('weather [townName]')
-	.alias('wt')
-	.description('🔄 天气助手 ⛎')
-	.option('-d ,--detail', "🔙 详情")
-	.action((townName, options) => {
-		townName = townName || "深圳";
-		weather(townName, options);
-	}).on('--help', () => {
-		console.log(`
-  举个例子:
-
-    $ nodc wt 广州
-    $ nodc weather
 		`);
 	});
 
@@ -82,34 +61,4 @@ program
 		`);
 	});
 
-program
-	.command('you [url]')
-	.alias('y')
-	.description('🔄 you-get ⛎')
-	.option('-o ,--out <path>', "🔙 输出位置")
-	// .option('-d ,--description <description>', "🔙 输出位置")
-	// .option('-l ,--length <length>', "🔙 进度条长度")
-	// .option('-n ,--name <name>', "🔙 文件名")
-	.action((url, options) => {
-		const opts = {
-			url: url || "leanreact",
-			out: options.out || process.cwd(),
-			length: parseInt(options.length, 10) || 50,
-			name: typeof options.name === 'string' ? options.name : undefined,
-		}
-		// download(options);
-		youGet(opts);
-	}).on('--help', () => {
-		console.log(`
-  举个例子:
-
-    $ nodc you https://www.baidu.com
-    $ nodc y https://www.baidu.com -o ~/
-		`);
-	});
-
 program.parse(process.argv);
-
-// program
-// 	.option('hexo [name]', '🔙 hexo快速生成模板')
-// 	.option('jieba <file>', '⛎ 文件结巴分词统计词频')

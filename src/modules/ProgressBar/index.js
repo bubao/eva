@@ -1,9 +1,9 @@
 /**
- * @author bubao 
+ * @author bubao
  * @description ProgressBar 命令行进度条
  * @date: 2018-03-15
  * @Last Modified by: bubao
- * @Last Modified time: 2018-05-15 18:46:06
+ * @Last Modified time: 2018-11-11 00:57:24
  */
 const { slog, clicolor } = require('../../tools/commonModules');
 const { time, byteSize } = require('../../tools/utils');
@@ -23,7 +23,7 @@ class ProgressBar {
 	/**
 	 * @description 渲染进度条
 	 * @author bubao
-	 * @param {object} opts 
+	 * @param {object} opts
 	 * @memberof ProgressBar
 	 */
 	render(opts) {

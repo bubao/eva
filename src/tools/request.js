@@ -1,9 +1,9 @@
 /**
- * @author bubao 
+ * @author bubao
  * @description 封装request
  * @date: 2018-3-22
  * @Last Modified by: bubao
- * @Last Modified time: 2018-05-15 18:42:13
+ * @Last Modified time: 2018-11-11 01:00:15
  */
 
 const request = require('request');
@@ -13,7 +13,7 @@ const fs = require('fs');
  * @description async版 request 模块
  * @author bubao
  * @param {Object} options {pipe,hiden,time,size,readable}
- * @param {Function} callback 进度条返回数据 
+ * @param {Function} callback 进度条返回数据
  * @returns {
                 completed: read,// 已读取
                 total, //全部

@@ -1,9 +1,9 @@
 /**
- * @author bubao 
- * @description 
+ * @author bubao
+ * @description
  * @date: 2018-03-15
  * @Last Modified by: bubao
- * @Last Modified time: 2018-05-15 19:03:20
+ * @Last Modified time: 2018-11-11 00:54:58
  */
 const ProgressBar = require('../ProgressBar');
 const isFunction = require('lodash/isFunction');
@@ -19,10 +19,10 @@ class NodeDown {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param {object} opts 配置
 	 * {url, localPath, name}
-	 * @param {function} callback 
+	 * @param {function} callback
 	 */
 	download(opts, callback) {
 		let read = 0;

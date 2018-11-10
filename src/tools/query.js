@@ -3,13 +3,7 @@
  * @description 全部接口的默认query集中管理，便于后期维护
  * @date: 2018-2-14
  * @Last Modified by: bubao
- * @Last Modified time: 2018-05-15 18:41:43
- */
-/*
- * @Author: suncg 
- * @Date: 2018-05-15 2016/12/26 
- * @Last Modified by: bubao
- * @Last Modified time: 2018-05-15 17:45:48
+ * @Last Modified time: 2018-11-11 02:08:17
  */
 
 // 全部接口的默认query集中管理，便于后期维护

@@ -1,12 +1,11 @@
 /**
- * @author bubao 
- * @description 
+ * @author bubao
+ * @description
  * @date: 2018-07-18
- * @Last Modified by: bubao 
- * @Last Modified time: 2018-05-15 19:08:22 
+ * @Last Modified by: bubao
+ * @Last Modified time: 2018-11-11 02:01:26
  */
-const { request } = require("../../tools/commonModules");
-const Table = require('cli-table2');
+const { request, table } = require("../../tools/commonModules");
 const findIndex = require('lodash/findIndex');
 const citycode = require("./sources/city.json");
 const weatherSign = require("./sources/weatherSign");
@@ -18,25 +17,6 @@ const { console } = require('../../tools/commonModules');
  * @returns {string} 表格
  */
 const detailTable = (future) => {
-	const table = new Table({
-		chars: {
-			'top': '═',
-			'top-mid': '╤',
-			'top-left': '╔',
-			'top-right': '╗',
-			'bottom': '═',
-			'bottom-mid': '╧',
-			'bottom-left': '╚',
-			'bottom-right': '╝',
-			'left': '║',
-			'left-mid': '╟',
-			'mid': '─',
-			'mid-mid': '┼',
-			'right': '║',
-			'right-mid': '╢',
-			'middle': '│'
-		},
-	});
 	table.push(
 		["⛑\n☃",
 			`${future[0].date.slice(5)} \n${future[0].day}`,
