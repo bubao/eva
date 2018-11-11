@@ -5,12 +5,13 @@
  * @description node脚本命令行工具
  * @date: 2017-7-16
  * @Last Modified by: bubao
- * @Last Modified time: 2018-11-11 01:56:06
+ * @Last Modified time: 2018-11-11 12:35:52
  */
 
 const program = require('commander');
-const zhihu = require("./src/command/zhihuzhuanlan");
+const xmly = require("./src/command/xmly");
 const download = require('./src/command/download');
+const zhihu = require("./src/command/zhihuzhuanlan");
 const { console } = require('./src/tools/commonModules');
 
 program
@@ -31,6 +32,24 @@ program
 
     $ nodc crawler leanreact
     $ nodc cr leanreact -o ~/
+		`);
+	});
+
+program
+	.command('xmly [zhihuId]')
+	.alias('x')
+	.description('🔄 喜马拉雅爬虫 ⛎')
+	.option('-o ,--out <path>', "🔙 输出位置")
+	.option('-t , --type <type>', "🔙 tracks 或者 albums")
+	.action((ID, options) => {
+		const path = options.out || `${ID}.txt`; // 当前执行路径
+		xmly(options.type || "tracks", ID, path);
+	}).on('--help', () => {
+		console.log(`
+  举个例子:
+
+    $ nodc xmly ID
+    $ nodc x ID -o ~/ID.txt
 		`);
 	});
 

@@ -26,7 +26,8 @@
         "request": "^2.85.0",
         "shelljs": "^0.8.2",
         "single-line-log": "^1.1.2",
-        "turndown": "^4.0.2"
+        "turndown": "^4.0.2",
+        "xmly": "git+https://github.com/bubao/xmly.git"
     },
     "prettier": {
         "semi": true,
