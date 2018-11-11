@@ -1,6 +1,5 @@
 # nodc
 
-
 nodc 是一个 node 脚本工具集，现在已经有把[知乎专栏爬虫](https://github.com/bubao/GetZhiHuZhuanLan)和中央天气预报加到里面，以后还会加入一些 node 小工具进去。同时欢迎各位喜欢这个项目，想 diy 自己的工具集的朋友参与进来。
 
 ## 安装
@@ -26,12 +25,6 @@ $ nodc cr [zhihuzhuanlanId] -o <path>
 $ nodc cr [zhihuzhuanlanId]
 # 默认只爬取 learnreact 专栏
 $ nodc cr
-# 天气预报完整子命令
-$ nodc wt [townName] -d
-# 天气基本信息
-$ nodc wt [townName]
-# 默认深圳天气
-$ nodc wt 
 ```
 
 更多使用方法请执行`$ nodc -h`看帮助。
@@ -39,8 +32,9 @@ $ nodc wt
 ## 已完成
 
 - [x] 知乎专栏爬虫
-- [x] 中央天气预报
+- [x] ~~中央天气预报~~
 - [x] 带进度条的下载器
+- [x] 喜马拉雅下载器
 
 ## 正在进行
 
