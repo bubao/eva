@@ -3,10 +3,10 @@
  * @description
  * @date: 2018-03-14
  * @Last Modified by: bubao
- * @Last Modified time: 2018-11-11 01:53:20
+ * @Last Modified time: 2018-11-11 12:01:59
  */
 
-const { mkdir } = require('../../tools/utils');
+const mkdirp = require('mkdirp');
 const { console, path, figlet } = require('../../tools/commonModules');
 const posts = require('../../modules/zhihu/src/Post');
 const markdown = require('../../modules/build/markdown');
@@ -24,7 +24,7 @@ async function Post(postID, localPath, format) {
 		horizontalLayout: 'default',
 		verticalLayout: 'default'
 	}));
-	mkdir(path.resolve(localPath, postID), postID);
+	mkdirp(path.resolve(localPath, postID), postID);
 	markdown(localPath, postID, await posts(postID), format);
 };
 
