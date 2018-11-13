@@ -3,7 +3,7 @@
  * @description
  * @date: 2018-5-19 11:32:29
  * @Last Modified by: bubao
- * @Last Modified time: 2018-11-11 01:21:45
+ * @Last Modified time: 2018-11-13 20:06:20
  */
 
 const { request, url } = require('../../../tools/commonModules.js');
@@ -47,7 +47,7 @@ const rateMethod = (count, cycle) => {
  * @param {object} config 配置信息
  * @param {function} callback 回调函数
  */
-const loopMethod = (config, callback) => {
+const loopMethod = (config, callback, spinner) => {
 	const { urlTemplate, ...options } = config.options;
 	const opts = {
 		url: url.resolve(urlTemplate, `?limit=${config.cycle}&offset=${config.writeTimes * 20}`),
@@ -58,10 +58,11 @@ const loopMethod = (config, callback) => {
 			config.allObject[index + config.writeTimes * 20] = item;
 		});
 		if (config.writeTimes === config.times) {
+			spinner.succeed(`It's OK!`)
 			callback(config.allObject);
 		} else {
 			config.writeTimes += 1;
-			loopMethod(config, callback);
+			loopMethod(config, callback, spinner);
 		}
 	})
 }

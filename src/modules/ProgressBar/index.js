@@ -3,7 +3,7 @@
  * @description ProgressBar 命令行进度条
  * @date: 2018-03-15
  * @Last Modified by: bubao
- * @Last Modified time: 2018-11-11 00:57:24
+ * @Last Modified time: 2018-11-13 16:40:33
  */
 const { slog, clicolor } = require('../../tools/commonModules');
 const { time, byteSize } = require('../../tools/utils');
@@ -15,8 +15,8 @@ const { time, byteSize } = require('../../tools/utils');
  */
 class ProgressBar {
 	constructor(props) {
-		this.description = props.description || 'Progress';    // 命令行开头的文字信息
-		this.length = props.bar_length || 25;           // 进度条的长度(单位：字符)，默认设为 25
+		this.description = props !== undefined ? props.description || 'Progress' : 'Progress';    // 命令行开头的文字信息
+		this.length = props !== undefined ? props.bar_length || 25 : 25;           // 进度条的长度(单位：字符)，默认设为 25
 		this.description = clicolor.blue.bold(this.description);
 	}
 
