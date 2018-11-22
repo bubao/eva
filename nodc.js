@@ -5,7 +5,7 @@
  * @description node脚本命令行工具
  * @date: 2017-7-16
  * @Last Modified by: bubao
- * @Last Modified time: 2018-11-23 00:40:26
+ * @Last Modified time: 2018-11-23 02:24:00
  */
 
 const program = require('commander');
@@ -30,8 +30,8 @@ program
 		console.log(`
   举个例子:
 
-    $ nodc crawler leanreact
-    $ nodc cr leanreact -o ~/
+    $ nodc zhuanlan leanreact
+    $ nodc z leanreact -o ~/
 		`);
 	});
 
@@ -61,7 +61,7 @@ program
 	.option('-d ,--description <description>', "🔙 头部信息")
 	.option('-l ,--length <length>', "🔙 进度条长度")
 	.option('-n ,--name <name>', "🔙 文件名")
-	.option('-h ,--hiden <hiden>', "🔙 完成后隐藏进度条信息")
+	.option('-hd ,--hiden <hiden>', "🔙 完成后隐藏进度条信息")
 	.action((url) => {
 		const opts = {
 			url: url || "leanreact",
@@ -80,4 +80,13 @@ program
 		`);
 	});
 
+function ReadMe(txt) {
+	const README = require("fs").readFileSync('./README.md');
+	return `${txt}\n${README}`;
+}
+
 program.parse(process.argv);
+
+if (!program.args.length) {
+	program.outputHelp(ReadMe);
+}

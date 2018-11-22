@@ -19,25 +19,47 @@ $ cnpm i -g .
 
 ## 使用
 
+更多使用方法请执行`$ nodc -h`看帮助。
+
 ```sh
 # 查看帮助
 $ nodc -h
-# 知乎爬虫完整子命令
-$ nodc cr [zhihuzhuanlanId] -o <path> 
-# 默认路径为当前文件夹下
-$ nodc cr [zhihuzhuanlanId]
-# 默认只爬取 learnreact 专栏
-$ nodc cr
 ```
 
-更多使用方法请执行`$ nodc -h`看帮助。
+### 知乎专栏爬虫
+
+通过这个命令，能获取到指定知乎专栏的全本文章的Markdown版本，甚至是json格式的文件。
+
+```sh
+# 默认只爬取 learnreact 专栏
+$ nodc z
+# 默认路径为当前文件夹下
+$ nodc z [zhihuzhuanlanId]
+# 自定义下载位置
+$ nodc z [zhihuzhuanlanId] -o <path>
+# 下载生成Markdown文档的同时，保留json文件
+$ nodc z [zhihuzhuanlanId] -o <path> -f json
+```
+
+### 喜马拉雅下载器
+
+这个命令能下载指定喜马拉雅的作者全部专辑，或者某个专辑的aria2的下载地址。
+
+```sh
+# 默认下载 tracksID
+$ nodc x [ID]
+# 指定下载的位置
+$ nodc x [ID] -o <path>
+# 如果是 albumsID ，则需要添加 --type(-t) 属性，值是 albums
+$ nodc x [ID] -o <path> -t albums
+```
 
 ## 已完成
 
 - [x] 知乎专栏爬虫
-- [x] ~~中央天气预报~~
-- [x] 带进度条的下载器
 - [x] 喜马拉雅下载器
+- [x] 带进度条的下载器
+- [x] ~~中央天气预报~~
 
 ## 正在进行
 
