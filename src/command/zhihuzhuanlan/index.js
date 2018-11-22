@@ -3,13 +3,13 @@
  * @description
  * @date: 2018-03-14
  * @Last Modified by: bubao
- * @Last Modified time: 2018-11-13 16:53:06
+ * @Last Modified time: 2018-11-23 00:13:53
  */
-
+const Ora = require('ora');
 const { mkdir } = require('../../tools/utils');
-const { console, path, figlet } = require('../../tools/commonModules');
-const posts = require('../../modules/zhihu/src/Post');
+const { zhuanlan } = require('zhihu-zhuanlan');
 const markdown = require('../../modules/build/markdown');
+const { console, path, figlet } = require('../../tools/commonModules');
 
 /**
  *  知乎专栏抓取器
@@ -24,8 +24,18 @@ async function Post(postID, localPath, format) {
 		horizontalLayout: 'default',
 		verticalLayout: 'default'
 	}));
+	const spinner = new Ora({
+		text: `It's Running!`,
+		spinner: {
+			interval: 80,
+			frames: ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
+		}
+	});
+
 	mkdir(path.resolve(localPath, postID), postID);
-	markdown(localPath, postID, await posts(postID), format);
+	zhuanlan(postID, spinner).then(res => {
+		markdown(localPath, postID, res, format);
+	});
 };
 
 module.exports = Post;

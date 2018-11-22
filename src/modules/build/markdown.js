@@ -3,18 +3,13 @@
  * @description
  * @date: 2018-01-23
  * @Last Modified by: bubao
- * @Last Modified time: 2018-11-11 00:52:17
+ * @Last Modified time: 2018-11-23 00:27:11
  */
 
 const fs = require('fs');
-const ebook = require('./ebook.js');
-const times = require('lodash/times');
-const compact = require('lodash/compact');
 const TurndownService = require('turndown');
 const { console } = require('../../tools/commonModules');
-const filenamify = require("filenamify");
 
-const imgsrc = '![](https://pic1.zhimg.com/';
 const Turndown = new TurndownService();
 
 Turndown.addRule('indentedCodeBlock', {
@@ -31,87 +26,35 @@ Turndown.addRule('indentedCodeBlock', {
 	}
 });
 
-/**
- * 转换内容，将部分不适合转换的标签改为合适转换的标签
- * @param {string} content 知乎专栏的Markdown内容
- */
-const replaceContent = (content) => {
-	return content.replace(/<br>/g, '\n').replace(/<code lang="/g, '<pre><code class="language-').replace(/\n<\/code>/g, '\n</code></pre>');
-}
-
-/**
- * 转换内容，连接转换为绝对连接
- * @param {string} content 知乎专栏的Markdown内容
- */
-const replaceImage = (content) => {
-	const reg = /<noscript>.*?<\/noscript>/g;
-	const reg2 = /src="(.*?)"/;
-	let src = content.match(reg);
-	const imageList = [];
-	src = compact(src); // 使用lodash ，即便是src为null也能够转为空的数组
-	times(src.length, (imageNum) => {
-		imageList.push(`\n\n![](${src[imageNum].match(reg2)[1]})\n\n`);
+const writeFile = (path, filename, data, format) => {
+	fs.writeFile(`${path}.${format}`, data, 'utf8', (err) => {
+		if (err) throw err;
+		console.log(`${format === "json" ? "🍅" : "✅"}  ${filename}.${format}`);
 	});
-	times(src.length, (imageNum) => {
-		content = content.replace(src[imageNum], imageList[imageNum]);
-	});
-	return content.replace(/!\[\]\(/g, imgsrc);
-}
-
-/**
- * 转换时间
- * @param {string} time 时间
- */
-const replaceTime = (time) => {
-	return time.replace("T", ",").replace("+08:00", "");
 }
 
 /**
  * 知乎专栏HTML2MD
- * markdown(path, postId, res[, format])
+ * markdown(path, postId, res)
  * @param {string} path 下载地址
  * @param {string} postId 知乎专栏ID
  * @param {string} zhihuJson 知乎专栏的内容
- * @param {string} format 指定为ebook，或者留空，还未完善
+ * @param {string} format 是否保留json
  */
-const markdown = (path, postId, zhihuJson, format) => {
-	times(Object.getOwnPropertyNames(zhihuJson).length, (i) => {
-		zhihuJson[i].content = replaceContent(zhihuJson[i].content);
-		let content = Turndown.turndown(zhihuJson[i].content);
-		content = replaceImage(content);
-		const { title } = zhihuJson[i];
-		// title = replaceTitle(title);
-		const filename = filenamify(title);
-		const time = `${zhihuJson[i].publishedTime}`;
-		const T = replaceTime(time);
-		const Ti = T.split(',')[0];
 
-		const postUrl = zhihuJson[i].url;
-		const copyRight = `\n\n知乎原文: [${title}](https://zhuanlan.zhihu.com${postUrl})\n\n\n`;
-		const header = `# ${title}\n\ndate: ${T.replace(",", " ")} \n\n\n`;
-
-		if (!fs.existsSync(`${path}/${postId}`)) {
-			fs.mkdirSync(`${path}/${postId}`);
+const markdown = async (path, postId, zhihuJson, format) => {
+	zhihuJson.MarkDown.forEach(element => {
+		const {
+			filename,
+			header,
+			content,
+			copyRight,
+			json } = element;
+		writeFile(`${path}/${postId}/${filename}`, filename, header + content + copyRight, "md");
+		if (format === "json") {
+			writeFile(`${path}/${postId}/${filename}`, filename, JSON.stringify(json), format);
 		}
-		// 如果没有指定目录，创建之
-		fs.writeFileSync(`${path}/${postId}/${Ti};${filename}.md`, header, 'utf8', (err) => {
-			if (err) throw err;
-			console.log(`❌ ${Ti};${filename}.md`);
-		});
-
-		fs.appendFile(`${path}/${postId}/${Ti};${filename}.md`, content + copyRight, 'utf8', (err) => {
-			if (err) throw err;
-			console.log(`🍅  ${Ti};${filename}.md`);
-			if (i === zhihuJson.length - 1 && format === "ebook") {
-				const ebookObj = (fs.readFileSync(`${path}/${postId}/0.json`))[0];
-				ebook(path, postId, {
-					title: postId,
-					author: ebookObj.author.name,
-					content: []
-				});
-			}
-		});
 	});
-};
+}
 
 module.exports = markdown;

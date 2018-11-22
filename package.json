@@ -24,11 +24,12 @@
     "nodemailer-markdown": "^1.0.2",
     "ora": "^2.1.0",
     "request": "^2.85.0",
-    "self-promise-request": "git+https://github.com/bubao/self-promise-request.git",
+    "self-promise-request": "git+https://github.com/bubao/self-promise-request.git#v0.0.1",
     "shelljs": "^0.8.2",
     "single-line-log": "^1.1.2",
     "turndown": "^4.0.2",
-    "xmly": "git+https://github.com/bubao/xmly.git"
+    "xmly": "git+https://github.com/bubao/xmly.git",
+    "zhihu-zhuanlan": "https://github.com/bubao/GetZhiHuZhuanLan.git#v0.0.3"
   },
   "prettier": {
     "semi": true,
