@@ -1,17 +1,20 @@
 # nodc
 
-nodc 是一个 node 脚本工具集，现在已经有把[知乎专栏爬虫](https://github.com/bubao/GetZhiHuZhuanLan)和中央天气预报加到里面，以后还会加入一些 node 小工具进去。同时欢迎各位喜欢这个项目，想 diy 自己的工具集的朋友参与进来。
+nodc 是一个 node 脚本工具集，现在已经有把[知乎专栏爬虫](https://github.com/bubao/GetZhiHuZhuanLan)~~和中央天气预报加到里面~~，以后还会加入一些 node 小工具进去。同时欢迎各位喜欢这个项目，想 diy 自己的工具集的朋友参与进来。
 
 ## 安装
 
-由于我没有 npmjs 账号，只能这样安装了
+由于我没有 npmjs 账号，只能这样安装了，需要先安装cnpm。
+
 ```sh
 # 获取源码
 $ git clone https://github.com/bubao/nodc
-# 修改 index.js 第一行，换成自己 node 运行路径
-
 # 项目的根目录下
-$ sudo npm i -g
+$ cd nodc
+# 安装 Linux 下
+$ sudo cnpm i -g .
+# 安装 Windows 下
+$ cnpm i -g .
 ```
 
 ## 使用
@@ -53,7 +56,7 @@ $ nodc cr
 
 ### 知乎专栏爬虫
 
-这个项目其实还有很多小 bug，`code`标签转换成 markdown 时是单反引号。目前的 markdown 转换工具使用的是 [h2m](https://github.com/island205/h2m) ，如果有更好的工具请告知我，让我能尽快完善这个小爬虫，谢谢。
+~~这个项目其实还有很多小 bug，`code`标签转换成 markdown 时是单反引号。目前的 markdown 转换工具使用的是 [h2m](https://github.com/island205/h2m) ，如果有更好的工具请告知我，让我能尽快完善这个小爬虫，谢谢。~~
 
 ### 中央天气预报
 
