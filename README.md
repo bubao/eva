@@ -80,9 +80,13 @@ $ nodc x [ID] -o <path> -t albums
 
 ~~这个项目其实还有很多小 bug，`code`标签转换成 markdown 时是单反引号。目前的 markdown 转换工具使用的是 [h2m](https://github.com/island205/h2m) ，如果有更好的工具请告知我，让我能尽快完善这个小爬虫，谢谢。~~
 
-### 中央天气预报
+知乎专栏爬虫已分离成独立模块[GetZhiHuZhuanLan](https://github.com/bubao/GetZhiHuZhuanLan)，基本能用。
 
-这个项目用了[-API](https://github.com/jokermonn/-Api) 提供的 api 写的天气查询，目前还不是很完善，但是已经可以用了，后续继续做些小细节上的工作。
+### 中央天气预报（已弃用）
+
+~~这个项目用了[-API](https://github.com/jokermonn/-Api) 提供的 api 写的天气查询，目前还不是很完善，但是已经可以用了，后续继续做些小细节上的工作。~~
+
+这个命令已不能再使用，因为中央天气预报以前的API已经不再维护。
 
 ## 带进度条的下载器
 
