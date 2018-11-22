@@ -5,7 +5,7 @@
  * @description node脚本命令行工具
  * @date: 2017-7-16
  * @Last Modified by: bubao
- * @Last Modified time: 2018-11-11 12:35:52
+ * @Last Modified time: 2018-11-23 00:40:26
  */
 
 const program = require('commander');
@@ -15,17 +15,17 @@ const zhihu = require("./src/command/zhihuzhuanlan");
 const { console } = require('./src/tools/commonModules');
 
 program
-	.command('crawler [zhihuId]')
-	.alias('cr')
+	.command('zhuanlan [zhuanlanId]')
+	.alias('z')
 	.description('🔄 知乎专栏爬虫 ⛎')
 	.option('-o ,--out <path>', "🔙 输出位置")
 	.option('-f ,--format <ebook>', "🔙 输出位置")
-	.action((zhihuId, options) => {
-		zhihuId = zhihuId || "leanreact";
+	.action((zhuanlanId, options) => {
+		zhuanlanId = zhuanlanId || "leanreact";
 		const path = options.out || process.cwd(); // 当前执行路径
 		const format = options.format || 'md';
-		console.log('🐛   知乎专栏爬取 %s 到 %s 文件夹', zhihuId, path);
-		zhihu(zhihuId, path, format);
+		console.log('🐛   知乎专栏爬取 %s 到 %s 文件夹', zhuanlanId, path);
+		zhihu(zhuanlanId, path, format);
 	}).on('--help', () => {
 		console.log(`
   举个例子:
@@ -36,7 +36,7 @@ program
 	});
 
 program
-	.command('xmly [zhihuId]')
+	.command('xmly [ID]')
 	.alias('x')
 	.description('🔄 喜马拉雅爬虫 ⛎')
 	.option('-o ,--out <path>', "🔙 输出位置")
