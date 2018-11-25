@@ -17,19 +17,15 @@
 		"figlet": "^1.2.0",
 		"filenamify": "^2.1.0",
 		"lodash": "^4.17.10",
-		"log-update": "^2.3.0",
-		"m3u8stream": "^0.2.2",
 		"mkdirp": "^0.5.1",
 		"nodemailer": "^4.6.4",
 		"nodemailer-markdown": "^1.0.2",
 		"ora": "^2.1.0",
 		"request": "^2.85.0",
 		"self-promise-request": "git+https://github.com/bubao/self-promise-request.git#v0.0.1",
-		"shelljs": "^0.8.2",
 		"single-line-log": "^1.1.2",
-		"turndown": "^4.0.2",
 		"xmly": "git+https://github.com/bubao/xmly.git",
-		"zhihu-zhuanlan": "https://github.com/bubao/GetZhiHuZhuanLan.git#v0.0.3"
+		"zhihu-zhuanlan": "git+https://github.com/bubao/GetZhiHuZhuanLan.git#v0.0.3"
 	},
 	"prettier": {
 		"semi": true,

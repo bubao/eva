@@ -3,32 +3,19 @@
  * @description
  * @date: 2018-01-23
  * @Last Modified by: bubao
- * @Last Modified time: 2018-11-23 00:27:11
+ * @Last Modified time: 2018-11-25 12:26:25
  */
 
 const fs = require('fs');
-const TurndownService = require('turndown');
+const stream = require('stream');
 const { console } = require('../../tools/commonModules');
 
-const Turndown = new TurndownService();
-
-Turndown.addRule('indentedCodeBlock', {
-	filter(node, options) {
-		return (
-			options.codeBlockStyle === 'indented' &&
-			node.nodeName === 'PRE' &&
-			node.firstChild &&
-			node.firstChild.nodeName === 'CODE'
-		);
-	},
-	replacement(content, node) {
-		return `'\n\`\`\`${node.firstChild.getAttribute('class')}\n${content}\n\`\`\`\n`;
-	}
-});
-
 const writeFile = (path, filename, data, format) => {
-	fs.writeFile(`${path}.${format}`, data, 'utf8', (err) => {
-		if (err) throw err;
+	const s = new stream.Readable;
+	s._read = () => { };
+	s.push(data);
+	s.push(null);
+	s.pipe(fs.createWriteStream(`${path}.${format}`)).on("close", () => {
 		console.log(`${format === "json" ? "🍅" : "✅"}  ${filename}.${format}`);
 	});
 }
@@ -41,7 +28,6 @@ const writeFile = (path, filename, data, format) => {
  * @param {string} zhihuJson 知乎专栏的内容
  * @param {string} format 是否保留json
  */
-
 const markdown = async (path, postId, zhihuJson, format) => {
 	zhihuJson.MarkDown.forEach(element => {
 		const {
