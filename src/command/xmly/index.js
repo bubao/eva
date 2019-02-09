@@ -16,7 +16,7 @@ async function ximalaya(type, ID, filename) {
 		verticalLayout: 'default'
 	}));
 	console.log(`-----🐛 ${ID} start -----`);
-	filename = filenamify(path.resolve(filename), "⛰");
+	filename = path.resolve(filenamify(filename), "⛰");
 	const func = type === "albums" ? DownAlbums : DownTracks;
 	console.log(`filename:${filename}\nID:${ID}\ntype:${type}`)
 	fs.writeFileSync(filename, await func(ID - 0));
