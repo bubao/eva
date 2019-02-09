@@ -3,7 +3,7 @@
  * @description
  * @date: 2018-03-15
  * @Last Modified by: bubao
- * @Last Modified time: 2018-11-11 02:00:37
+ * @Last Modified time: 2019-02-09 19:40:48
  */
 
 const fs = require('fs');
@@ -16,6 +16,7 @@ const figlet = require('figlet');
 const crypto = require('crypto');
 const cheerio = require('cheerio');
 const request = require('./request');
+const filenamify = require('filenamify');
 const { URL, URLSearchParams } = require('url');
 const slog = require('single-line-log').stdout;
 const clicolor = require('cli-color');
@@ -29,6 +30,7 @@ module.exports = {
 	QUERY,
 	table,
 	figlet,
+	filenamify,
 	crypto,
 	cheerio,
 	console,
