@@ -3,7 +3,7 @@
  * @description 喜马拉雅下载器
  * @date: 2018-11-11 10:54:30
  * @Last Modified by: bubao
- * @Last Modified time: 2019-02-09 19:44:41
+ * @Last Modified time: 2019-02-09 20:23:47
  */
 
 const { DownTracks, DownAlbums } = require('xmly');
@@ -16,7 +16,7 @@ async function ximalaya(type, ID, filename) {
 		verticalLayout: 'default'
 	}));
 	console.log(`-----🐛 ${ID} start -----`);
-	filename = path.resolve(filenamify(filename), "⛰");
+	filename = path.resolve(filenamify(filename, "⛰"));
 	const func = type === "albums" ? DownAlbums : DownTracks;
 	console.log(`filename:${filename}\nID:${ID}\ntype:${type}`)
 	fs.writeFileSync(filename, await func(ID - 0));
