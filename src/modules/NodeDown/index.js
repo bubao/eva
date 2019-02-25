@@ -3,12 +3,13 @@
  * @description
  * @date: 2018-03-15
  * @Last Modified by: bubao
- * @Last Modified time: 2018-11-11 00:54:58
+ * @Last Modified time: 2019-02-25 22:18:00
  */
 const ProgressBar = require('../ProgressBar');
 const isFunction = require('lodash/isFunction');
-const { path, request, fs, parseURL } = require('../../tools/commonModules');
+const { path, fs, parseURL } = require('../../tools/commonModules');
 const { time } = require('../../tools/utils');
+const request = require("request")
 
 class NodeDown {
 	constructor(props) {
