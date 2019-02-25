@@ -3,7 +3,7 @@
  * @description
  * @date: 2018-03-15
  * @Last Modified by: bubao
- * @Last Modified time: 2019-02-25 22:18:00
+ * @Last Modified time: 2019-02-25 22:36:14
  */
 const ProgressBar = require('../ProgressBar');
 const isFunction = require('lodash/isFunction');
@@ -36,7 +36,12 @@ class NodeDown {
 
 		this.pb.description = `${name}\n${this.description}`;
 
-		request.get(url).on('response', (response) => {
+		request.get(url, {
+			headers: {
+				"User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36",
+				"X-Requested-With": "XMLHttpRequest"
+			}
+		}).on('response', (response) => {
 			if (response.headers['content-length']) {
 				this.response = parseInt(response.headers['content-length'], 10);
 			} else {
