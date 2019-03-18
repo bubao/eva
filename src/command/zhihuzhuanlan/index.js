@@ -33,9 +33,7 @@ async function Post(postID, localPath, format) {
 	});
 
 	mkdir(path.resolve(localPath, postID), postID);
-	zhuanlan(postID, spinner).then(res => {
-		markdown(localPath, postID, res, format);
-	});
+	markdown(localPath, postID, await zhuanlan(postID, spinner), format);
 };
 
 module.exports = Post;
