@@ -3,7 +3,7 @@
  * @description
  * @date: 2018-01-23
  * @Last Modified by: bubao
- * @Last Modified time: 2018-11-25 12:26:25
+ * @Last Modified time: 2019-03-24 01:00:06
  */
 
 const fs = require('fs');
@@ -11,14 +11,14 @@ const stream = require('stream');
 const { console } = require('../../tools/commonModules');
 
 const writeFile = (path, filename, data, format) => {
-	const s = new stream.Readable;
-	s._read = () => { };
+	const s = new stream.Readable();
+	s._read = () => {};
 	s.push(data);
 	s.push(null);
-	s.pipe(fs.createWriteStream(`${path}.${format}`)).on("close", () => {
-		console.log(`${format === "json" ? "🍅" : "✅"}  ${filename}.${format}`);
+	s.pipe(fs.createWriteStream(`${path}.${format}`)).on('close', () => {
+		console.log(`${format === 'json' ? '🍅' : '✅'}  ${filename}.${format}`);
 	});
-}
+};
 
 /**
  * 知乎专栏HTML2MD
@@ -28,19 +28,24 @@ const writeFile = (path, filename, data, format) => {
  * @param {string} zhihuJson 知乎专栏的内容
  * @param {string} format 是否保留json
  */
-const markdown = async (path, postId, zhihuJson, format) => {
+const markdown = (path, postId, zhihuJson, format) => {
 	zhihuJson.MarkDown.forEach(element => {
-		const {
+		const { filename, header, content, copyRight, json } = element;
+		writeFile(
+			`${path}/${postId}/${filename}`,
 			filename,
-			header,
-			content,
-			copyRight,
-			json } = element;
-		writeFile(`${path}/${postId}/${filename}`, filename, header + content + copyRight, "md");
-		if (format === "json") {
-			writeFile(`${path}/${postId}/${filename}`, filename, JSON.stringify(json), format);
+			header + content + copyRight,
+			'md',
+		);
+		if (format === 'json') {
+			writeFile(
+				`${path}/${postId}/${filename}`,
+				filename,
+				JSON.stringify(json),
+				format,
+			);
 		}
 	});
-}
+};
 
 module.exports = markdown;
