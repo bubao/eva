@@ -3,11 +3,11 @@
  * @description
  * @date: 2018-03-14
  * @Last Modified by: bubao
- * @Last Modified time: 2018-11-23 00:13:53
+ * @Last Modified time: 2019-03-24 02:59:35
  */
 const Ora = require('ora');
-const { mkdir } = require('../../tools/utils');
 const { zhuanlan } = require('zhihu-zhuanlan');
+const { mkdir } = require('../../tools/utils');
 const markdown = require('../../modules/build/markdown');
 const { console, path, figlet } = require('../../tools/commonModules');
 
@@ -19,21 +19,23 @@ const { console, path, figlet } = require('../../tools/commonModules');
  */
 async function Post(postID, localPath, format) {
 	console.log(`-----🐛 ${postID} start -----`);
-	console.log(figlet.textSync(`${postID}`, {
-		font: 'Ghost',
-		horizontalLayout: 'default',
-		verticalLayout: 'default'
-	}));
+	console.log(
+		figlet.textSync(`${postID}`, {
+			font: 'Ghost',
+			horizontalLayout: 'default',
+			verticalLayout: 'default',
+		}),
+	);
 	const spinner = new Ora({
 		text: `It's Running!`,
 		spinner: {
 			interval: 80,
-			frames: ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
-		}
+			frames: ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'],
+		},
 	});
 
 	mkdir(path.resolve(localPath, postID), postID);
 	markdown(localPath, postID, await zhuanlan(postID, spinner), format);
-};
+}
 
 module.exports = Post;

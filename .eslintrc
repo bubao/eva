@@ -1,46 +1,28 @@
 {
-	"extends": [
-		"airbnb",
-		"plugin:prettier/recommended"
-	],
+	"extends": ["airbnb", "plugin:prettier/recommended"],
 	"env": {
 		"browser": false,
 		"commonjs": true,
 		"es6": true
 	},
-	"plugins": [
-		"prettier"
-	],
+	"plugins": ["prettier"],
 	"rules": {
-		"arrow-body-style": [
-			"off"
-		],
-		"class-methods-use-this": [
-			"off"
-		],
-		"import/extensions": [
-			"off"
-		],
+		"arrow-body-style": ["off"],
+		"class-methods-use-this": ["off"],
+		"import/extensions": ["off"],
 		"import/no-extraneous-dependencies": [
 			"error",
 			{
-				"devDependencies": [
-					"_develop/*.js",
-					"test/**/*.js"
-				]
+				"devDependencies": ["_develop/*.js", "test/**/*.js"]
 			}
 		],
-		"no-param-reassign": [
-			"off"
-		],
+		"no-param-reassign": ["off"],
 		"no-use-before-define": [
 			"error",
 			{
 				"functions": false
 			}
 		],
-		"import/named": [
-			"error"
-		]
+		"import/named": ["error"]
 	}
 }
