@@ -27,7 +27,7 @@
 		"self-promise-request": "git+https://github.com/bubao/self-promise-request.git#v0.0.1",
 		"single-line-log": "^1.1.2",
 		"xmly": "git+https://github.com/bubao/xmly.git",
-		"zhihu-zhuanlan": "git+https://github.com/bubao/GetZhiHuZhuanLan.git#v0.0.4"
+		"zhihu-zhuanlan": "git+https://github.com/bubao/GetZhiHuZhuanLan.git"
 	},
 	"prettier": {
 		"semi": true,
