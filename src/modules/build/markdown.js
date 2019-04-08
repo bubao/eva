@@ -1,9 +1,9 @@
 /**
  * @author bubao
- * @description
+ * @description Markdown 转换
  * @date: 2018-01-23
  * @Last Modified by: bubao
- * @Last Modified time: 2019-03-24 01:00:06
+ * @Last Modified time: 2019-04-09 03:00:17
  */
 
 const fs = require('fs');
@@ -21,7 +21,7 @@ const writeFile = (path, filename, data, format) => {
 };
 
 /**
- * 知乎专栏HTML2MD
+ * 知乎专栏文章保持本地
  * markdown(path, postId, res)
  * @param {string} path 下载地址
  * @param {string} postId 知乎专栏ID
@@ -29,7 +29,7 @@ const writeFile = (path, filename, data, format) => {
  * @param {string} format 是否保留json
  */
 const markdown = (path, postId, zhihuJson, format) => {
-	zhihuJson.MarkDown.forEach(element => {
+	zhihuJson.forEach(element => {
 		const { filename, header, content, copyRight, json } = element;
 		writeFile(
 			`${path}/${postId}/${filename}`,

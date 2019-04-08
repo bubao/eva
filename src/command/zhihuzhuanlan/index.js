@@ -3,10 +3,10 @@
  * @description
  * @date: 2018-03-14
  * @Last Modified by: bubao
- * @Last Modified time: 2019-03-24 02:59:35
+ * @Last Modified time: 2019-04-09 02:51:00
  */
 const Ora = require('ora');
-const { zhuanlan } = require('zhihu-zhuanlan');
+const zhuanlan = require('zhihu-zhuanlan');
 const { mkdir } = require('../../tools/utils');
 const markdown = require('../../modules/build/markdown');
 const { console, path, figlet } = require('../../tools/commonModules');
