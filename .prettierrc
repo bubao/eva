@@ -1,0 +1,12 @@
+{
+  "eslintIntegration": true,
+  "stylelintIntegration": true,
+  "tabWidth": 4,
+  "useTabs": true,
+  "singleQuote": false,
+  "semi": true,
+  "trailingComma": "none",
+  "bracketSpacing": true,
+  "arrowParens": "avoid",
+  "endOfLine": "lf"
+}

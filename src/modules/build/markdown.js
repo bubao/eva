@@ -3,20 +3,22 @@
  * @description Markdown 转换
  * @date: 2018-01-23
  * @Last Modified by: bubao
- * @Last Modified time: 2019-04-09 03:00:17
+ * @Last Modified time: 2019-11-30 23:31:47
  */
 
-const fs = require('fs');
-const stream = require('stream');
-const { console } = require('../../tools/commonModules');
+const fs = require("fs");
+const stream = require("stream");
+const { console } = require("../../tools/commonModules");
 
 const writeFile = (path, filename, data, format) => {
 	const s = new stream.Readable();
 	s._read = () => {};
 	s.push(data);
 	s.push(null);
-	s.pipe(fs.createWriteStream(`${path}.${format}`)).on('close', () => {
-		console.log(`${format === 'json' ? '🍅' : '✅'}  ${filename}.${format}`);
+	s.pipe(fs.createWriteStream(`${path}.${format}`)).on("close", () => {
+		console.log(
+			`${format === "json" ? "🍅" : "✅"}  ${filename}.${format}`
+		);
 	});
 };
 
@@ -35,14 +37,14 @@ const markdown = (path, postId, zhihuJson, format) => {
 			`${path}/${postId}/${filename}`,
 			filename,
 			header + content + copyRight,
-			'md',
+			"md"
 		);
-		if (format === 'json') {
+		if (format === "json") {
 			writeFile(
 				`${path}/${postId}/${filename}`,
 				filename,
 				JSON.stringify(json),
-				format,
+				format
 			);
 		}
 	});

@@ -1,12 +1,12 @@
-const fs = require('fs');
-const path = require('path');
-const mkdirp = require('mkdirp');
-const { console } = require('../../tools/commonModules');
+const fs = require("fs");
+const path = require("path");
+const mkdirp = require("mkdirp");
+const { console } = require("../../tools/commonModules");
 
 const localbook = mdDir => {
 	const fileArray = fs.readdirSync(mdDir);
-	const dir = path.resolve(mdDir, '..');
-	const newPath = path.join(dir, path.basename(`${mdDir}ebook`), 'imgs');
+	const dir = path.resolve(mdDir, "..");
+	const newPath = path.join(dir, path.basename(`${mdDir}ebook`), "imgs");
 
 	mkdirp(newPath);
 
@@ -17,10 +17,13 @@ const localbook = mdDir => {
 			if (stats.isFile()) {
 				// if (/emoji/.test(filename)) {
 				console.log(filename);
-				const content = fs.readFileSync(path.join(mdDir, filename), 'utf-8');
+				const content = fs.readFileSync(
+					path.join(mdDir, filename),
+					"utf-8"
+				);
 				fs.appendFileSync(
 					path.join(dir, `${path.dirname(newPath)}.md`),
-					content,
+					content
 				);
 				// }
 			} else if (stats.isDirectory()) {
@@ -33,4 +36,4 @@ const localbook = mdDir => {
 
 // module.exports = localbook;
 
-localbook('./test');
+localbook("./test");

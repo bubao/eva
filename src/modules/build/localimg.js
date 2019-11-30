@@ -3,13 +3,13 @@
  * @description 将markdown的图片下载到本地
  * @date: 2018-01-23
  * @Last Modified by: bubao
- * @Last Modified time: 2019-03-24 01:02:07
+ * @Last Modified time: 2019-11-30 23:31:41
  */
-const fs = require('fs');
-const request = require('request');
-const slice = require('lodash/slice');
-const path = require('path');
-const { console } = require('../../tools/commonModules');
+const fs = require("fs");
+const request = require("request");
+const slice = require("lodash/slice");
+const path = require("path");
+const { console } = require("../../tools/commonModules");
 
 /**
  *
@@ -22,13 +22,15 @@ const loop = (imgsPath, arr, cb) => {
 	if (arr.length) {
 		request(arr[0])
 			.pipe(
-				fs.createWriteStream(path.join(imgsPath, `${path.basename(arr[0])}`)),
+				fs.createWriteStream(
+					path.join(imgsPath, `${path.basename(arr[0])}`)
+				)
 			)
-			.on('close', () => {
+			.on("close", () => {
 				loop(imgsPath, slice(arr, 1));
 			});
 	} else {
-		console.log('end');
+		console.log("end");
 		if (cb !== undefined) {
 			cb();
 		}
@@ -41,7 +43,7 @@ const loop = (imgsPath, arr, cb) => {
  * @param {func} cb callback函数
  */
 const localImage = (imgsPath, markdownPath, cb) => {
-	const md = fs.readFileSync(markdownPath, 'utf8');
+	const md = fs.readFileSync(markdownPath, "utf8");
 	const all = md.match(/!\[\]\(https.*?\)/g);
 	// const imgsPath = path.join(markdownPath.replace('.md', ''), 'imgs');
 	// mkdirp(imgsPath);
@@ -49,10 +51,10 @@ const localImage = (imgsPath, markdownPath, cb) => {
 		imgsPath,
 		JSON.parse(
 			JSON.stringify(all)
-				.replace(/!\[\]\(/g, '')
-				.replace(/\)/g, ''),
+				.replace(/!\[\]\(/g, "")
+				.replace(/\)/g, "")
 		),
-		cb,
+		cb
 	);
 };
 

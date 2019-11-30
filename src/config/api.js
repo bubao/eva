@@ -1,24 +1,27 @@
 /*
- * @Author: bubao 
+ * @Author: bubao
  * @Date: 2018-03-21
  * @Last Modified by: bubao
- * @Last Modified time: 2018-05-15 19:04:04
+ * @Last Modified time: 2019-11-30 23:31:57
  */
 let api = {};
 api = {
 	bilibili: {
 		BILIBILI_API: "https://interface.bilibili.com/v2/playurl?",
-		BILIBILI_BANGUMI_API: "https://bangumi.bilibili.com/player/web_api/v2/playurl?",
+		BILIBILI_BANGUMI_API:
+			"https://bangumi.bilibili.com/player/web_api/v2/playurl?",
 		BILIBILI_TOKEN_API: "https://api.bilibili.com/x/player/playurl/token?",
 		appKey: "84956560bc028eb7",
 		secKey: "94aba54af9065f71de72f5508f1cd42e",
 		headers: {
-			"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+			Accept:
+				"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
 			"Accept-Charset": "UTF-8,*;q=0.5",
 
 			"Accept-Language": "en-US,en;q=0.8",
-			"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.146 Safari/537.36",
-		},
+			"User-Agent":
+				"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.146 Safari/537.36"
+		}
 		// live_api: 'http://live.bilibili.com/api/playurl?otype=json&cid=',
 		// api_url: 'http://interface.bilibili.com/v2/playurl?',
 		// bangumi_api_url: 'http://bangumi.bilibili.com/player/web_api/playurl?',
@@ -43,6 +46,6 @@ api = {
 		// 	mp4: 1
 		// }
 	}
-}
+};
 
 module.exports = api;

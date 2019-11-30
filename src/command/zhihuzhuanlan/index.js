@@ -3,13 +3,13 @@
  * @description
  * @date: 2018-03-14
  * @Last Modified by: bubao
- * @Last Modified time: 2019-04-09 02:51:00
+ * @Last Modified time: 2019-11-30 23:34:45
  */
-const Ora = require('ora');
-const zhuanlan = require('zhihu-zhuanlan');
-const { mkdir } = require('../../tools/utils');
-const markdown = require('../../modules/build/markdown');
-const { console, path, figlet } = require('../../tools/commonModules');
+const Ora = require("ora");
+const zhuanlan = require("zhihu-zhuanlan");
+const { mkdir } = require("../../tools/utils");
+const markdown = require("../../modules/build/markdown");
+const { console, path, figlet } = require("../../tools/commonModules");
 
 /**
  *  知乎专栏抓取器
@@ -21,17 +21,17 @@ async function Post(postID, localPath, format) {
 	console.log(`-----🐛 ${postID} start -----`);
 	console.log(
 		figlet.textSync(`${postID}`, {
-			font: 'Ghost',
-			horizontalLayout: 'default',
-			verticalLayout: 'default',
-		}),
+			font: "Ghost",
+			horizontalLayout: "default",
+			verticalLayout: "default"
+		})
 	);
 	const spinner = new Ora({
-		text: `It's Running!`,
+		text: "It's Running!",
 		spinner: {
 			interval: 80,
-			frames: ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'],
-		},
+			frames: ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
+		}
 	});
 
 	mkdir(path.resolve(localPath, postID), postID);

@@ -3,13 +3,13 @@
  * @description 电子书生成模块
  * @date: 2018-01-23
  * @Last Modified by: bubao
- * @Last Modified time: 2019-03-24 01:14:05
+ * @Last Modified time: 2019-11-30 23:32:19
  */
 
-const { exec } = require('child_process');
-const fs = require('fs');
-const forEach = require('lodash/forEach');
-const localImage = require('./localImage.js');
+const { exec } = require("child_process");
+const fs = require("fs");
+const forEach = require("lodash/forEach");
+const localImage = require("./localImage.js");
 
 /**
  *
@@ -24,8 +24,8 @@ const ebook = (p, name, ebookJson) => {
 			const mdfile = fs.readdirSync(`${p}/${name}`);
 			forEach(fs.readdirSync(`${p}/${name}`), (item, index) => {
 				ebookJson.content[index] = {
-					title: mdfile[index].replace(/\.md/, '').split(';')[1],
-					data: mdfile[index],
+					title: mdfile[index].replace(/\.md/, "").split(";")[1],
+					data: mdfile[index]
 				};
 			});
 		});
