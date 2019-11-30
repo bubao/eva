@@ -3,22 +3,23 @@
  * @description
  * @date: 2018-07-18
  * @Last Modified by: bubao
- * @Last Modified time: 2018-11-11 02:01:26
+ * @Last Modified time: 2019-12-01 00:17:17
  */
 const { request, table } = require("../../tools/commonModules");
-const findIndex = require('lodash/findIndex');
+const findIndex = require("lodash/findIndex");
 const citycode = require("./sources/city.json");
 const weatherSign = require("./sources/weatherSign");
-const { console } = require('../../tools/commonModules');
+const { console } = require("../../tools/commonModules");
 
 /**
  * 细节信息table
  * @param {object} future 爬取到的数据
  * @returns {string} 表格
  */
-const detailTable = (future) => {
+const detailTable = future => {
 	table.push(
-		["⛑\n☃",
+		[
+			"⛑\n☃",
 			`${future[0].date.slice(5)} \n${future[0].day}`,
 			`${future[1].date.slice(5)} \n${future[1].day}`,
 			`${future[2].date.slice(5)} \n${future[2].day}`,
@@ -26,7 +27,9 @@ const detailTable = (future) => {
 			`${future[4].date.slice(5)} \n${future[4].day}`,
 			`${future[5].date.slice(5)} \n${future[5].day}`,
 			`${future[6].date.slice(5)} \n${future[6].day}`
-		], ["🌡",
+		],
+		[
+			"🌡",
 			`${future[0].low}/${future[0].high}°C`,
 			`${future[1].low}/${future[1].high}°C`,
 			`${future[2].low}/${future[2].high}°C`,
@@ -34,14 +37,20 @@ const detailTable = (future) => {
 			`${future[4].low}/${future[4].high}°C`,
 			`${future[5].low}/${future[5].high}°C`,
 			`${future[6].low}/${future[6].high}°C`
-		], ["☘", `${future[0].wind.slice(2)}`,
+		],
+		[
+			"☘",
+			`${future[0].wind.slice(2)}`,
 			`${future[1].wind.slice(2)}`,
 			`${future[2].wind.slice(2)}`,
 			`${future[3].wind.slice(2)}`,
 			`${future[4].wind.slice(2)}`,
 			`${future[5].wind.slice(2)}`,
 			`${future[6].wind.slice(2)}`
-		], ["☂", `${future[0].text}`,
+		],
+		[
+			"☂",
+			`${future[0].text}`,
 			`${future[1].text}`,
 			`${future[2].text}`,
 			`${future[3].text}`,
@@ -73,7 +82,11 @@ const townWather = async (url, program) => {
 	const data = responent.body;
 	const da = JSON.parse(data);
 	const { today, now, future } = da.weather[0];
-	const lastUpdate = da.weather[0].last_update.toLocaleString().replace(/T/, ' ⏲ ').replace("+08:00", "").replace(/^/, "🔠");
+	const lastUpdate = da.weather[0].last_update
+		.toLocaleString()
+		.replace(/T/, " ⏲ ")
+		.replace("+08:00", "")
+		.replace(/^/, "🔠");
 
 	console.log(`
   📅${future[0].date} ${future[0].day}
@@ -83,7 +96,7 @@ const townWather = async (url, program) => {
   空气质量:${now.air_quality.city.quality}
   空气质量指数:${now.air_quality.city.aqi}
   🌡:${now.temperature}°C    🍃:${future[0].wind}
-${ program.detail && detailTable(future) || ""}
+${(program.detail && detailTable(future)) || ""}
   最近更新时间： ${lastUpdate}`);
 };
 
@@ -93,7 +106,7 @@ ${ program.detail && detailTable(future) || ""}
  * @param {*} program 是否带属性
  */
 const weather = (sName, program) => {
-	const index = findIndex(citycode, (o) => {
+	const index = findIndex(citycode, o => {
 		return o.townName === sName;
 	});
 	const url = `http://tj.nineton.cn/Heart/index/all?city=${citycode[index].townID}&language=zh-chs&unit=c&aqi=city&alarm=1&key=78928e706123c1a8f1766f062bc8676b`;

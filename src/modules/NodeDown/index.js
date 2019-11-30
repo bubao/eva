@@ -3,84 +3,63 @@
  * @description
  * @date: 2018-03-15
  * @Last Modified by: bubao
- * @Last Modified time: 2019-11-30 23:25:28
+ * @Last Modified time: 2019-12-01 03:39:43
  */
 const ProgressBar = require("../ProgressBar");
-const isFunction = require("lodash/isFunction");
-const { path, fs, parseURL } = require("../../tools/commonModules");
-const { time } = require("../../tools/utils");
-const request = require("request");
+const { path, parseURL, PromiseRequest } = require("../../tools/commonModules");
 
 class NodeDown {
 	constructor(props) {
 		this.description = props.description;
 		this.bar_length = props.bar_length;
-		this.pb = new ProgressBar(this.description, this.bar_length);
+		this.pb = ProgressBar.init(props);
 		this.description = this.pb.description;
+		this.instance = null;
 	}
 
 	/**
-	 *
+	 * 单例初始化
+	 * @static
+	 * @param {any} props {description:string(显示文案),bar_length:number(显示长度)}
+	 * @returns {any} 实例
+	 * @memberof NodeDown
+	 */
+	static init(props) {
+		if (!this.instance) {
+			this.instance = new this(props);
+		} else {
+			this.description = this.pb.description;
+			this.bar_length = props.bar_length;
+		}
+		return this.instance;
+	}
+
+	/**
+	 * 下载器
 	 * @param {object} opts 配置
 	 * {url, localPath, name}
 	 * @param {function} callback
 	 */
-	download(opts, callback) {
-		let read = 0;
-		let { name, out } = opts;
+	async download(opts) {
+		let { name = "a", out } = opts;
 		const { url, hiden } = opts;
-		const start = new Date().valueOf() / 1000;
-		let end = 0;
 		out = path.resolve(out || "./");
 		name = name || path.basename(parseURL(url).basename);
-
 		this.pb.description = `${name}\n${this.description}`;
-
-		request
-			.get(url, {
-				headers: {
-					"User-Agent":
-						"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36",
-					"X-Requested-With": "XMLHttpRequest"
-				}
-			})
-			.on("response", response => {
-				if (response.headers["content-length"]) {
-					this.response = parseInt(
-						response.headers["content-length"],
-						10
-					);
-				} else {
-					throw new Error("It is nothing to download!!!");
-				}
-			})
-			.on("data", data => {
-				read += data.length;
-				this.pb.render({
-					completed: read,
-					hiden,
-					total: this.response,
-					time: { start },
-					status: {
-						down: "正在下载...",
-						end: "完成\n"
-					}
-				});
-			})
-			.on("error", error => {
-				if (isFunction(callback)) {
-					callback(error);
-				}
-				throw error;
-			})
-			.pipe(fs.createWriteStream(path.join(out, name)))
-			.on("close", () => {
-				end = new Date().valueOf() / 1000;
-				if (isFunction(callback)) {
-					const back = { start, end, elapsed: time(end - start) };
-					callback(back);
-				}
-			});
+		const that = this;
+		PromiseRequest.on("process", function(data) {
+			that.pb.render(data);
+		});
+		await PromiseRequest.request({
+			uri: url,
+			headers: {
+				"User-Agent":
+					"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36",
+				"X-Requested-With": "XMLHttpRequest"
+			},
+			hiden,
+			pipe: path.join(out, name)
+		});
 	}
 }
 

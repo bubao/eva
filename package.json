@@ -10,20 +10,20 @@
 	"license": "MIT",
 	"dependencies": {
 		"better-console": "^1.0.1",
-		"cheerio": "^1.0.0-rc.2",
-		"cli-color": "^1.4.0",
+		"cheerio": "^1.0.0-rc.3",
+		"cli-color": "^2.0.0",
 		"cli-table2": "^0.2.0",
-		"commander": "^2.19.0",
-		"figlet": "^1.2.1",
-		"filenamify": "^3.0.0",
-		"lodash": "^4.17.11",
+		"commander": "^4.0.1",
+		"figlet": "^1.2.4",
+		"filenamify": "^4.1.0",
+		"lodash": "^4.17.15",
 		"mkdirp": "^0.5.1",
-		"ora": "^3.2.0",
+		"ora": "^4.0.3",
 		"request": "^2.88.0",
-		"self-promise-request": "git+https://github.com/bubao/self-promise-request.git#v0.0.5",
+		"self-promise-request": "git+https://github.com/bubao/self-promise-request.git#v0.0.8",
 		"single-line-log": "^1.1.2",
 		"xmly": "git+https://github.com/bubao/xmly.git",
-		"yargs": "^14.2.0",
+		"yargs": "^15.0.2",
 		"zhihu-zhuanlan": "git+https://github.com/bubao/GetZhiHuZhuanLan.git"
 	},
 	"devDependencies": {
@@ -31,7 +31,7 @@
 		"@commitlint/config-conventional": "^8.2.0",
 		"commitizen": "^4.0.3",
 		"cz-customizable": "^6.2.0",
-		"eslint": "^6.6.0",
+		"eslint": "^6.7.2",
 		"eslint-config-prettier": "^6.7.0",
 		"eslint-config-standard": "^14.1.0",
 		"eslint-plugin-import": "^2.18.2",
@@ -39,9 +39,9 @@
 		"eslint-plugin-prettier": "^3.1.1",
 		"eslint-plugin-promise": "^4.2.1",
 		"eslint-plugin-standard": "^4.0.1",
-		"husky": "^2.2.0",
-		"prettier": "^1.17.0",
-		"pretty-quick": "^1.10.0"
+		"husky": "^3.1.0",
+		"prettier": "^1.19.1",
+		"pretty-quick": "^2.0.1"
 	},
 	"husky": {
 		"hooks": {

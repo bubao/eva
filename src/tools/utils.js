@@ -3,7 +3,7 @@
  * @description utils
  * @date: 2018-3-15
  * @Last Modified by: bubao
- * @Last Modified time: 2019-11-30 23:35:45
+ * @Last Modified time: 2019-12-01 01:43:38
  */
 
 const clamp = require("lodash/clamp");
@@ -77,6 +77,7 @@ const getTrueURL = (url, params) => {
  */
 function byteSize(limit) {
 	let size = "";
+	if (limit === undefined) return "";
 	if (limit < 0.1 * 1024) {
 		// 小于0.1KB，则转化成B
 		size = `${limit.toFixed(2)}B`;
