@@ -24,7 +24,7 @@
 		"single-line-log": "^1.1.2",
 		"xmly": "git+https://github.com/bubao/xmly.git",
 		"yargs": "^15.0.2",
-		"zhihu-zhuanlan": "git+https://github.com/bubao/GetZhiHuZhuanLan.git"
+		"zhihu-zhuanlan": "git+https://github.com/bubao/GetZhiHuZhuanLan.git#v0.0.6"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^8.2.0",
