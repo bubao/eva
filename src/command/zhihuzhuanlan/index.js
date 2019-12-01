@@ -3,10 +3,9 @@
  * @description
  * @date: 2018-03-14
  * @Last Modified by: bubao
- * @Last Modified time: 2019-12-01 00:17:46
+ * @Last Modified time: 2019-12-02 03:07:30
  */
-const Ora = require("ora");
-const zhuanlan = require("zhihu-zhuanlan");
+const Zhuanlan = require("zhihu-zhuanlan");
 const { mkdir } = require("../../tools/utils");
 const markdown = require("../../modules/build/markdown");
 const { console, path, figlet } = require("../../tools/commonModules");
@@ -26,16 +25,17 @@ async function Post(postID, localPath, format) {
 			verticalLayout: "default"
 		})
 	);
-	const spinner = new Ora({
-		text: "It's Running!",
-		spinner: {
-			interval: 80,
-			frames: ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
-		}
-	});
 
-	mkdir(path.resolve(localPath, postID), postID);
-	markdown(localPath, postID, await zhuanlan(postID, spinner), format);
+	const zhuanlan = Zhuanlan.init();
+	let title;
+	zhuanlan.once("info", data => {
+		title = data.title;
+		mkdir(path.resolve(localPath, title), title);
+	});
+	zhuanlan.on("single_data", data => {
+		markdown(localPath, title, data, format);
+	});
+	zhuanlan.getAll(postID);
 }
 
 module.exports = Post;
