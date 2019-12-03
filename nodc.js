@@ -1,4 +1,11 @@
 #!/usr/bin/env node
+/**
+ * @Description: node脚本命令行工具
+ * @Author: bubao
+ * @Date: 2017-7-16 17:28:33
+ * @LastEditors: bubao
+ * @LastEditTime: 2019-12-03 17:25:10
+ */
 
 /**
  * @author bubao
@@ -15,6 +22,7 @@ const xmly = require("./src/command/xmly");
 const download = require("./src/command/download");
 const zhihu = require("./src/command/zhihuzhuanlan");
 const { console } = require("./src/tools/commonModules");
+let noLog = false;
 
 program
 	.command("zhuanlan [zhuanlanId]")
@@ -23,11 +31,18 @@ program
 	.option("-o ,--out <path>", "🔙 输出位置")
 	.option("-f ,--format <ebook>", "🔙 输出位置")
 	.action((zhuanlanId, options) => {
-		zhuanlanId = zhuanlanId || "leanreact";
-		const runpath = options.out || process.cwd(); // 当前执行路径
-		const format = options.format || "md";
-		console.log("🐛   知乎专栏爬取 %s 到 %s 文件夹", zhuanlanId, runpath);
-		zhihu(zhuanlanId, runpath, format);
+		// zhuanlanId = zhuanlanId || "leanreact";
+		noLog = true;
+		if (zhuanlanId) {
+			const runpath = options.out || process.cwd(); // 当前执行路径
+			const format = options.format || "md";
+			console.log(
+				"🐛   知乎专栏爬取 %s 到 %s 文件夹",
+				zhuanlanId,
+				runpath
+			);
+			zhihu(zhuanlanId, runpath, format);
+		}
 	})
 	.on("--help", () => {
 		console.log(`
@@ -45,8 +60,11 @@ program
 	.option("-o ,--out <path>", "🔙 输出位置")
 	.option("-t , --type <type>", "🔙 tracks 或者 albums")
 	.action((ID, options) => {
-		const runpath = options.out || `${ID}.txt`; // 当前执行路径
-		xmly(options.type || "tracks", ID, runpath);
+		noLog = true;
+		if (ID) {
+			const runpath = options.out || `${ID}.txt`; // 当前执行路径
+			xmly(options.type || "tracks", ID, runpath);
+		}
 	})
 	.on("--help", () => {
 		console.log(`
@@ -67,14 +85,18 @@ program
 	.option("-n ,--name <name>", "🔙 文件名")
 	.option("-hd ,--hiden <hiden>", "🔙 完成后隐藏进度条信息")
 	.action(url => {
-		const opts = {
-			url: url || "leanreact",
-			out: program.out || process.cwd(),
-			length: parseInt(program.length, 10) || 50,
-			name: typeof program.name === "string" ? program.name : undefined,
-			hiden: program.hiden
-		};
-		download(opts);
+		noLog = true;
+		if (url) {
+			const opts = {
+				url: url || "leanreact",
+				out: program.out || process.cwd(),
+				length: parseInt(program.length, 10) || 50,
+				name:
+					typeof program.name === "string" ? program.name : undefined,
+				hiden: program.hiden
+			};
+			download(opts);
+		}
 	})
 	.on("--help", () => {
 		console.log(`
@@ -85,13 +107,15 @@ program
 		`);
 	});
 
-function ReadMe(txt) {
+function ReadMe() {
 	const README = fs.readFileSync(path.join(__dirname, "README.md"));
-	return `${txt}\n${README}`;
+	return `${README}`;
 }
 
 program.parse(process.argv);
 
-if (!program.args.length) {
+if (!program.args.length && !noLog) {
 	program.outputHelp(ReadMe);
+} else {
+	program.outputHelp();
 }
