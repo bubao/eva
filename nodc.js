@@ -4,15 +4,7 @@
  * @Author: bubao
  * @Date: 2017-7-16 17:28:33
  * @LastEditors: bubao
- * @LastEditTime: 2019-12-03 17:25:10
- */
-
-/**
- * @author bubao
- * @description node脚本命令行工具
- * @date: 2017-7-16
- * @Last Modified by: bubao
- * @Last Modified time: 2019-12-01 00:52:29
+ * @LastEditTime: 2019-12-23 18:50:45
  */
 
 const fs = require("fs");
@@ -21,9 +13,11 @@ const program = require("commander");
 const xmly = require("./src/command/xmly");
 const download = require("./src/command/download");
 const zhihu = require("./src/command/zhihuzhuanlan");
+const qrcode = require("./src/command/qrcode");
 const { console } = require("./src/tools/commonModules");
 let noLog = false;
 
+// 知乎专栏爬虫
 program
 	.command("zhuanlan [zhuanlanId]")
 	.alias("z")
@@ -53,6 +47,7 @@ program
 		`);
 	});
 
+// 喜马拉雅fm爬虫
 program
 	.command("xmly [ID]")
 	.alias("x")
@@ -75,6 +70,7 @@ program
 		`);
 	});
 
+// 下载器
 program
 	.command("download [url]")
 	.alias("d")
@@ -107,6 +103,23 @@ program
 		`);
 	});
 
+// 二维码
+program
+	.command("qrcode <str>")
+	.alias("q")
+	.description("Generate qrcode")
+	.action(str => {
+		qrcode(str);
+	})
+	.on("--help", () => {
+		console.log(`
+  举个例子:
+
+    $ nodc qrcode https://www.baidu.com
+    $ nodc q https://www.baidu.com
+		`);
+	});
+
 function ReadMe() {
 	const README = fs.readFileSync(path.join(__dirname, "README.md"));
 	return `${README}`;
@@ -116,6 +129,4 @@ program.parse(process.argv);
 
 if (!program.args.length && !noLog) {
 	program.outputHelp(ReadMe);
-} else {
-	program.outputHelp();
 }

@@ -19,6 +19,7 @@
 		"lodash": "^4.17.15",
 		"mkdirp": "^0.5.1",
 		"ora": "^4.0.3",
+		"qrcode": "^1.4.4",
 		"request": "^2.88.0",
 		"self-promise-request": "git+https://github.com/bubao/self-promise-request.git#v0.0.8",
 		"single-line-log": "^1.1.2",
