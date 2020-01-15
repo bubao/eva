@@ -4,7 +4,7 @@
  * @Author: bubao
  * @Date: 2017-7-16 17:28:33
  * @LastEditors: bubao
- * @LastEditTime: 2019-12-23 18:50:45
+ * @LastEditTime: 2020-01-15 16:29:04
  */
 
 const fs = require("fs");
@@ -14,6 +14,7 @@ const xmly = require("./src/command/xmly");
 const download = require("./src/command/download");
 const zhihu = require("./src/command/zhihuzhuanlan");
 const qrcode = require("./src/command/qrcode");
+const update = require("./src/command/update");
 const { console } = require("./src/tools/commonModules");
 let noLog = false;
 
@@ -120,6 +121,23 @@ program
 		`);
 	});
 
+// update
+program
+	.command("update [path]")
+	.alias("u")
+	.description("update nodc")
+	.action(str => {
+		update(str);
+	})
+	.on("--help", () => {
+		console.log(`
+  举个例子:
+
+    $ nodc qrcode https://www.baidu.com
+    $ nodc q https://www.baidu.com
+		`);
+	});
+
 function ReadMe() {
 	const README = fs.readFileSync(path.join(__dirname, "README.md"));
 	return `${README}`;
@@ -128,5 +146,6 @@ function ReadMe() {
 program.parse(process.argv);
 
 if (!program.args.length && !noLog) {
-	program.outputHelp(ReadMe);
+	// program.outputHelp(ReadMe);
+	program.outputHelp();
 }
