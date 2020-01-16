@@ -3,20 +3,20 @@
  * @Author: bubao
  * @Date: 2020-01-15 16:30:08
  * @LastEditors: bubao
- * @LastEditTime: 2020-01-16 14:50:36
+ * @LastEditTime: 2020-01-16 15:01:24
  */
-const { path, fs, console } = require("../../tools/commonModules");
 const _ = require("lodash");
-const promisify = require("util").promisify;
+const ora = require("ora");
 const os = require("os");
+const promisify = require("util").promisify;
+const { path, fs } = require("../../tools/commonModules");
 const ReadFile = promisify(fs.readFile);
 const mkdirp = promisify(require("mkdirp"));
 const exec = promisify(require("child_process").exec);
 const WriteFile = promisify(fs.writeFile);
-const ora = require("ora");
 
 async function update(sourcePath) {
-	sourcePath = path.join(sourcePath);
+	sourcePath = path.join(sourcePath || "./");
 	const spinner = ora({
 		text: "开始更新",
 		spinner: {
@@ -34,14 +34,12 @@ async function update(sourcePath) {
 		source = await getSourcePath(sourcePath);
 	} else {
 		// 从配置文件中获取源码路径
-		console.log(Configuration.config.source);
 		source = await getSourcePath(Configuration.config.source);
 		sourcePath = Configuration.config.source;
 	}
 
 	// 文件不存在则退出
 	if (!source) {
-		console.log(sourcePath);
 		spinner.fail("更新失败，请重试");
 		return;
 	}

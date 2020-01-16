@@ -4,7 +4,7 @@
  * @Author: bubao
  * @Date: 2017-7-16 17:28:33
  * @LastEditors: bubao
- * @LastEditTime: 2020-01-15 16:29:04
+ * @LastEditTime: 2020-01-16 14:59:34
  */
 
 const fs = require("fs");
@@ -43,8 +43,8 @@ program
 		console.log(`
   举个例子:
 
-    $ nodc zhuanlan leanreact
-    $ nodc z leanreact -o ~/
+    $ eva zhuanlan leanreact
+    $ eva z leanreact -o ~/
 		`);
 	});
 
@@ -66,8 +66,8 @@ program
 		console.log(`
   举个例子:
 
-    $ nodc xmly ID
-    $ nodc x ID -o ~/ID.txt
+    $ eva xmly ID
+    $ eva x ID -o ~/ID.txt
 		`);
 	});
 
@@ -99,8 +99,8 @@ program
 		console.log(`
   举个例子:
 
-    $ nodc download https://www.baidu.com
-    $ nodc d https://www.baidu.com -o ~/
+    $ eva download https://www.baidu.com
+    $ eva d https://www.baidu.com -o ~/
 		`);
 	});
 
@@ -116,8 +116,8 @@ program
 		console.log(`
   举个例子:
 
-    $ nodc qrcode https://www.baidu.com
-    $ nodc q https://www.baidu.com
+    $ eva qrcode https://www.baidu.com
+    $ eva q https://www.baidu.com
 		`);
 	});
 
@@ -125,7 +125,7 @@ program
 program
 	.command("update [path]")
 	.alias("u")
-	.description("update nodc")
+	.description("update eva")
 	.action(str => {
 		update(str);
 	})
@@ -133,8 +133,8 @@ program
 		console.log(`
   举个例子:
 
-    $ nodc qrcode https://www.baidu.com
-    $ nodc q https://www.baidu.com
+    $ eva qrcode https://www.baidu.com
+    $ eva q https://www.baidu.com
 		`);
 	});
 
