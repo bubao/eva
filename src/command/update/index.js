@@ -3,7 +3,7 @@
  * @Author: bubao
  * @Date: 2020-01-15 16:30:08
  * @LastEditors: bubao
- * @LastEditTime: 2020-01-16 15:01:24
+ * @LastEditTime: 2020-01-16 15:08:17
  */
 const _ = require("lodash");
 const ora = require("ora");
@@ -158,5 +158,4 @@ async function getSourcePath(sourcePath) {
 	return packageFile;
 }
 
-update();
 module.exports = update;
