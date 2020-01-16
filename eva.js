@@ -4,7 +4,7 @@
  * @Author: bubao
  * @Date: 2017-7-16 17:28:33
  * @LastEditors: bubao
- * @LastEditTime: 2020-01-16 14:59:34
+ * @LastEditTime: 2020-01-16 15:19:14
  */
 
 const fs = require("fs");
@@ -133,8 +133,8 @@ program
 		console.log(`
   举个例子:
 
-    $ eva qrcode https://www.baidu.com
-    $ eva q https://www.baidu.com
+    $ eva update 
+    $ eva u
 		`);
 	});
 
@@ -145,7 +145,7 @@ function ReadMe() {
 
 program.parse(process.argv);
 
-if (!program.args.length && !noLog) {
+if (program.rawArgs.length < 2 && !program.args.length && !noLog) {
 	// program.outputHelp(ReadMe);
 	program.outputHelp();
 }
