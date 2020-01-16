@@ -3,7 +3,7 @@
  * @Author: bubao
  * @Date: 2020-01-15 16:30:08
  * @LastEditors: bubao
- * @LastEditTime: 2020-01-16 15:08:17
+ * @LastEditTime: 2020-01-16 15:22:58
  */
 const _ = require("lodash");
 const ora = require("ora");
@@ -16,7 +16,7 @@ const exec = promisify(require("child_process").exec);
 const WriteFile = promisify(fs.writeFile);
 
 async function update(sourcePath) {
-	sourcePath = path.join(sourcePath || "./");
+	sourcePath = path.resolve(sourcePath || "./");
 	const spinner = ora({
 		text: "开始更新",
 		spinner: {
