@@ -3,7 +3,7 @@
  * @Author: bubao
  * @Date: 2020-01-15 16:30:08
  * @LastEditors: bubao
- * @LastEditTime: 2020-01-16 15:22:58
+ * @LastEditTime: 2020-01-17 16:57:58
  */
 const _ = require("lodash");
 const ora = require("ora");
@@ -43,6 +43,7 @@ async function update(sourcePath) {
 		spinner.fail("更新失败，请重试");
 		return;
 	}
+	spinner.text = "更新代码";
 	// * 更新代码
 	await exec(`cd ${sourcePath} && git pull`);
 	// * 获取新的配置
@@ -67,6 +68,7 @@ async function update(sourcePath) {
 		spinner.succeed("无更新");
 		return null;
 	}
+	spinner.text = "更新依赖";
 	await WriteFile(
 		`${evaPath}/package.json`,
 		JSON.stringify({
@@ -74,7 +76,7 @@ async function update(sourcePath) {
 			source: sourcePath
 		})
 	);
-	// TODO 需要安装依赖
+	// * 需要安装依赖
 	await exec(
 		`cd ${sourcePath} && npm i --registry=https://registry.npm.taobao.org`
 	);
