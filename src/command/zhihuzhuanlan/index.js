@@ -1,10 +1,11 @@
 /**
- * @author bubao
- * @description
- * @date: 2018-03-14
- * @Last Modified by: bubao
- * @Last Modified time: 2019-12-02 03:07:30
+ * @Description:
+ * @Author: bubao
+ * @Date: 2018-03-14 17:01:06
+ * @LastEditors: bubao
+ * @LastEditTime: 2020-01-17 12:09:26
  */
+
 const Zhuanlan = require("zhihu-zhuanlan");
 const { mkdir } = require("../../tools/utils");
 const markdown = require("../../modules/build/markdown");
@@ -17,14 +18,22 @@ const { console, path, figlet } = require("../../tools/commonModules");
  * @param {string} format 格式，可省略
  */
 async function Post(postID, localPath, format) {
-	console.log(`-----🐛 ${postID} start -----`);
-	console.log(
-		figlet.textSync(`${postID}`, {
-			font: "Ghost",
-			horizontalLayout: "default",
-			verticalLayout: "default"
-		})
-	);
+	await new Promise(resolve => {
+		figlet.text(
+			`${postID}`,
+			{
+				font: "Ghost",
+				horizontalLayout: "default",
+				verticalLayout: "default"
+			},
+			(err, data) => {
+				if (!err) {
+					console.log(data);
+				}
+				resolve();
+			}
+		);
+	});
 
 	const zhuanlan = Zhuanlan.init();
 	let title;

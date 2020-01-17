@@ -4,11 +4,9 @@
  * @Author: bubao
  * @Date: 2017-7-16 17:28:33
  * @LastEditors: bubao
- * @LastEditTime: 2020-01-16 15:19:14
+ * @LastEditTime: 2020-01-17 16:08:46
  */
 
-const fs = require("fs");
-const path = require("path");
 const program = require("commander");
 const xmly = require("./src/command/xmly");
 const download = require("./src/command/download");
@@ -41,7 +39,7 @@ program
 	})
 	.on("--help", () => {
 		console.log(`
-  举个例子:
+  example:
 
     $ eva zhuanlan leanreact
     $ eva z leanreact -o ~/
@@ -64,7 +62,7 @@ program
 	})
 	.on("--help", () => {
 		console.log(`
-  举个例子:
+  example:
 
     $ eva xmly ID
     $ eva x ID -o ~/ID.txt
@@ -97,7 +95,7 @@ program
 	})
 	.on("--help", () => {
 		console.log(`
-  举个例子:
+  example:
 
     $ eva download https://www.baidu.com
     $ eva d https://www.baidu.com -o ~/
@@ -114,7 +112,7 @@ program
 	})
 	.on("--help", () => {
 		console.log(`
-  举个例子:
+  example:
 
     $ eva qrcode https://www.baidu.com
     $ eva q https://www.baidu.com
@@ -127,25 +125,26 @@ program
 	.alias("u")
 	.description("update eva")
 	.action(str => {
+		noLog = true;
 		update(str);
 	})
 	.on("--help", () => {
 		console.log(`
-  举个例子:
+  example:
 
-    $ eva update 
-    $ eva u
+    $ eva update # 可以接受参数制定eva的所在绝对路径 
+	$ eva u
 		`);
 	});
 
-function ReadMe() {
-	const README = fs.readFileSync(path.join(__dirname, "README.md"));
-	return `${README}`;
-}
+// function ReadMe() {
+// 	const README = fs.readFileSync(path.join(__dirname, "README.md"));
+// 	return `${README}`;
+// }
 
 program.parse(process.argv);
 
-if (program.rawArgs.length < 2 && !program.args.length && !noLog) {
+if (!program.args.length && !noLog) {
 	// program.outputHelp(ReadMe);
 	program.outputHelp();
 }
