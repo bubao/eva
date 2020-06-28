@@ -3,7 +3,7 @@
  * @Author: bubao
  * @Date: 2020-01-15 16:30:08
  * @LastEditors: bubao
- * @LastEditTime: 2020-01-17 16:57:58
+ * @LastEditTime: 2020-06-28 16:54:30
  */
 const _ = require("lodash");
 const ora = require("ora");
@@ -15,6 +15,13 @@ const mkdirp = promisify(require("mkdirp"));
 const exec = promisify(require("child_process").exec);
 const WriteFile = promisify(fs.writeFile);
 
+/**
+ * @description 更新版本
+ * @author bubao
+ * @date 2020-06-28
+ * @param {*} sourcePath
+ * @returns
+ */
 async function update(sourcePath) {
 	sourcePath = path.resolve(sourcePath || "./");
 	const spinner = ora({
@@ -77,10 +84,10 @@ async function update(sourcePath) {
 		})
 	);
 	// * 需要安装依赖
-	await exec(
-		`cd ${sourcePath} && npm i --registry=https://registry.npm.taobao.org`
+	const { stderr } = await exec(
+		`cd ${sourcePath} && cnpm i -g . --registry=https://registry.npm.taobao.org`
 	);
-	spinner.succeed("更新成功");
+	stderr ? spinner.fail(stderr) : spinner.succeed("更新成功");
 }
 
 function fsState(sourcePath) {

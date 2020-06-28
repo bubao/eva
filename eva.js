@@ -4,7 +4,7 @@
  * @Author: bubao
  * @Date: 2017-7-16 17:28:33
  * @LastEditors: bubao
- * @LastEditTime: 2020-01-17 16:08:46
+ * @LastEditTime: 2020-06-28 15:46:29
  */
 
 const program = require("commander");
@@ -13,6 +13,7 @@ const download = require("./src/command/download");
 const zhihu = require("./src/command/zhihuzhuanlan");
 const qrcode = require("./src/command/qrcode");
 const update = require("./src/command/update");
+const wifi = require("./src/command/wifi");
 const { console } = require("./src/tools/commonModules");
 let noLog = false;
 
@@ -116,6 +117,24 @@ program
 
     $ eva qrcode https://www.baidu.com
     $ eva q https://www.baidu.com
+		`);
+	});
+
+// wifi 二维码
+program
+	.command("qwifi [ssid]")
+	.alias("qw")
+	.description("Generate wifi qrcode")
+	.option("-p ,--password [password]", "密码")
+	.action(ssid => {
+		wifi(ssid, program.password);
+	})
+	.on("--help", () => {
+		console.log(`
+  example:
+
+    $ eva qwifi ssid -p password
+    $ eva qw ssid -p password
 		`);
 	});
 

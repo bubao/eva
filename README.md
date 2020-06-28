@@ -1,6 +1,6 @@
 # eva
 
-eva 是一个 node 脚本工具集，现在已经有把 [知乎专栏爬虫](https://github.com/bubao/GetZhiHuZhuanLan)~~和中央天气预报加到里面~~，以后还会加入一些 node 小工具进去。同时欢迎各位喜欢这个项目，想 diy 自己的工具集的朋友参与进来。
+eva 是一个 node 脚本工具集，现在已经有把 [知乎专栏爬虫](https://github.com/bubao/zhihu-zhuanlan)~~和中央天气预报加到里面~~，以后还会加入一些 node 小工具进去。同时欢迎各位喜欢这个项目，想 diy 自己的工具集的朋友参与进来。
 
 ## 安装
 
@@ -67,8 +67,10 @@ $ eva x [ID] -o <path> -t albums
 ## 已完成
 
 -   [x] 知乎专栏爬虫
--   [x] 喜马拉雅下载器
 -   [x] 带进度条的下载器
+-   [x] 二维码
+-   [x] wifi 二维码
+-   [x] ~~喜马拉雅下载器~~
 -   [x] ~~中央天气预报~~
 
 ## 正在进行
@@ -90,7 +92,7 @@ $ eva x [ID] -o <path> -t albums
 
 ~~这个项目其实还有很多小 bug，`code`标签转换成 markdown 时是单反引号。目前的 markdown 转换工具使用的是 [h2m](https://github.com/island205/h2m) ，如果有更好的工具请告知我，让我能尽快完善这个小爬虫，谢谢。~~
 
-知乎专栏爬虫已分离成独立模块 [GetZhiHuZhuanLan](https://github.com/bubao/GetZhiHuZhuanLan)，基本能用。
+知乎专栏爬虫已分离成独立模块 [zhihu-zhuanlan](https://github.com/bubao/zhihu-zhuanlan)，基本能用。
 
 ### 中央天气预报（已弃用）
 
@@ -98,7 +100,7 @@ $ eva x [ID] -o <path> -t albums
 
 这个命令已不能再使用，因为中央天气预报以前的 API 已经不再维护。
 
-## 带进度条的下载器
+### 带进度条的下载器
 
 这个使用的是 request 模块做的下载器，其实是为了练手写的。实际上已经可以使用来下载东西了。
 
