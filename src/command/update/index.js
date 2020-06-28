@@ -3,7 +3,7 @@
  * @Author: bubao
  * @Date: 2020-01-15 16:30:08
  * @LastEditors: bubao
- * @LastEditTime: 2020-06-28 18:14:33
+ * @LastEditTime: 2020-06-28 18:42:32
  */
 const _ = require("lodash");
 const ora = require("ora");
@@ -91,7 +91,8 @@ async function update(sourcePath = "./") {
 	}
 	let password;
 
-	if (os.type() === "Linux") {
+	if (os.type()) {
+		console.log(os.type())
 		await inquirer
 			.prompt([
 				{
