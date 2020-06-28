@@ -3,7 +3,7 @@
  * @Author: bubao
  * @Date: 2020-01-15 16:30:08
  * @LastEditors: bubao
- * @LastEditTime: 2020-06-28 16:54:30
+ * @LastEditTime: 2020-06-28 17:13:05
  */
 const _ = require("lodash");
 const ora = require("ora");
@@ -72,17 +72,17 @@ async function update(sourcePath) {
 	const ConfigurationDAL = _.difference(ConfigurationDA, SourceDA).length;
 	const SourceDAL = _.difference(SourceDA, ConfigurationDA).length;
 	if ((ConfigurationDAL === 0 || SourceDAL === 0) && Configuration.exists) {
-		spinner.succeed("无更新");
-		return null;
+		spinner.text = "重装";
+	} else {
+		spinner.text = "更新依赖";
+		await WriteFile(
+			`${evaPath}/package.json`,
+			JSON.stringify({
+				...Source,
+				source: sourcePath
+			})
+		);
 	}
-	spinner.text = "更新依赖";
-	await WriteFile(
-		`${evaPath}/package.json`,
-		JSON.stringify({
-			...Source,
-			source: sourcePath
-		})
-	);
 	// * 需要安装依赖
 	const { stderr } = await exec(
 		`cd ${sourcePath} && cnpm i -g . --registry=https://registry.npm.taobao.org`
