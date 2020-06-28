@@ -4,7 +4,7 @@
  * @Author: bubao
  * @Date: 2017-7-16 17:28:33
  * @LastEditors: bubao
- * @LastEditTime: 2020-06-28 15:46:29
+ * @LastEditTime: 2020-06-28 17:03:21
  */
 
 const program = require("commander");
@@ -122,10 +122,10 @@ program
 
 // wifi 二维码
 program
-	.command("qwifi [ssid]")
+	.command("qwifi <ssid>")
 	.alias("qw")
 	.description("Generate wifi qrcode")
-	.option("-p ,--password [password]", "密码")
+	.option("-p ,--password <password>", "密码")
 	.action(ssid => {
 		wifi(ssid, program.password);
 	})
