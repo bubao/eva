@@ -3,7 +3,7 @@
  * @Author: bubao
  * @Date: 2020-01-15 16:30:08
  * @LastEditors: bubao
- * @LastEditTime: 2020-06-28 17:13:05
+ * @LastEditTime: 2020-06-28 17:16:55
  */
 const _ = require("lodash");
 const ora = require("ora");
@@ -85,7 +85,7 @@ async function update(sourcePath) {
 	}
 	// * 需要安装依赖
 	const { stderr } = await exec(
-		`cd ${sourcePath} && cnpm i -g . --registry=https://registry.npm.taobao.org`
+		`cd ${sourcePath} &&sudo cnpm i -g . --registry=https://registry.npm.taobao.org`
 	);
 	stderr ? spinner.fail(stderr) : spinner.succeed("更新成功");
 }
