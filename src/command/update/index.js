@@ -3,10 +3,12 @@
  * @Author: bubao
  * @Date: 2020-01-15 16:30:08
  * @LastEditors: bubao
- * @LastEditTime: 2020-06-28 17:16:55
+ * @LastEditTime: 2020-06-28 18:14:33
  */
 const _ = require("lodash");
 const ora = require("ora");
+// eslint-disable-next-line node/no-extraneous-require
+const inquirer = require("inquirer");
 const os = require("os");
 const promisify = require("util").promisify;
 const { path, fs } = require("../../tools/commonModules");
@@ -19,11 +21,13 @@ const WriteFile = promisify(fs.writeFile);
  * @description 更新版本
  * @author bubao
  * @date 2020-06-28
- * @param {*} sourcePath
+ * @param {string} sourcePath
  * @returns
  */
-async function update(sourcePath) {
-	sourcePath = path.resolve(sourcePath || "./");
+async function update(sourcePath = "./") {
+	// ? 获取配置文件路径
+	sourcePath = path.resolve(sourcePath);
+	// ? 初始化滚动条
 	const spinner = ora({
 		text: "开始更新",
 		spinner: {
@@ -32,6 +36,7 @@ async function update(sourcePath) {
 		},
 		color: "cyan"
 	}).start();
+	// ? 生成配置文件的路径
 	const evaPath = path.join(os.homedir(), ".eva");
 	// * 检查配置文件是否存在
 	const Configuration = await getConfiguration(evaPath);
@@ -71,6 +76,7 @@ async function update(sourcePath) {
 	});
 	const ConfigurationDAL = _.difference(ConfigurationDA, SourceDA).length;
 	const SourceDAL = _.difference(SourceDA, ConfigurationDA).length;
+
 	if ((ConfigurationDAL === 0 || SourceDAL === 0) && Configuration.exists) {
 		spinner.text = "重装";
 	} else {
@@ -83,11 +89,30 @@ async function update(sourcePath) {
 			})
 		);
 	}
+	let password;
+
+	if (os.type() === "Linux") {
+		await inquirer
+			.prompt([
+				{
+					type: "password",
+					name: "password",
+					message: "Input your password:",
+					mask: true
+				}
+			])
+			.then(function(answers) {
+				password = answers.password;
+			})
+			.catch(function() {});
+	}
 	// * 需要安装依赖
-	const { stderr } = await exec(
-		`cd ${sourcePath} &&sudo cnpm i -g . --registry=https://registry.npm.taobao.org`
+	await exec(
+		`cd ${sourcePath} && ${
+			password ? `echo ${password} |` : "" + "sudo"
+		} cnpm i -g . --registry=https://registry.npm.taobao.org`
 	);
-	stderr ? spinner.fail(stderr) : spinner.succeed("更新成功");
+	spinner.succeed("更新成功");
 }
 
 function fsState(sourcePath) {
@@ -105,11 +130,20 @@ function fsState(sourcePath) {
 		});
 	});
 }
-
+/**
+ * @description 获取配置文件
+ * @author bubao
+ * @date 2020-06-28
+ * @param {string} sourcePath
+ * @returns
+ */
 async function getConfiguration(sourcePath) {
 	const FsStat = await fsState(sourcePath);
+	// ? 拼接配置文件路径
 	const configPath = path.join(sourcePath, "package.json");
+	// ? 文件夹不存在
 	if (FsStat.error) {
+		// ? 生成配置文件夹
 		await mkdirp(sourcePath);
 		return {
 			exists: false,
@@ -118,6 +152,7 @@ async function getConfiguration(sourcePath) {
 		};
 	}
 
+	// ? 文件不存在
 	const config = await fsState(configPath);
 	if (config.error || config.isDirectory) {
 		return {
