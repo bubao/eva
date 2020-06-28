@@ -3,7 +3,7 @@
  * @Author: bubao
  * @Date: 2020-01-15 16:30:08
  * @LastEditors: bubao
- * @LastEditTime: 2020-06-28 18:42:32
+ * @LastEditTime: 2020-06-28 19:04:03
  */
 const _ = require("lodash");
 const ora = require("ora");
@@ -90,9 +90,8 @@ async function update(sourcePath = "./") {
 		);
 	}
 	let password;
-
-	if (os.type()) {
-		console.log(os.type())
+	spinner.succeed("等待");
+	if (os.type() === "Linux") {
 		await inquirer
 			.prompt([
 				{
@@ -107,6 +106,7 @@ async function update(sourcePath = "./") {
 			})
 			.catch(function() {});
 	}
+	spinner.start("更新依赖");
 	// * 需要安装依赖
 	await exec(
 		`cd ${sourcePath} && ${
