@@ -4,7 +4,7 @@
  * @Author: bubao
  * @Date: 2017-7-16 17:28:33
  * @LastEditors: bubao
- * @LastEditTime: 2020-07-01 01:21:41
+ * @LastEditTime: 2020-07-01 01:28:57
  */
 
 const program = require("commander");
@@ -152,7 +152,7 @@ program
   example:
 
     $ eva update # 可以接受参数制定eva的所在绝对路径
-	$ eva u
+	  $ eva u
 		`);
 	});
 
