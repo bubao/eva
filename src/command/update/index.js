@@ -3,7 +3,7 @@
  * @Author: bubao
  * @Date: 2020-01-15 16:30:08
  * @LastEditors: bubao
- * @LastEditTime: 2020-06-28 19:17:42
+ * @LastEditTime: 2020-07-01 01:22:08
  */
 const _ = require("lodash");
 const ora = require("ora");
@@ -111,7 +111,7 @@ async function update(sourcePath = "./") {
 	await exec(
 		`cd ${sourcePath} && ${
 			password ? `echo ${password} | ` + "sudo" : ""
-		} cnpm i -g . --registry=https://registry.npm.taobao.org`
+		} cnpm i -g .`
 	);
 	spinner.succeed("更新成功");
 }

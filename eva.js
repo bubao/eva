@@ -4,7 +4,7 @@
  * @Author: bubao
  * @Date: 2017-7-16 17:28:33
  * @LastEditors: bubao
- * @LastEditTime: 2020-06-28 17:54:52
+ * @LastEditTime: 2020-07-01 01:21:41
  */
 
 const program = require("commander");
@@ -151,7 +151,7 @@ program
 		console.log(`
   example:
 
-    $ eva update # 可以接受参数制定eva的所在绝对路径 
+    $ eva update # 可以接受参数制定eva的所在绝对路径
 	$ eva u
 		`);
 	});
@@ -162,6 +162,10 @@ program
 // }
 
 program.parse(process.argv);
+
+process.on("SIGINT", function() {
+	console.log("Exit now!");
+});
 
 if (!program.args.length && !noLog) {
 	// program.outputHelp(ReadMe);
