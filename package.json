@@ -1,65 +1,80 @@
 {
-  "name": "eva",
-  "version": "1.2.4",
-  "description": "",
-  "bin": {
-    "eva": "eva.js"
-  },
-  "preferGlobal": true,
-  "author": "Bubao",
-  "license": "MIT",
-  "dependencies": {
-    "better-console": "^1.0.1",
-    "cheerio": "^1.0.0-rc.3",
-    "cli-color": "^2.0.0",
-    "cli-table2": "^0.2.0",
-    "commander": "^4.0.1",
-    "figlet": "^1.2.4",
-    "filenamify": "^4.1.0",
-    "inquirer": "^7.2.0",
-    "lodash": "^4.17.15",
-    "mkdirp": "^0.5.1",
-    "ora": "^4.0.3",
-    "qrcode": "^1.4.4",
-    "request": "^2.88.0",
-    "self-promise-request": "git+https://github.com/bubao/self-promise-request.git#v0.0.8",
-    "single-line-log": "^1.1.2",
-    "xmly": "git+https://github.com/bubao/xmly.git",
-    "zhihu-zhuanlan": "git+https://github.com/bubao/zhihu-zhuanlan.git#v0.1.3"
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^8.2.0",
-    "@commitlint/config-conventional": "^8.2.0",
-    "commitizen": "^4.0.3",
-    "cz-customizable": "^6.2.0",
-    "eslint": "^6.7.2",
-    "eslint-config-prettier": "^6.7.0",
-    "eslint-config-standard": "^14.1.0",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-node": "^10.0.0",
-    "eslint-plugin-prettier": "^3.1.1",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
-    "husky": "^3.1.0",
-    "prettier": "^1.19.1",
-    "pretty-quick": "^2.0.1"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged",
-      "pre-push": "pretty-quick --staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
-  "config": {
-    "commitizen": {
-      "path": "node_modules/cz-customizable"
-    },
-    "cz-customizable": {
-      "config": "config/cz-config.js"
-    }
-  },
-  "engines": {
-    "node": ">=8.3.0"
-  }
+	"name": "eva",
+	"version": "1.2.4",
+	"description": "eva 是一个 node 脚本工具集，现在已经有把 [知乎专栏爬虫](https://github.com/bubao/zhihu-zhuanlan)~~和中央天气预报加到里面~~，以后还会加入一些 node 小工具进去。同时欢迎各位喜欢这个项目，想 diy 自己的工具集的朋友参与进来。",
+	"bin": {
+		"eva": "eva.js"
+	},
+	"preferGlobal": true,
+	"author": "Bubao",
+	"license": "MIT",
+	"dependencies": {
+		"better-console": "^1.0.1",
+		"cheerio": "^1.0.0-rc.3",
+		"cli-color": "^2.0.0",
+		"cli-table2": "^0.2.0",
+		"commander": "^4.1.1",
+		"figlet": "^1.5.0",
+		"filenamify": "^4.1.0",
+		"inquirer": "^7.3.3",
+		"lodash": "^4.17.20",
+		"mkdirp": "^0.5.5",
+		"ora": "^4.1.1",
+		"qrcode": "^1.4.4",
+		"request": "^2.88.2",
+		"self-promise-request": "git+https://github.com/bubao/self-promise-request.git#v0.0.8",
+		"single-line-log": "^1.1.2",
+		"xmly": "git+https://github.com/bubao/xmly.git",
+		"zhihu-zhuanlan": "git+https://github.com/bubao/zhihu-zhuanlan.git#v0.2.0"
+	},
+	"devDependencies": {
+		"@commitlint/cli": "^8.2.0",
+		"@commitlint/config-conventional": "^8.2.0",
+		"commitizen": "^4.0.3",
+		"cz-customizable": "^6.2.0",
+		"eslint": "^6.7.2",
+		"eslint-config-prettier": "^6.7.0",
+		"eslint-config-standard": "^14.1.0",
+		"eslint-plugin-import": "^2.18.2",
+		"eslint-plugin-node": "^10.0.0",
+		"eslint-plugin-prettier": "^3.1.1",
+		"eslint-plugin-promise": "^4.2.1",
+		"eslint-plugin-standard": "^4.0.1",
+		"husky": "^3.1.0",
+		"prettier": "^1.19.1",
+		"pretty-quick": "^2.0.1"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "pretty-quick --staged",
+			"pre-push": "pretty-quick --staged",
+			"commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+		}
+	},
+	"config": {
+		"commitizen": {
+			"path": "node_modules/cz-customizable"
+		},
+		"cz-customizable": {
+			"config": "config/cz-config.js"
+		}
+	},
+	"engines": {
+		"node": ">=8.3.0"
+	},
+	"main": "eva.js",
+	"directories": {
+		"test": "test"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+ssh://git@github.com/bubao/eva.git"
+	},
+	"bugs": {
+		"url": "https://github.com/bubao/eva/issues"
+	},
+	"homepage": "https://github.com/bubao/eva#readme"
 }

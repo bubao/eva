@@ -3,21 +3,32 @@
  * @Author: bubao
  * @Date: 2018-03-14 17:01:06
  * @LastEditors: bubao
- * @LastEditTime: 2020-01-17 12:09:26
+ * @LastEditTime: 2020-09-15 20:23:51
  */
 
 const Zhuanlan = require("zhihu-zhuanlan");
+const ProgressBar = require("../../modules/ProgressBar");
 const { mkdir } = require("../../tools/utils");
-const markdown = require("../../modules/build/markdown");
 const { console, path, figlet } = require("../../tools/commonModules");
+const fs = require("fs");
+const stream = require("stream");
 
+const writeFile = (path, data, format, cb = () => undefined) => {
+	const s = new stream.Readable();
+	s._read = () => {
+		return undefined;
+	};
+	s.push(data);
+	s.push(null);
+	s.pipe(fs.createWriteStream(`${path}.${format}`)).on("close", cb);
+};
 /**
  *  知乎专栏抓取器
  * @param {string} postID 知乎专栏的ID
  * @param {string} localPath 下载路径
  * @param {string} format 格式，可省略
  */
-async function Post(postID, localPath, format) {
+async function Post(postID, localPath, format = "md") {
 	await new Promise(resolve => {
 		figlet.text(
 			`${postID}`,
@@ -35,14 +46,38 @@ async function Post(postID, localPath, format) {
 		);
 	});
 
-	const zhuanlan = Zhuanlan.init();
+	const zhuanlan = Zhuanlan.init({ columnsID: postID });
 	let title;
 	zhuanlan.once("info", data => {
 		title = data.title;
 		mkdir(path.resolve(localPath, title), title);
 	});
-	zhuanlan.on("single_data", data => {
-		markdown(localPath, title, data, format);
+	const pb = ProgressBar.init();
+	let write_count = 0;
+	zhuanlan.on("batch_data", element => {
+		element.data.map(({ filename, header, content, copyRight, json }) => {
+			writeFile(
+				`${localPath}/${title}/${filename}`,
+				header + content + copyRight,
+				"md",
+				() => {
+					write_count++;
+					pb.render({
+						completed: write_count,
+						total: element.articles_count,
+						hiden: false,
+						type: true
+					});
+				}
+			);
+			if (format === "json") {
+				writeFile(
+					`${localPath}/${title}/${filename}`,
+					JSON.stringify(json),
+					format
+				);
+			}
+		});
 	});
 	zhuanlan.getAll(postID);
 }
