@@ -4,7 +4,7 @@
  * @Author: bubao
  * @Date: 2017-7-16 17:28:33
  * @LastEditors: bubao
- * @LastEditTime: 2020-07-01 01:28:57
+ * @LastEditTime: 2020-09-15 21:43:19
  */
 
 const program = require("commander");
@@ -162,10 +162,6 @@ program
 // }
 
 program.parse(process.argv);
-
-process.on("SIGINT", function() {
-	console.log("Exit now!");
-});
 
 if (!program.args.length && !noLog) {
 	// program.outputHelp(ReadMe);

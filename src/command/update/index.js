@@ -3,12 +3,10 @@
  * @Author: bubao
  * @Date: 2020-01-15 16:30:08
  * @LastEditors: bubao
- * @LastEditTime: 2020-07-01 01:22:08
+ * @LastEditTime: 2020-09-15 21:47:11
  */
 const _ = require("lodash");
 const ora = require("ora");
-// eslint-disable-next-line node/no-extraneous-require
-const inquirer = require("inquirer");
 const os = require("os");
 const promisify = require("util").promisify;
 const { path, fs } = require("../../tools/commonModules");
@@ -36,6 +34,7 @@ async function update(sourcePath = "./") {
 		},
 		color: "cyan"
 	}).start();
+
 	// ? 生成配置文件的路径
 	const evaPath = path.join(os.homedir(), ".eva");
 	// * 检查配置文件是否存在
@@ -56,6 +55,12 @@ async function update(sourcePath = "./") {
 		return;
 	}
 	spinner.text = "更新代码";
+
+	process.on("SIGINT", () => {
+		spinner.fail("User cancel");
+		// eslint-disable-next-line no-process-exit
+		process.exit(0);
+	});
 	// * 更新代码
 	await exec(`cd ${sourcePath} && git pull`);
 	// * 获取新的配置
@@ -89,31 +94,11 @@ async function update(sourcePath = "./") {
 			})
 		);
 	}
-	let password;
-	spinner.succeed("等待");
-	if (os.type() === "Linux") {
-		await inquirer
-			.prompt([
-				{
-					type: "password",
-					name: "password",
-					message: "Input your password:",
-					mask: true
-				}
-			])
-			.then(function(answers) {
-				password = answers.password;
-			})
-			.catch(function() {});
-	}
-	spinner.start("更新依赖");
+	// spinner.start("更新依赖");
 	// * 需要安装依赖
-	await exec(
-		`cd ${sourcePath} && ${
-			password ? `echo ${password} | ` + "sudo" : ""
-		} cnpm i -g .`
-	);
+	await exec(`cd ${sourcePath} && cnpm i -g .`);
 	spinner.succeed("更新成功");
+	spinner.stop();
 }
 
 function fsState(sourcePath) {
