@@ -11,9 +11,7 @@ eva 是一个 node 脚本工具集，现在已经有把 [知乎专栏爬虫](htt
 $ git clone https://github.com/bubao/eva
 # 项目的根目录下
 $ cd eva
-# 安装 Linux 下
-$ sudo cnpm i -g .
-# 安装 Windows 下
+# 安装
 $ cnpm i -g .
 # 初始化更新
 $ eva update
@@ -38,6 +36,8 @@ $ eva -h
 
 ### 知乎专栏爬虫
 
+知乎专栏爬虫已分离成独立模块 [zhihu-zhuanlan](https://github.com/bubao/zhihu-zhuanlan)，基本能用。
+
 通过这个命令，能获取到指定知乎专栏的全本文章的 Markdown 版本，甚至是 json 格式的文件。
 
 ```sh
@@ -51,7 +51,11 @@ $ eva z [zhihuzhuanlanId] -o <path>
 $ eva z [zhihuzhuanlanId] -o <path> -f json
 ```
 
-### 喜马拉雅下载器
+### 带进度条的下载器
+
+这个使用的是 request 模块做的下载器，其实是为了练手写的。实际上已经可以使用来下载东西了。
+
+### 喜马拉雅下载器（已失效）
 
 这个命令能下载指定喜马拉雅的作者全部专辑，或者某个专辑的 aria2 的下载地址。
 
@@ -64,9 +68,16 @@ $ eva x [ID] -o <path>
 $ eva x [ID] -o <path> -t albums
 ```
 
+### 中央天气预报（已失效）
+
+~~这个项目用了 [-API](https://github.com/jokermonn/-Api) 提供的 api 写的天气查询，目前还不是很完善，但是已经可以用了，后续继续做些小细节上的工作。~~
+
+这个命令已不能再使用，因为中央天气预报以前的 API 已经不再维护。
+
 ## 已完成
 
 -   [x] 知乎专栏爬虫
+-   [x] 更新命令
 -   [x] 带进度条的下载器
 -   [x] 二维码
 -   [x] wifi 二维码
@@ -87,22 +98,6 @@ $ eva x [ID] -o <path> -t albums
 -   [ ] 翻译
 -   [ ] 纪念日提醒
 -   [ ] 每日小 tag
-
-### 知乎专栏爬虫
-
-~~这个项目其实还有很多小 bug，`code`标签转换成 markdown 时是单反引号。目前的 markdown 转换工具使用的是 [h2m](https://github.com/island205/h2m) ，如果有更好的工具请告知我，让我能尽快完善这个小爬虫，谢谢。~~
-
-知乎专栏爬虫已分离成独立模块 [zhihu-zhuanlan](https://github.com/bubao/zhihu-zhuanlan)，基本能用。
-
-### 中央天气预报（已弃用）
-
-~~这个项目用了 [-API](https://github.com/jokermonn/-Api) 提供的 api 写的天气查询，目前还不是很完善，但是已经可以用了，后续继续做些小细节上的工作。~~
-
-这个命令已不能再使用，因为中央天气预报以前的 API 已经不再维护。
-
-### 带进度条的下载器
-
-这个使用的是 request 模块做的下载器，其实是为了练手写的。实际上已经可以使用来下载东西了。
 
 ## 最后说点事
 
