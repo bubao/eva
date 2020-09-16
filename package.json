@@ -25,7 +25,7 @@
 		"self-promise-request": "git+https://github.com/bubao/self-promise-request.git#v0.0.8",
 		"single-line-log": "^1.1.2",
 		"xmly": "git+https://github.com/bubao/xmly.git",
-		"zhihu-zhuanlan": "git+https://github.com/bubao/zhihu-zhuanlan.git#v0.2.0"
+		"zhihu-zhuanlan": "git+https://github.com/bubao/zhihu-zhuanlan.git#v0.3.0"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^8.2.0",
