@@ -3,7 +3,7 @@
  * @Author: bubao
  * @Date: 2018-03-14 17:01:06
  * @LastEditors: bubao
- * @LastEditTime: 2020-09-15 20:23:51
+ * @LastEditTime: 2020-09-16 17:36:40
  */
 
 const Zhuanlan = require("zhihu-zhuanlan");
@@ -55,29 +55,31 @@ async function Post(postID, localPath, format = "md") {
 	const pb = ProgressBar.init();
 	let write_count = 0;
 	zhuanlan.on("batch_data", element => {
-		element.data.map(({ filename, header, content, copyRight, json }) => {
-			writeFile(
-				`${localPath}/${title}/${filename}`,
-				header + content + copyRight,
-				"md",
-				() => {
-					write_count++;
-					pb.render({
-						completed: write_count,
-						total: element.articles_count,
-						hiden: false,
-						type: true
-					});
-				}
-			);
-			if (format === "json") {
+		element.data.map(
+			({ filenameTime, header, content, copyRight, json }) => {
 				writeFile(
-					`${localPath}/${title}/${filename}`,
-					JSON.stringify(json),
-					format
+					`${localPath}/${title}/${filenameTime}`,
+					header + content + copyRight,
+					"md",
+					() => {
+						write_count++;
+						pb.render({
+							completed: write_count,
+							total: element.articles_count,
+							hiden: false,
+							type: true
+						});
+					}
 				);
+				if (format === "json") {
+					writeFile(
+						`${localPath}/${title}/${filenameTime}`,
+						JSON.stringify(json),
+						format
+					);
+				}
 			}
-		});
+		);
 	});
 	zhuanlan.getAll(postID);
 }
