@@ -17,10 +17,7 @@ const localbook = mdDir => {
 			if (stats.isFile()) {
 				// if (/emoji/.test(filename)) {
 				console.log(filename);
-				const content = fs.readFileSync(
-					path.join(mdDir, filename),
-					"utf-8"
-				);
+				const content = fs.readFileSync(path.join(mdDir, filename), "utf-8");
 				fs.appendFileSync(
 					path.join(dir, `${path.dirname(newPath)}.md`),
 					content

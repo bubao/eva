@@ -54,10 +54,7 @@ const defaultName = url => {
 };
 
 const MD5 = str => {
-	return crypto
-		.createHash("md5")
-		.update(str, "utf8")
-		.digest("hex");
+	return crypto.createHash("md5").update(str, "utf8").digest("hex");
 };
 
 /**

@@ -1,10 +1,11 @@
 /**
- * @author bubao
- * @description 将markdown的图片下载到本地
- * @date: 2018-01-23
- * @Last Modified by: bubao
- * @Last Modified time: 2019-11-30 23:31:34
+ * @description: 将markdown的图片下载到本地
+ * @author: bubao
+ * @date:  2018-01-23 14:06:45
+ * @last author: bubao
+ * @last edit time: 2020-09-17 01:50:51
  */
+
 const fs = require("fs");
 const request = require("request");
 const path = require("path");
@@ -20,11 +21,9 @@ const { console } = require("../../tools/commonModules");
  */
 const loop = (p, name, arr, cb) => {
 	if (arr.length) {
-		const itrm = arr.splice(0, 1);
+		const item = arr.splice(0, 1);
 		request(item)
-			.pipe(
-				fs.createWriteStream(`${p}/${name}/imgs/${path.basename(item)}`)
-			)
+			.pipe(fs.createWriteStream(`${p}/${name}/imgs/${path.basename(item)}`))
 			.on("close", () => loop(p, name, arr, cb));
 	} else {
 		console.log("end");

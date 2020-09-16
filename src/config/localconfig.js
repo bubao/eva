@@ -1,16 +1,11 @@
 /**
- * @author bubao
- * @description
- * @date: 2018-03-14
- * @Last Modified by: bubao
- * @Last Modified time: 2019-11-30 23:32:05
+ * @description:
+ * @author: bubao
+ * @date: 2018-03-14 17:49:12
+ * @last author: bubao
+ * @last edit time: 2020-09-17 01:49:27
  */
-/*
- * @Author: bubao
- * @Date: 2018-05-15 17:49:12
- * @Last Modified by:   bubao
- * @Last Modified time: 2018-05-15 17:49:12
- */
+
 module.exports = {
 	proxyUrl: "",
 	timeout: 0,

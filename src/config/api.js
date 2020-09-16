@@ -1,9 +1,11 @@
-/*
- * @Author: bubao
- * @Date: 2018-03-21
- * @Last Modified by: bubao
- * @Last Modified time: 2019-11-30 23:31:57
+/**
+ * @description:
+ * @author: bubao
+ * @date: 2018-03-21 14:06:45
+ * @last author: bubao
+ * @last edit time: 2020-09-17 01:48:52
  */
+
 let api = {};
 api = {
 	bilibili: {
@@ -14,8 +16,7 @@ api = {
 		appKey: "84956560bc028eb7",
 		secKey: "94aba54af9065f71de72f5508f1cd42e",
 		headers: {
-			Accept:
-				"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+			Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
 			"Accept-Charset": "UTF-8,*;q=0.5",
 
 			"Accept-Language": "en-US,en;q=0.8",

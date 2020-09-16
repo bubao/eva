@@ -1,26 +1,25 @@
 {
 	"root": true,
 	"env": {
-		"es6": true,
-		"node": true
+		// 一个环境定义了一组预定义的全局变量。
+		"es6": true, // 启用es6语法
+		"node": true // - Node.js 全局变量和 Node.js 作用域。
 	},
 	"extends": [
 		"standard",
-		"prettier",
 		"plugin:node/recommended"
 	],
 	"plugins": [
 		"standard",
-		"prettier"
+		"node"
 	],
 	"rules": {
-		"prettier/prettier": "error",
 		"semi": [
-			2,
+			"error",
 			"always"
 		],
 		"quotes": [
-			2,
+			"error",
 			"double"
 		],
 		"no-multiple-empty-lines": "error",
@@ -36,6 +35,23 @@
 		"no-loop-func": "off",
 		"prefer-promise-reject-errors": "off",
 		"node/no-unsupported-features/es-syntax": "off",
-		"standard/no-callback-literal": "off"
+		"standard/no-callback-literal": "off",
+		"no-tabs": "off",
+		"indent": [
+			"error",
+			"tab"
+		],
+		"space-before-function-paren": [
+			"error",
+			{
+				"anonymous": "never",
+				"named": "never",
+				"asyncArrow": "always"
+			}
+		],
+		"arrow-parens": [
+			"error",
+			"as-needed"
+		]
 	}
 }

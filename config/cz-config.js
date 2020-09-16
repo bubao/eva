@@ -1,3 +1,11 @@
+/**
+ * @description:
+ * @author: bubao
+ * @date: 2020-09-15 14:06:45
+ * @last author: bubao
+ * @last edit time: 2020-09-17 01:50:17
+ */
+
 module.exports = {
 	types: [
 		{ value: "特性✨", name: "特性:    一个新的特性" },
@@ -12,10 +20,10 @@ module.exports = {
 	],
 
 	scopes: [
-		{ name: "模块1" },
-		{ name: "模块2" },
-		{ name: "模块3" },
-		{ name: "模块4" }
+		{ name: "command" },
+		{ name: "config" },
+		{ name: "modules" },
+		{ name: "tools" }
 	],
 
 	// it needs to match the value for field type. Eg.: 'fix'

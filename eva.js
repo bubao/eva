@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
- * @Description: node脚本命令行工具
- * @Author: bubao
- * @Date: 2017-7-16 17:28:33
- * @LastEditors: bubao
- * @LastEditTime: 2020-09-15 21:43:19
+ * @description: node脚本命令行工具
+ * @author: bubao
+ * @date: 2017-7-16 17:28:33
+ * @last author: bubao
+ * @last edit time: 2020-09-17 01:47:21
  */
 
 const program = require("commander");
@@ -30,11 +30,7 @@ program
 		if (zhuanlanId) {
 			const runpath = options.out || process.cwd(); // 当前执行路径
 			const format = options.format || "md";
-			console.log(
-				"🐛   知乎专栏爬取 %s 到 %s 文件夹",
-				zhuanlanId,
-				runpath
-			);
+			console.log("🐛   知乎专栏爬取 %s 到 %s 文件夹", zhuanlanId, runpath);
 			zhihu(zhuanlanId, runpath, format);
 		}
 	})
@@ -87,8 +83,7 @@ program
 				url: url || "leanreact",
 				out: program.out || process.cwd(),
 				length: parseInt(program.length, 10) || 50,
-				name:
-					typeof program.name === "string" ? program.name : undefined,
+				name: typeof program.name === "string" ? program.name : undefined,
 				hiden: program.hiden
 			};
 			download(opts);

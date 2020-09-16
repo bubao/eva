@@ -1,10 +1,11 @@
 /**
- * @Description:
- * @Author: bubao
- * @Date: 2020-01-15 16:30:08
- * @LastEditors: bubao
- * @LastEditTime: 2020-09-15 21:47:11
+ * @description: 更新
+ * @author: bubao
+ * @date: 2020-01-15 16:30:08
+ * @last author: bubao
+ * @last edit time: 2020-09-17 01:48:21
  */
+
 const _ = require("lodash");
 const ora = require("ora");
 const os = require("os");
@@ -39,7 +40,7 @@ async function update(sourcePath = "./") {
 	const evaPath = path.join(os.homedir(), ".eva");
 	// * 检查配置文件是否存在
 	const Configuration = await getConfiguration(evaPath);
-	// TODO 如果这个值存在，就更新配置中的源码路径
+	// * 如果这个值存在，就更新配置中的源码路径
 	let source;
 	if (!Configuration.exists) {
 		source = await getSourcePath(sourcePath);

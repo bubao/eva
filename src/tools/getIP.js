@@ -1,4 +1,5 @@
-const request = require("./request");
+/* eslint-disable node/no-extraneous-require */
+const request = require("request-promise");
 const cheerio = require("cheerio");
 const fs = require("fs");
 const times = require("lodash/times");
@@ -83,10 +84,7 @@ async function getXici() {
 		const tds = tr.children("td");
 		proxy.ip = tds.eq(1).text();
 		proxy.port = tds.eq(2).text();
-		let speed = tds
-			.eq(7)
-			.children("div")
-			.attr("title");
+		let speed = tds.eq(7).children("div").attr("title");
 		speed = speed.substring(0, speed.length - 1);
 		let connectTime = tds.eq(8).text();
 		connectTime = parseInt(connectTime, 10);

@@ -1,6 +1,6 @@
 // http://food.boohee.com/fb/v1/foods/fast_search?q=咖啡
 // http://ifood.boohee.com/v2/ifoods/keywords?token=ZC9PNaY6US4AdnvefCrM
-// 
+//
 // http://record.boohee.com/api/v2/weights/latest?token=ZC9PNaY6US4AdnvefCrM 体重
 // http://messenger.boohee.com/api/v2/feedbacks/check_unread 回馈
 // http://one.boohee.com/api/v1/notifications/unread_count?token=ZC9PNaY6US4AdnvefCrM&status_api_version=1.3 通告
@@ -19,31 +19,31 @@
  * http://status.boohee.com/api/v1/channels/categories?token=ZC9PNaY6US4AdnvefCrM 分类
  * http://status.boohee.com/api/v1/grasses?token=ZC9PNaY6US4AdnvefCrM
  * 热门活动
- * 
+ *
  * http://status.boohee.com/api/v2/posts/infinite?ad=1&token=ZC9PNaY6US4AdnvefCrM
  * 发现信息？
- * 
+ *
  * http://status.boohee.com/api/v1/home_timeline?token=ZC9PNaY6US4AdnvefCrM
  * 主页信息
- * 
+ *
  * http://one.boohee.com/api/v1/carts/count?token=ZC9PNaY6US4AdnvefCrM
  * 购物车信息
- * 
+ *
  * http://one.boohee.com/api/v1/shop_home?version=v5&token=ZC9PNaY6US4AdnvefCrM
  * 商店信息
- * 
+ *
  * http://one.boohee.com/api/v1/orders/stats?token=ZC9PNaY6US4AdnvefCrM
  * 不知道什么信息
- * 
+ *
  * http://food.boohee.com/fb/v1/foods/kafeinaihu
  * 咖啡奶糊的信息
- * 
+ *
  * http://ifood.boohee.com/v2/favorite_foods?token=ZC9PNaY6US4AdnvefCrM
  * 喜欢吃的食物
- * 
+ *
  * http://status.boohee.com/api/v1/user_profile/detail?token=ZC9PNaY6US4AdnvefCrM
  * 获取个人信息
- * 
+ *
  * http://food.boohee.com/fb/v1/foods/fast_search?q=咖啡
  * 查询咖啡
  */

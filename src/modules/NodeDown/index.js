@@ -1,10 +1,11 @@
 /**
- * @author bubao
- * @description
- * @date: 2018-03-15
- * @Last Modified by: bubao
- * @Last Modified time: 2019-12-01 03:39:43
+ * @description:
+ * @author: bubao
+ * @date: 2018-03-15 14:06:45
+ * @last author: bubao
+ * @last edit time: 2020-09-17 01:51:52
  */
+
 const ProgressBar = require("../ProgressBar");
 const { path, parseURL, PromiseRequest } = require("../../tools/commonModules");
 

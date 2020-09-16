@@ -22,9 +22,7 @@ const loop = (imgsPath, arr, cb) => {
 	if (arr.length) {
 		request(arr[0])
 			.pipe(
-				fs.createWriteStream(
-					path.join(imgsPath, `${path.basename(arr[0])}`)
-				)
+				fs.createWriteStream(path.join(imgsPath, `${path.basename(arr[0])}`))
 			)
 			.on("close", () => {
 				loop(imgsPath, slice(arr, 1));
