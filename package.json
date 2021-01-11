@@ -59,9 +59,6 @@
 		"node": ">=8.3.0"
 	},
 	"main": "eva.js",
-	"directories": {
-		"test": "test"
-	},
 	"scripts": {
 		"postversion": "git push --follow-tags"
 	},
