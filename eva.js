@@ -4,7 +4,7 @@
  * @author: bubao
  * @date: 2017-7-16 17:28:33
  * @last author: bubao
- * @last edit time: 2021-01-12 00:01:36
+ * @last edit time: 2021-01-13 18:54:51
  */
 
 const program = require("commander");
@@ -117,10 +117,9 @@ program
 
 // wifi 二维码
 program
-	.command("qwifi [ssid]")
+	.command("qwifi")
 	.alias("qw")
 	.description("Generate wifi qrcode")
-	.option("-p ,--password [password]", "密码")
 	.action(ssid => {
 		noLog = true;
 		wifi(ssid, program.password);
@@ -129,8 +128,8 @@ program
 		console.log(`
   example:
 
-    $ eva qwifi ssid -p password
-    $ eva qw ssid -p password
+    $ eva qwifi
+    $ eva qw
 		`);
 	});
 
