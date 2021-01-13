@@ -9,6 +9,8 @@
 const clamp = require("lodash/clamp");
 const isNaN = require("lodash/isNaN");
 const cloneDeep = require("lodash/cloneDeep");
+const promisify = require("util").promisify;
+const mkdirp = promisify(require("mkdirp"));
 const { console } = require("./commonModules");
 const { fs, URL, URLSearchParams, path, crypto } = require("./commonModules");
 
@@ -17,15 +19,13 @@ const { fs, URL, URLSearchParams, path, crypto } = require("./commonModules");
  * @param {string} filePath dir路径
  */
 function mkdir(filePath, name) {
+	console.log(filePath);
 	if (fs.existsSync(`${filePath}`)) {
 		console.log(`⚓  ${name} 文件夹已经存在`);
 	} else {
-		fs.mkdir(`${filePath}`, err => {
-			if (err) {
-				console.error(err);
-			}
+		mkdirp(`${filePath}`).then(() => {
 			console.log(`🤖 创建 ${name}文件夹成功`);
-		});
+		}).catch(console.error);
 	}
 }
 

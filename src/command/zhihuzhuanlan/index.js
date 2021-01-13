@@ -3,7 +3,7 @@
  * @author: bubao
  * @date: 2018-03-14 17:01:06
  * @last author: bubao
- * @last edit time: 2020-09-17 01:46:47
+ * @last edit time: 2021-01-13 19:50:07
  */
 
 const Zhuanlan = require("zhihu-zhuanlan");
@@ -13,6 +13,13 @@ const { console, path, figlet } = require("../../tools/commonModules");
 const fs = require("fs");
 const stream = require("stream");
 
+/**
+ * 流写
+ * @param {string} path 下载路径
+ * @param {string} data 内容
+ * @param {string} format 文件后缀
+ * @param {function} cb 回调函数
+ */
 const writeFile = (path, data, format, cb = () => undefined) => {
 	const s = new stream.Readable();
 	s._read = () => {
