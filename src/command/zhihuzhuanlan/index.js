@@ -3,7 +3,7 @@
  * @author: bubao
  * @date: 2018-03-14 17:01:06
  * @last author: bubao
- * @last edit time: 2021-01-13 19:50:07
+ * @last edit time: 2021-01-18 08:04:38
  */
 
 const Zhuanlan = require("zhihu-zhuanlan");
@@ -62,7 +62,7 @@ async function Post(postID, localPath, format = "md") {
 	const pb = ProgressBar.init();
 	let write_count = 0;
 	zhuanlan.on("batch_data", element => {
-		element.data.map(
+		element.data.forEach(
 			({ filenameTime, header, content, copyRight, json }) => {
 				writeFile(
 					`${localPath}/${title}/${filenameTime}`,
