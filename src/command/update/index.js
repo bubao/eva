@@ -3,7 +3,7 @@
  * @author: bubao
  * @date: 2020-01-15 16:30:08
  * @last author: bubao
- * @last edit time: 2021-01-18 22:47:20
+ * @last edit time: 2021-01-18 23:03:24
  */
 
 const ora = require("ora");
@@ -42,7 +42,7 @@ async function update(sourcePath = "./") {
 		spinner.fail("更新失败，请重试");
 		return;
 	}
-	spinner.text = "更新代码";
+	spinner.start("更新代码");
 
 	process.on("SIGINT", () => {
 		spinner.fail("User cancel");
@@ -54,17 +54,21 @@ async function update(sourcePath = "./") {
 
 	const diffData = await configuration.isDiffs();
 	if (!diffData) {
-		spinner.text = "重装";
+		spinner.succeed(spinner.text);
+		spinner.start("重装");
 	} else {
-		spinner.text = "更新依赖";
+		spinner.succeed(spinner.text);
+		spinner.start("更新依赖");
 		await WriteFile(
 			diffData.filename,
 			diffData.data
 		);
 	}
-	// spinner.start("更新依赖");
+	spinner.succeed(spinner.text);
+	spinner.start("更新依赖");
 	// * 需要安装依赖
 	await exec(`cd ${source.source} && cnpm i -g .`);
+	spinner.succeed(spinner.text);
 	spinner.succeed("更新成功");
 	spinner.stop();
 }
