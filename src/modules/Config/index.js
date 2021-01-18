@@ -3,7 +3,7 @@
  * @author: bubao
  * @date: 2021-01-18 17:26:37
  * @last author: bubao
- * @last edit time: 2021-01-18 22:44:48
+ * @last edit time: 2021-01-18 22:54:54
  */
 
 const fs = require("fs").promises;
@@ -100,7 +100,11 @@ class Configuration {
 	 */
 	async getAll(pj = "./") {
 		if (!await this.packageExists(this.envConfig)) {
-			await this.getProjectPackageJson(pj);
+			let hasError = false;
+			await this.getProjectPackageJson(pj).catch(() => {
+				hasError = true;
+			});
+			if (hasError) return false;
 		};
 		try {
 			// * 读取配置文件内容
