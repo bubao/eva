@@ -3,7 +3,7 @@
  * @author: bubao
  * @date: 2020-01-15 16:30:08
  * @last author: bubao
- * @last edit time: 2021-01-18 23:03:24
+ * @last edit time: 2021-01-18 23:05:14
  */
 
 const ora = require("ora");
@@ -58,7 +58,7 @@ async function update(sourcePath = "./") {
 		spinner.start("重装");
 	} else {
 		spinner.succeed(spinner.text);
-		spinner.start("更新依赖");
+		spinner.start("更新配置");
 		await WriteFile(
 			diffData.filename,
 			diffData.data
