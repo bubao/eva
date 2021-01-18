@@ -3,12 +3,13 @@
  * @author: bubao
  * @date: 2020-01-15 16:30:08
  * @last author: bubao
- * @last edit time: 2021-01-18 23:05:14
+ * @last edit time: 2021-01-19 05:50:58
  */
 
 const ora = require("ora");
 const promisify = require("util").promisify;
 const { path, fs } = require("../../tools/commonModules");
+const os = require("os");
 const exec = promisify(require("child_process").exec);
 const WriteFile = promisify(fs.writeFile);
 
@@ -50,7 +51,7 @@ async function update(sourcePath = "./") {
 		process.exit(0);
 	});
 	// * 更新代码
-	await exec(`cd ${source.source} && git pull`);
+	await exec(`cd ${path.resolve(source.source)} && git pull`);
 
 	const diffData = await configuration.isDiffs();
 	if (!diffData) {
@@ -67,10 +68,18 @@ async function update(sourcePath = "./") {
 	spinner.succeed(spinner.text);
 	spinner.start("更新依赖");
 	// * 需要安装依赖
-	await exec(`cd ${source.source} && cnpm i -g .`);
+	let isWin = false;
+	if(os.type() === "Windows_NT"){
+		isWin = true;
+	}else{
+		await exec(`cnpm i -g .`);
+	}
 	spinner.succeed(spinner.text);
 	spinner.succeed("更新成功");
 	spinner.stop();
+	if (isWin) {
+		console.log(`cd ${path.resolve(source.source)} && cnpm i -g .`);
+	}
 }
 
 module.exports = update;
