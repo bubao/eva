@@ -69,10 +69,10 @@ async function update(sourcePath = "./") {
 	spinner.start("更新依赖");
 	// * 需要安装依赖
 	let isWin = false;
-	if(os.type() === "Windows_NT"){
+	if (os.type() === "Windows_NT") {
 		isWin = true;
-	}else{
-		await exec(`cnpm i -g .`);
+	} else {
+		await exec("cnpm i -g .");
 	}
 	spinner.succeed(spinner.text);
 	spinner.succeed("更新成功");
