@@ -7,22 +7,30 @@
  */
 
 const { path } = require("../../tools/commonModules");
-const { fileName, defaultName } = require("../../tools/utils");
+const { defaultName } = require("../../tools/utils");
 const NodeDown = require("../../modules/NodeDown");
+const fs = require("fs").promises;
 
 async function download(params) {
 	let { name } = params;
 	const { url, description, length, out, hiden } = params;
-	name = fileName(path.basename(name || url), defaultName(url));
-	await NodeDown.init({
-		bar_length: length,
-		description: description || "下载进度"
-	}).download({
+
+	name = defaultName(url);
+	const res = path.resolve(out, name);
+	const state = await fs.stat(res).catch(() => {});
+	const opts = {
 		url,
 		name,
 		out,
 		hiden
-	});
+	};
+	if (state) {
+		opts.read = state.size;
+	}
+	await NodeDown.init({
+		bar_length: length,
+		description: description || "下载进度"
+	}).download(opts);
 }
 
 module.exports = download;

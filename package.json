@@ -22,7 +22,7 @@
 		"ora": "^5.2.0",
 		"qrcode": "^1.4.4",
 		"request": "^2.88.2",
-		"self-promise-request": "git+https://github.com/bubao/self-promise-request.git#v0.0.8",
+		"self-promise-request": "git+https://github.com/bubao/self-promise-request.git#v0.0.10",
 		"single-line-log": "^1.1.2",
 		"xmly": "git+https://github.com/bubao/xmly.git",
 		"zhihu-zhuanlan": "git+https://github.com/bubao/zhihu-zhuanlan.git#v0.3.0"

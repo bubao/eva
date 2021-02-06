@@ -3,11 +3,12 @@
  * @author: bubao
  * @date: 2018-03-15 14:06:45
  * @last author: bubao
- * @last edit time: 2020-09-17 01:51:52
+ * @last edit time: 2021-02-06 18:34:54
  */
 
 const ProgressBar = require("../ProgressBar");
-const { path, parseURL, PromiseRequest } = require("../../tools/commonModules");
+const { Downloader } = require("self-promise-request");
+const { path, parseURL } = require("../../tools/commonModules");
 
 class NodeDown {
 	constructor(props) {
@@ -48,10 +49,11 @@ class NodeDown {
 		name = name || path.basename(parseURL(url).basename);
 		this.pb.description = `${name}\n${this.description}`;
 		const that = this;
-		PromiseRequest.on("process", function(data) {
+		const downloader = Downloader.init();
+		downloader.on("progress", function(data) {
 			that.pb.render(data);
 		});
-		await PromiseRequest.request({
+		await downloader.request({
 			uri: url,
 			headers: {
 				"User-Agent":
@@ -59,6 +61,7 @@ class NodeDown {
 				"X-Requested-With": "XMLHttpRequest"
 			},
 			hiden,
+			read: opts.read || 0,
 			pipe: path.join(out, name)
 		});
 	}
