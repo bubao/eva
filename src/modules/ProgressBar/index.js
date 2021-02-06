@@ -2,8 +2,8 @@
  * @description: ProgressBar 命令行进度条
  * @author: bubao
  * @Date: 2018-03-15 14:06:45
- * @LastEditors: bubao
- * @LastEditTime: 2020-09-15 20:18:21
+ * @last author: bubao
+ * @last edit time: 2021-02-06 19:05:43
  */
 const { slog, clicolor } = require("../../tools/commonModules");
 const { time, byteSize } = require("../../tools/utils");
@@ -91,9 +91,9 @@ class ProgressBar {
 		);
 		opts.status = opts.status || {};
 		this.status =
-			(100 * percent).toFixed(2) !== "100.00"
-				? opts.status.end || "正在下载"
-				: (opts.status.down || "已完成") + "\n";
+			(100 * percent).toFixed(2) === "100.00"
+				? opts.status.end || "已完成"
+				: (opts.status.down || "正在下载") + "\n";
 		let timeText = "";
 		if (opts.time) {
 			const start = parseInt(opts.time.start / 1000, 10);
