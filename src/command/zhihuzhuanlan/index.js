@@ -3,7 +3,7 @@
  * @author: bubao
  * @date: 2018-03-14 17:01:06
  * @last author: bubao
- * @last edit time: 2021-01-18 08:04:38
+ * @last edit time: 2021-02-23 04:22:15
  */
 
 const Zhuanlan = require("zhihu-zhuanlan");
@@ -55,8 +55,12 @@ async function Post(postID, localPath, format = "md") {
 
 	const zhuanlan = Zhuanlan.init({ columnsID: postID });
 	let title;
+	let column_url;
+
 	zhuanlan.once("info", data => {
 		title = data.title;
+		console.log(path.resolve(localPath, title), title);
+		column_url = `> 专栏 URL: [${title}](https://www.zhihu.com/column/${postID})\n\n`;
 		mkdir(path.resolve(localPath, title), title);
 	});
 	const pb = ProgressBar.init();
@@ -66,7 +70,7 @@ async function Post(postID, localPath, format = "md") {
 			({ filenameTime, header, content, copyRight, json }) => {
 				writeFile(
 					`${localPath}/${title}/${filenameTime}`,
-					header + content + copyRight,
+					header + column_url + content + copyRight,
 					"md",
 					() => {
 						write_count++;

@@ -9,8 +9,7 @@
 const clamp = require("lodash/clamp");
 const isNaN = require("lodash/isNaN");
 const cloneDeep = require("lodash/cloneDeep");
-const promisify = require("util").promisify;
-const mkdirp = promisify(require("mkdirp"));
+const mkdirp = require("mkdirp");
 const { console } = require("./commonModules");
 const { fs, URL, URLSearchParams, path, crypto } = require("./commonModules");
 
