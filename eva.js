@@ -4,11 +4,11 @@
  * @author: bubao
  * @date: 2017-7-16 17:28:33
  * @last author: bubao
- * @last edit time: 2021-04-05 16:17:35
+ * @last edit time: 2021-05-05 23:46:56
  */
 
 const program = require("commander");
-const xmly = require("./src/command/xmly");
+// const xmly = require("./src/command/xmly");
 const download = require("./src/command/download");
 const zhihu = require("./src/command/zhihuzhuanlan");
 const qrcode = require("./src/command/qrcode");
