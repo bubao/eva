@@ -1,73 +1,73 @@
 {
-	"name": "eva",
-	"version": "1.2.12",
-	"description": "eva 是一个 node 脚本工具集，现在已经有把 [知乎专栏爬虫](https://github.com/bubao/zhihu-zhuanlan)~~和中央天气预报加到里面~~，以后还会加入一些 node 小工具进去。同时欢迎各位喜欢这个项目，想 diy 自己的工具集的朋友参与进来。",
-	"bin": {
-		"eva": "eva.js"
-	},
-	"preferGlobal": true,
-	"author": "Bubao",
-	"license": "MIT",
-	"dependencies": {
-		"better-console": "^1.0.1",
-		"cheerio": "^1.0.0-rc.5",
-		"cli-color": "^2.0.0",
-		"cli-table2": "^0.2.0",
-		"commander": "^7.1.0",
-		"figlet": "^1.5.0",
-		"filenamify": "^4.2.0",
-		"inquirer": "^7.3.3",
-		"lodash": "^4.17.20",
-		"mkdirp": "^1.0.4",
-		"ora": "^5.3.0",
-		"qrcode": "^1.4.4",
-		"request": "^2.88.2",
-		"self-promise-request": "git+https://github.com/bubao/self-promise-request.git#v0.0.11",
-		"single-line-log": "^1.1.2",
-		"xmly": "git+https://github.com/bubao/xmly.git",
-		"zhihu-zhuanlan": "git+https://github.com/bubao/zhihu-zhuanlan.git#v0.3.2"
-	},
-	"devDependencies": {
-		"@commitlint/cli": "^11.0.0",
-		"@commitlint/config-conventional": "^11.0.0",
-		"commitizen": "^4.2.3",
-		"cz-customizable": "^6.2.0",
-		"eslint": "^7.20.0",
-		"eslint-config-standard": "^16.0.2",
-		"eslint-plugin-import": "^2.22.1",
-		"eslint-plugin-node": "^11.1.0",
-		"eslint-plugin-promise": "^4.3.1",
-		"eslint-plugin-standard": "^5.0.0",
-		"husky": "^5.0.9"
-	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "eslint --fix .",
-			"pre-push": "eslint --fix .",
-			"commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-		}
-	},
-	"config": {
-		"commitizen": {
-			"path": "node_modules/cz-customizable"
-		},
-		"cz-customizable": {
-			"config": "config/cz-config.js"
-		}
-	},
-	"engines": {
-		"node": ">=11.14.0"
-	},
-	"main": "eva.js",
-	"scripts": {
-		"postversion": "git push --follow-tags"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+ssh://git@github.com/bubao/eva.git"
-	},
-	"bugs": {
-		"url": "https://github.com/bubao/eva/issues"
-	},
-	"homepage": "https://github.com/bubao/eva#readme"
+  "name": "eva",
+  "version": "1.2.12",
+  "description": "eva 是一个 node 脚本工具集，现在已经有把 [知乎专栏爬虫](https://github.com/bubao/zhihu-zhuanlan)~~和中央天气预报加到里面~~，以后还会加入一些 node 小工具进去。同时欢迎各位喜欢这个项目，想 diy 自己的工具集的朋友参与进来。",
+  "bin": {
+    "eva": "eva.js"
+  },
+  "preferGlobal": true,
+  "author": "Bubao",
+  "license": "MIT",
+  "dependencies": {
+    "better-console": "^1.0.1",
+    "cheerio": "^1.0.0-rc.5",
+    "cli-color": "^2.0.0",
+    "cli-table2": "^0.2.0",
+    "commander": "^7.2.0",
+    "figlet": "^1.5.0",
+    "filenamify": "^4.3.0",
+    "inquirer": "^8.0.0",
+    "lodash": "^4.17.21",
+    "mkdirp": "^1.0.4",
+    "ora": "^5.4.0",
+    "qrcode": "^1.4.4",
+    "request": "^2.88.2",
+    "self-promise-request": "git+https://github.com/bubao/self-promise-request.git#v0.0.11",
+    "single-line-log": "^1.1.2",
+    "xmly": "git+https://github.com/bubao/xmly.git",
+    "zhihu-zhuanlan": "git+https://github.com/bubao/zhihu-zhuanlan.git#v0.3.2"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^12.1.1",
+    "@commitlint/config-conventional": "^12.1.1",
+    "commitizen": "^4.2.4",
+    "cz-customizable": "^6.2.0",
+    "eslint": "^7.26.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-standard": "^5.0.0",
+    "husky": "^6.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "eslint --fix .",
+      "pre-push": "eslint --fix .",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    },
+    "cz-customizable": {
+      "config": "config/cz-config.js"
+    }
+  },
+  "engines": {
+    "node": ">=11.14.0"
+  },
+  "main": "eva.js",
+  "scripts": {
+    "postversion": "git push --follow-tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/bubao/eva.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bubao/eva/issues"
+  },
+  "homepage": "https://github.com/bubao/eva#readme"
 }
