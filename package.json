@@ -15,7 +15,6 @@
     "cli-table2": "^0.2.0",
     "commander": "^8.1.0",
     "figlet": "^1.5.0",
-    "filenamify": "^5.0.0",
     "inquirer": "^8.1.2",
     "lodash": "^4.17.21",
     "mkdirp": "^1.0.4",

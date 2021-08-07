@@ -1,9 +1,9 @@
 /**
- * @author bubao
- * @description
- * @date: 2018-03-15
- * @Last Modified by: bubao
- * @Last Modified time: 2019-11-30 23:11:43
+ * @Description:
+ * @author: bubao
+ * @Date: 2018-03-15 13:51:46
+ * @LastEditors: bubao
+ * @LastEditTime: 2021-08-07 21:26:59
  */
 
 const fs = require("fs");
@@ -16,7 +16,7 @@ const figlet = require("figlet");
 const crypto = require("crypto");
 const cheerio = require("cheerio");
 const PromiseRequest = require("self-promise-request").init();
-const filenamify = require("filenamify");
+// const filenamify = require("filenamify");
 const { URL, URLSearchParams } = require("url");
 const slog = require("single-line-log").stdout;
 const clicolor = require("cli-color");
@@ -32,7 +32,7 @@ module.exports = {
 	QUERY,
 	table,
 	figlet,
-	filenamify,
+	// filenamify,
 	crypto,
 	cheerio,
 	console,
