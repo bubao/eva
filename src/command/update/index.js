@@ -8,7 +8,8 @@
 
 const ora = require("ora");
 const promisify = require("util").promisify;
-const { path, fs } = require("../../tools/commonModules");
+const fs = require("fs");
+const path = require("path");
 const os = require("os");
 const exec = promisify(require("child_process").exec);
 const WriteFile = promisify(fs.writeFile);

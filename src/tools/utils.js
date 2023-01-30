@@ -11,7 +11,10 @@ const isNaN = require("lodash/isNaN");
 const cloneDeep = require("lodash/cloneDeep");
 const mkdirp = require("mkdirp");
 const { console } = require("./commonModules");
-const { fs, URL, URLSearchParams, path, crypto } = require("./commonModules");
+const { URL, URLSearchParams } = require("./commonModules");
+const path = require("path");
+const fs = require("fs");
+const crypto = require("crypto");
 
 /**
  * mkdir

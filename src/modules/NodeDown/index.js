@@ -8,7 +8,8 @@
 
 const ProgressBar = require("../ProgressBar");
 const { Downloader } = require("self-promise-request");
-const { path, parseURL } = require("../../tools/commonModules");
+const { parseURL } = require("../../tools/commonModules");
+const path = require("path");
 
 class NodeDown {
 	constructor(props) {

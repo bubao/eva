@@ -8,7 +8,6 @@
  */
 
 const program = require("commander");
-// const xmly = require("./src/command/xmly");
 const download = require("./src/command/download");
 const zhihu = require("./src/command/zhihuzhuanlan");
 const qrcode = require("./src/command/qrcode");
@@ -42,29 +41,6 @@ program
     $ eva z leanreact -o ~/
 		`);
 	});
-
-// 喜马拉雅fm爬虫
-// program
-// 	.command("xmly [ID]")
-// 	.alias("x")
-// 	.description("🔄 喜马拉雅爬虫 ⛎")
-// 	.option("-o ,--out <path>", "🔙 输出位置")
-// 	.option("-t , --type <type>", "🔙 tracks 或者 albums")
-// 	.action((ID, options) => {
-// 		noLog = true;
-// 		if (ID) {
-// 			const runpath = options.out || `${ID}.txt`; // 当前执行路径
-// 			xmly(options.type || "tracks", ID, runpath);
-// 		}
-// 	})
-// 	.on("--help", () => {
-// 		console.log(`
-//   example:
-
-//     $ eva xmly ID
-//     $ eva x ID -o ~/ID.txt
-// 		`);
-// 	});
 
 // 下载器
 program

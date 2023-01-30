@@ -6,7 +6,7 @@
  * @Last Modified time: 2019-12-01 00:51:46
  */
 
-const { path } = require("../../tools/commonModules");
+const path = require("path");
 const { defaultName } = require("../../tools/utils");
 const NodeDown = require("../../modules/NodeDown");
 const fs = require("fs").promises;

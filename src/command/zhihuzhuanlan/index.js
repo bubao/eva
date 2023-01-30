@@ -9,7 +9,8 @@
 const Zhuanlan = require("zhihu-zhuanlan");
 const ProgressBar = require("../../modules/ProgressBar");
 const { mkdir } = require("../../tools/utils");
-const { console, path, figlet } = require("../../tools/commonModules");
+const { console, figlet } = require("../../tools/commonModules");
+const path = require("path");
 const fs = require("fs");
 const stream = require("stream");
 

@@ -5,11 +5,10 @@
  * @Last Modified by: bubao
  * @Last Modified time: 2019-12-01 00:17:17
  */
-const { request, table } = require("../../tools/commonModules");
+const { request, table, console } = require("../../tools/commonModules");
 const findIndex = require("lodash/findIndex");
 const citycode = require("./sources/city.json");
 const weatherSign = require("./sources/weatherSign");
-const { console } = require("../../tools/commonModules");
 
 /**
  * 细节信息table
